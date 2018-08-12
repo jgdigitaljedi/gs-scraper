@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import '../node_modules/buefy/lib/buefy.css';
 import App from './App.vue';
-import craigslist from './services/craiglist.service';
+// import Craigslist from './services/craiglist.service';
 
 Vue.use(Buefy);
 
@@ -14,6 +14,6 @@ Vue.component(Buefy.Icon.name, Buefy.Icon);
 Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App),
-  craigslist
+  render: h => h(App)
+  // Craigslist
 }).$mount('#app');

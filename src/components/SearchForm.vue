@@ -1,21 +1,23 @@
 <template>
-  <section class="search-form-wrapper section">
+  <form class="search-form-form form"
+    @submit.prevent="handleSubmit"
+  >
     <b-field label="Area">
-      <b-input value="Austin"></b-input>
+      <b-input v-model="searchForm.area"></b-input>
     </b-field>
     <b-field label="Search Terms">
       <b-taginput
-          v-model="tags"
+          v-model="searchForm.tags"
           ellipsis
           icon="label"
           placeholder="Add a search term">
       </b-taginput>
     </b-field>
-    <button class="button is-primary" v-on:click="$emit('runSearch', data)">
-      <b-icon icon="search"></b-icon>
+    <button class="button is-primary" type="submit">
+      <b-icon icon="search-web"></b-icon>
       <span>Search</span>
     </button>
-  </section>
+  </form>
 </template>
 
 <script>
@@ -23,17 +25,26 @@ export default {
   name: 'SearchForm',
   data() {
     return {
-      tags: ['video games', 'n64', 'nintendo', 'sega', 'atari']
+      searchForm: {
+        tags: ['nintendo'],
+        area: 'Austin'
+      }
     };
   },
   props: {
     msg: String
+  },
+  methods: {
+    handleSubmit: function() {
+      const { area, tags } = this.searchForm;
+      this.$emit('runSearch', { area, tags });
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.search-form-wrapper {
+.search-form-form {
   padding: 1em;
   input {
     width: 20px;

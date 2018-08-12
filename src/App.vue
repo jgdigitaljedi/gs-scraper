@@ -6,6 +6,7 @@
 
 <script>
 import SearchForm from './components/SearchForm';
+import Craigslist from './services/craiglist.service.js';
 
 export default {
   name: 'app',
@@ -13,8 +14,11 @@ export default {
     SearchForm
   },
   methods: {
-    runSearch: data => {
-      console.log('run search', data);
+    runSearch: function(search) {
+      console.log('run search', search);
+      Craigslist.get(search).then(result => {
+        console.log('result', result);
+      });
     }
   }
 };
