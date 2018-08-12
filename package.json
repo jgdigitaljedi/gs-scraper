@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "buefy": "^0.6.6",
+    "date-fns": "^1.29.0",
     "electron": "^2.0.7",
     "vue": "^2.5.17",
     "xml2js": "^0.4.19"

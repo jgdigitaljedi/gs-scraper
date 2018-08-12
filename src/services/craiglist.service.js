@@ -1,6 +1,7 @@
 // http://YOURCITY.craigslist.org/search/sss?format=rss&query=SearchString
 import axios from 'axios';
 import xml2js from 'xml2js';
+import { format } from 'date-fns';
 
 const parser = new xml2js.Parser();
 export default {
@@ -24,10 +25,13 @@ export default {
   },
   formatItem(item) {
     return {
-      title: item.hasOwnProperty('title') ? item.title[0] : 'NONE',
-      date: item.hasOwnProperty('dc:date') ? item['dc:date'][0] : 'NONE',
-      link: item.hasOwnProperty('link') ? item.link[0] : 'NONE',
-      description: item.hasOwnProperty('description') ? item.description[0] : 'NONE'
+      title: item.hasOwnProperty('title') ? item.title[0] : 'NO TITLE',
+      date: item.hasOwnProperty('dc:date')
+        ? format(item['dc:date'][0], 'MM/DD/YYYY hh:mm a')
+        : 'NO DATE',
+      link: item.hasOwnProperty('link') ? item.link[0] : null,
+      description: item.hasOwnProperty('description') ? item.description[0] : 'NO DESCRIPTION',
+      image: item.hasOwnProperty('enc:enclosure') ? item['enc:enclosure'][0].$.resource : null
     };
   }
 };

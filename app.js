@@ -11,8 +11,8 @@ if (process.env.NODE_ENV === 'DEV') {
 
 app.on('ready', () => {
   let window = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     webPreferences: { webSecurity: false }
   });
   window.loadURL(url);

@@ -46,6 +46,9 @@ export default {
 <style lang="scss" scoped>
 .search-form-form {
   padding: 1em;
+  .field {
+    margin-bottom: 1em;
+  }
   input {
     width: 20px;
   }
