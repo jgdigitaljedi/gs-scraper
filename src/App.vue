@@ -1,20 +1,26 @@
 <template>
   <div id="app">
+    <SearchForm msg="test" v-on:runSearch="runSearch"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import SearchForm from './components/SearchForm';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    SearchForm
+  },
+  methods: {
+    runSearch: data => {
+      console.log('run search', data);
+    }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

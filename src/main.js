@@ -1,12 +1,15 @@
 import Vue from 'vue';
-import Field from '../node_modules/buefy/src/components/field';
-import Input from '../node_modules/buefy/src/components/input';
+import Buefy from 'buefy';
 import '../node_modules/buefy/lib/buefy.css';
 import App from './App.vue';
 import craigslist from './services/craiglist.service';
 
-Vue.use(Field);
-Vue.use(Input);
+Vue.use(Buefy);
+
+Vue.component(Buefy.Field.name, Buefy.Field);
+Vue.component(Buefy.Input.name, Buefy.Input);
+Vue.component(Buefy.Taginput.name, Buefy.Taginput);
+Vue.component(Buefy.Icon.name, Buefy.Icon);
 
 Vue.config.productionTip = false;
 
