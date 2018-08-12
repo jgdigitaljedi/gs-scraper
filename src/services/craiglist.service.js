@@ -1,4 +1,3 @@
-// http://YOURCITY.craigslist.org/search/sss?format=rss&query=SearchString
 import axios from 'axios';
 import xml2js from 'xml2js';
 import { format } from 'date-fns';
@@ -21,6 +20,13 @@ export default {
             }
           });
         });
+      });
+  },
+  getGarageSales(data) {
+    return axios
+      .get(`https://${data.area}.craigslist.org/search/gms?format=rss&query=${data.tags}`)
+      .then(response => {
+        console.log('garage sale response', response);
       });
   },
   formatItem(item) {
