@@ -51,7 +51,6 @@ export default {
       }
       if (search.cls) {
         Craigslist.getGarageSales(search).then(result => {
-          console.log('gs result', result);
           this.gsResults = result;
         });
       } else {

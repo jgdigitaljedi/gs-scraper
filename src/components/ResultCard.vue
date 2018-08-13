@@ -29,7 +29,8 @@
 export default {
   name: 'ResultCard',
   props: {
-    data: Object
+    data: Object,
+    description: String
   },
   created() {
     if (this.data.hasOwnProperty('title') && this.data.title && this.data.title.length > 60) {
@@ -41,6 +42,7 @@ export default {
       this.data.description &&
       this.data.description.length > 252
     ) {
+      console.warn('GREATER THAN 252');
       const dShortened = this.data.description.substr(0, 249);
       this.data.description = dShortened + '...';
     }
