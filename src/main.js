@@ -10,6 +10,7 @@ Vue.component(Buefy.Field.name, Buefy.Field);
 Vue.component(Buefy.Input.name, Buefy.Input);
 Vue.component(Buefy.Taginput.name, Buefy.Taginput);
 Vue.component(Buefy.Icon.name, Buefy.Icon);
+Vue.component(Buefy.Checkbox.name, Buefy.Checkbox);
 
 Vue.config.productionTip = false;
 
