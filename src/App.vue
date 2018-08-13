@@ -1,13 +1,19 @@
 <template>
   <div id="app">
     <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
-    <div class="result-area" v-if="results && results.length">
+    <div class="result-area">
       <h2>Item Listings</h2>
-      <div class="result-area--listings">
+      <h4>Craigslist</h4>
+      <div class="result-area--listings" v-if="results && results.length">
         <ResultCard v-for="result in results" :key="result.date" :data="result"/>
       </div>
-      <h2>Garage Sales</h2>
-      <div class="result-area--sales">
+      <h4>LetGo</h4>
+      <div class="result-area--listings" v-if="lgResults && lgResults.length">
+        <ResultCard v-for="result in lgResults" :key="result.key" :data="result"/>
+      </div>
+      <h2 v-if="gsResults && gsResults.length">Garage Sales</h2>
+      <div class="result-area--sales" v-if="gsResults && gsResults.length">
+        <ResultCard v-for="result in gsResults" :key="result.date" :data="result"/>
       </div>
     </div>
   </div>
@@ -16,6 +22,7 @@
 <script>
 import SearchForm from './components/SearchForm';
 import Craigslist from './services/craiglist.service.js';
+import Letgo from './services/letgo.service.js';
 import ResultCard from './components/ResultCard';
 
 export default {
@@ -26,20 +33,34 @@ export default {
   },
   data: function() {
     return {
-      results: null
+      results: null,
+      gsResults: null,
+      lgResults: null
     };
   },
   methods: {
     runSearch: function(search) {
+      console.log('search', search);
       if (search.cll) {
         Craigslist.get(search).then(result => {
           console.log('result', result);
           this.results = result;
         });
+      } else {
+        this.results = [];
       }
       if (search.cls) {
         Craigslist.getGarageSales(search).then(result => {
           console.log('gs result', result);
+          this.gsResults = result;
+        });
+      } else {
+        this.gsResults = [];
+      }
+      if (search.lgl) {
+        Letgo.searchLetgo(search).then(result => {
+          console.log('letGo bitches', result);
+          this.lgResults = result;
         });
       }
     }

@@ -32,9 +32,17 @@ export default {
     data: Object
   },
   created() {
-    if (this.data.hasOwnProperty('title') && this.data.title.length > 60) {
+    if (this.data.hasOwnProperty('title') && this.data.title && this.data.title.length > 60) {
       const titleShortened = this.data.title.substr(0, 56);
       this.data.title = titleShortened + '...';
+    }
+    if (
+      this.data.hasOwnProperty('description') &&
+      this.data.description &&
+      this.data.description.length > 252
+    ) {
+      const dShortened = this.data.description.substr(0, 249);
+      this.data.description = dShortened + '...';
     }
   }
 };
@@ -47,6 +55,7 @@ export default {
   @include box_shadow(2);
   padding: 1em;
   background-color: #fff;
+  width: 100%;
   .card-header,
   .card-footer {
     display: flex;
@@ -68,6 +77,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    img {
+      max-width: 400px;
+      max-height: 300px;
+    }
   }
   .card-header--price {
     color: green;

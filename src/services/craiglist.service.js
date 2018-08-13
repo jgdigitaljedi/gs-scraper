@@ -25,7 +25,7 @@ export default {
           return new Promise((resolve, reject) => {
             parser.parseString(response.data, (err, result) => {
               if (!err) {
-                resolve(result['rdf:RDF'].item.map(i => this.formatItem(i)));
+                resolve(result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 2000)));
               } else {
                 console.log('returning err', err);
                 reject(err);
@@ -43,10 +43,19 @@ export default {
     return axios
       .get(`https://${data.area}.craigslist.org/search/gms?format=rss&query=${tagsURI}`)
       .then(response => {
-        console.log('garage sale response', response);
+        return new Promise((resolve, reject) => {
+          parser.parseString(response.data, (err, result) => {
+            console.log('garage sale response', result);
+            if (!err) {
+              resolve(result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 1000)));
+            } else {
+              reject(err);
+            }
+          });
+        });
       });
   },
-  formatItem(item) {
+  formatItem(item, index) {
     const title = item.hasOwnProperty('title') ? item.title[0] : null;
     return {
       title: title ? this.cleanTitle(title) : 'NO TITLE',
@@ -56,7 +65,8 @@ export default {
       link: item.hasOwnProperty('link') ? item.link[0] : null,
       description: item.hasOwnProperty('description') ? item.description[0] : 'NO DESCRIPTION',
       image: item.hasOwnProperty('enc:enclosure') ? item['enc:enclosure'][0].$.resource : null,
-      price: title ? this.getPrice(title) : 'NO PRICE'
+      price: title ? this.getPrice(title) : 'NO PRICE',
+      key: index
     };
   }
 };
