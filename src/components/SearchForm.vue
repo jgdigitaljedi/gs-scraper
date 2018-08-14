@@ -1,9 +1,16 @@
 <template>
   <form class="search-form-form form"
-    @submit.prevent="handleSubmit"
-  >
+    @submit.prevent="handleSubmit">
     <b-field label="Area">
-      <b-input v-model="searchForm.area"></b-input>
+      <!-- <b-input v-model="searchForm.area"></b-input> -->
+      <b-select placeholder="Select a city" v-model="searchForm.area">
+        <option
+          v-for="city in cities"
+          :value="city"
+          :key="city.id">
+          {{ city.name }}
+        </option>
+      </b-select>
     </b-field>
     <b-field label="Listings Search Terms">
       <b-taginput
@@ -46,12 +53,30 @@ export default {
     return {
       searchForm: {
         tags: ['nintendo'],
-        area: 'Austin',
+        area: null,
         gs: ['games'],
         cll: true,
         cls: true,
         lgl: true
-      }
+      },
+      cities: [
+        { name: 'Austin', uri: 'austin', id: 'austin', lgKey: '0231301203311', clExtra: '' },
+        {
+          name: 'Fort Worth',
+          uri: 'dallas',
+          id: 'fortWorth',
+          lgKey: '0231123213021',
+          clExtra: 'ftw/'
+        },
+        {
+          name: 'Wichita Falls',
+          uri: 'wichitafalls',
+          id: 'wichitaFalls',
+          lgKey: '0231122113130',
+          clExtra: ''
+        },
+        { name: 'Vacaville', uri: 'sfbay', id: 'vacaville', lgKey: '0230102103202', clExtra: '' }
+      ]
     };
   },
   props: {

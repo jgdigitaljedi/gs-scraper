@@ -18,6 +18,7 @@ Vue.component(Buefy.Taginput.name, Buefy.Taginput);
 Vue.component(Buefy.Icon.name, Buefy.Icon);
 Vue.component(Buefy.Checkbox.name, Buefy.Checkbox);
 Vue.component(Buefy.Collapse.name, Buefy.Collapse);
+Vue.component(Buefy.Select.name, Buefy.Select);
 
 Vue.prototype.$toast = Toast;
 

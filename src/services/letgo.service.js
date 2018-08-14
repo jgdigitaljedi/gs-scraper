@@ -7,7 +7,7 @@ export default {
       .get(
         `https://search-products-pwa.letgo.com/api/products?country_code=US&offset=0&search_term=${
           search.tags
-        }&quadkey=0231301212122&sort=recent&num_results=32&distance_type=mi`
+        }&quadkey=${search.area.lgKey}&sort=recent&num_results=32&distance_type=mi`
       )
       .then(result => {
         return new Promise((resolve, reject) => {
