@@ -27,7 +27,6 @@ export default {
               if (!err) {
                 resolve(result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 2000)));
               } else {
-                console.log('returning err', err);
                 reject(err);
               }
             });
@@ -45,7 +44,6 @@ export default {
       .then(response => {
         return new Promise((resolve, reject) => {
           parser.parseString(response.data, (err, result) => {
-            console.log('garage sale response', result);
             if (!err) {
               resolve(result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 1000)));
             } else {

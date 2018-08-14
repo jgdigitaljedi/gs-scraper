@@ -47,7 +47,7 @@ export default {
       searchForm: {
         tags: ['nintendo'],
         area: 'Austin',
-        gs: ['video games'],
+        gs: ['games'],
         cll: true,
         cls: true,
         lgl: true

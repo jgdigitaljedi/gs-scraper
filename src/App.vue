@@ -2,67 +2,64 @@
   <div id="app">
     <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
     <div class="result-area">
-      <h2>Item Listings</h2>
-      <h4>Craigslist</h4>
-      <div class="result-area--listings" v-if="results && results.length">
-        <ResultCard v-for="result in results" :key="result.date" :data="result"/>
-      </div>
-      <h4>LetGo</h4>
-      <div class="result-area--listings" v-if="lgResults && lgResults.length">
-        <ResultCard v-for="result in lgResults" :key="result.key" :data="result"/>
-      </div>
-      <h2 v-if="gsResults && gsResults.length">Garage Sales</h2>
-      <div class="result-area--sales" v-if="gsResults && gsResults.length">
-        <ResultCard v-for="result in gsResults" :key="result.date" :data="result"/>
-      </div>
+      <section class="result-area--listings">
+        <h2>Item Listings</h2>
+        <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
+        <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/>
+      </section>
+      <section class="result-area--sales">
+        <h2>Garage Sales</h2>
+        <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
 import SearchForm from './components/SearchForm';
-import Craigslist from './services/craiglist.service.js';
-import Letgo from './services/letgo.service.js';
-import ResultCard from './components/ResultCard';
+import CollapseResults from './components/CollapseResults';
+import GetData from './services/getData.service.js';
 
 export default {
   name: 'app',
   components: {
     SearchForm,
-    ResultCard
+    CollapseResults
   },
   data: function() {
     return {
-      results: null,
-      gsResults: null,
-      lgResults: null
+      results: Object
     };
   },
   methods: {
     runSearch: function(search) {
-      console.log('search', search);
-      if (search.cll) {
-        Craigslist.get(search).then(result => {
-          console.log('result', result);
-          this.results = result;
+      GetData.fetch(search).then(result => {
+        console.log('master result', result);
+        const keys = Object.keys(result);
+        keys.forEach(key => {
+          if (Array.isArray(result[key])) {
+            this.results[key] = result[key];
+          } else if (result[key]) {
+            this.results[key] = null;
+            if (result[key].error) {
+              this.$toast.open({
+                type: 'is-danger',
+                message: result[key].message
+              });
+            } else {
+              this.$toast.open(result[key].message);
+            }
+          }
         });
-      } else {
-        this.results = [];
-      }
-      if (search.cls) {
-        Craigslist.getGarageSales(search).then(result => {
-          this.gsResults = result;
-        });
-      } else {
-        this.gsResults = [];
-      }
-      if (search.lgl) {
-        Letgo.searchLetgo(search).then(result => {
-          console.log('letGo bitches', result);
-          this.lgResults = result;
-        });
-      }
+      });
     }
+  },
+  created() {
+    this.results = {
+      cll: null,
+      cls: null,
+      lgl: null
+    };
   }
 };
 </script>
@@ -86,19 +83,9 @@ export default {
   .result-area {
     width: 100%;
     h2 {
-      font-size: 1.5em;
+      font-size: 2em;
       font-weight: bold;
       margin-left: 0.5em;
-    }
-    .result-area--listings,
-    .result-area--sales {
-      display: flex;
-      flex-wrap: wrap;
-      flex-direction: row;
-    }
-    .result-card {
-      max-width: 400px;
-      margin: 1em;
     }
   }
 }
