@@ -21,7 +21,7 @@ export default {
       const tagsURI = this.makeURIformat(data.tags);
       return axios
         .get(
-          `http://${data.area.uri}.craigslist.org/search/${
+          `http://cors.io/?http://${data.area.uri}.craigslist.org/search/${
             data.area.clExtra
           }sss?format=rss&query=${tagsURI}`
         )
@@ -44,7 +44,11 @@ export default {
   getGarageSales(data) {
     const tagsURI = this.makeURIformat(data.gs);
     return axios
-      .get(`https://${data.area.uri}.craigslist.org/search/gms?format=rss&query=${tagsURI}`)
+      .get(
+        `http://cors.io/?https://${
+          data.area.uri
+        }.craigslist.org/search/gms?format=rss&query=${tagsURI}`
+      )
       .then(response => {
         return new Promise((resolve, reject) => {
           parser.parseString(response.data, (err, result) => {

@@ -5,7 +5,7 @@
         <strong>{{source}}</strong>
       </div>
       <div class="panel-block">
-        <ResultCard v-for="result in dataArr" :key="result.date" :data="result"/>
+        <ResultCard v-for="result in dataArr" :key="result.key" :data="result"/>
         <div class="btn-container">
           <button class="button is-primary" v-on:click="backToTop">
             <b-icon icon="arrow-up-bold"></b-icon>
