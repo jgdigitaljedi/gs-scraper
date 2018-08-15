@@ -42,7 +42,7 @@ export default {
       this.data.description &&
       this.data.description.length > 252
     ) {
-      console.warn('GREATER THAN 252');
+      // console.warn('GREATER THAN 252');
       const dShortened = this.data.description.substr(0, 249);
       this.data.description = dShortened + '...';
     }

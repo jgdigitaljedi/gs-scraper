@@ -2,14 +2,21 @@
   <div id="app">
     <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
     <div class="result-area">
+        <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
       <section class="result-area--listings">
         <h2>Item Listings</h2>
         <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
         <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/>
+        <div class="result-area--no-results" v-if="noListings">
+          No listings met your search criteria.
+        </div>
       </section>
       <section class="result-area--sales">
         <h2>Garage Sales</h2>
         <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
+        <div class="result-area--no-results" v-if="noSales">
+          No garage sales met your search criteria.
+        </div>
       </section>
     </div>
   </div>
@@ -28,11 +35,17 @@ export default {
   },
   data: function() {
     return {
-      results: Object
+      results: Object,
+      noListings: Boolean,
+      noSales: Boolean,
+      searchRan: Boolean,
+      isLoading: Boolean
     };
   },
   methods: {
     runSearch: function(search) {
+      this.clearResults();
+      this.isLoading = true;
       GetData.fetch(search).then(result => {
         console.log('master result', result);
         const keys = Object.keys(result);
@@ -51,7 +64,43 @@ export default {
             }
           }
         });
+        this.isLoading = false;
+        this.noResults();
       });
+    },
+    clearResults() {
+      const keys = Object.keys(this.results);
+      keys.forEach(key => {
+        this.results[key] = null;
+      });
+    },
+    noResults() {
+      const listings = ['cll', 'lgl'];
+      const sales = ['cls'];
+
+      this.noListings =
+        listings
+          .map(item => {
+            return this.results &&
+              this.results.hasOwnProperty(item) &&
+              this.results[item] &&
+              this.results[item].length
+              ? 1
+              : 0;
+          })
+          .reduce((a, b) => a + b) === 0;
+
+      this.noSales =
+        sales
+          .map(item => {
+            return this.results &&
+              this.results.hasOwnProperty(item) &&
+              this.results[item] &&
+              this.results[item].length
+              ? 1
+              : 0;
+          })
+          .reduce((a, b) => a + b) === 0;
     }
   },
   created() {
@@ -60,6 +109,9 @@ export default {
       cls: null,
       lgl: null
     };
+    this.isLoading = false;
+    this.noListings = false;
+    this.noSales = false;
   }
 };
 </script>
@@ -86,6 +138,10 @@ export default {
       font-size: 2em;
       font-weight: bold;
       margin-left: 0.5em;
+    }
+    .result-area--no-results {
+      font-style: italic;
+      margin-left: 2em;
     }
   }
 }

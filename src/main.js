@@ -19,6 +19,7 @@ Vue.component(Buefy.Icon.name, Buefy.Icon);
 Vue.component(Buefy.Checkbox.name, Buefy.Checkbox);
 Vue.component(Buefy.Collapse.name, Buefy.Collapse);
 Vue.component(Buefy.Select.name, Buefy.Select);
+Vue.component(Buefy.Loading.name, Buefy.Loading);
 
 Vue.prototype.$toast = Toast;
 

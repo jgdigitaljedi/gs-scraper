@@ -29,7 +29,18 @@ export default {
           return new Promise((resolve, reject) => {
             parser.parseString(response.data, (err, result) => {
               if (!err) {
-                resolve(result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 2000)));
+                if (
+                  result &&
+                  result.hasOwnProperty('rdf:RDF') &&
+                  result['rdf:RDF'].hasOwnProperty('item') &&
+                  result['rdf:RDF'].item
+                ) {
+                  resolve(
+                    result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 2000))
+                  );
+                } else {
+                  resolve(null);
+                }
               } else {
                 reject(err);
               }
@@ -53,7 +64,16 @@ export default {
         return new Promise((resolve, reject) => {
           parser.parseString(response.data, (err, result) => {
             if (!err) {
-              resolve(result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 1000)));
+              if (
+                result &&
+                result.hasOwnProperty('rdf:RDF') &&
+                result['rdf:RDF'].hasOwnProperty('item') &&
+                result['rdf:RDF'].item
+              ) {
+                resolve(result['rdf:RDF'].item.map((i, index) => this.formatItem(i, index + 1000)));
+              } else {
+                resolve(null);
+              }
             } else {
               reject(err);
             }

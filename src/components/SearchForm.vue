@@ -2,7 +2,6 @@
   <form class="search-form-form form"
     @submit.prevent="handleSubmit">
     <b-field label="Area">
-      <!-- <b-input v-model="searchForm.area"></b-input> -->
       <b-select placeholder="Select a city" v-model="searchForm.area">
         <option
           v-for="city in cities"
@@ -39,7 +38,7 @@
         <b-checkbox v-model="searchForm.cls">Craiglist</b-checkbox>
       </div>
     </div>
-    <button class="button is-primary" type="submit">
+    <button class="button is-primary" type="submit" :disabled="!searchForm.area">
       <b-icon icon="search-web"></b-icon>
       <span>Search</span>
     </button>

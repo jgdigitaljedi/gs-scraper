@@ -10,12 +10,12 @@ export default {
         }&quadkey=${search.area.lgKey}&sort=recent&num_results=32&distance_type=mi`
       )
       .then(result => {
-        return new Promise((resolve, reject) => {
-          if (result && result.hasOwnProperty('data')) {
+        return new Promise(resolve => {
+          if (result && result.hasOwnProperty('data') && result.data && result.data.length) {
             const cleanedArr = result.data.map((i, index) => this.formatItem(i, index));
             resolve(cleanedArr);
           } else {
-            reject();
+            resolve(null);
           }
         });
       })
