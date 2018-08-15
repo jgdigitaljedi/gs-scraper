@@ -11,14 +11,24 @@
         </option>
       </b-select>
     </b-field>
-    <b-field label="Listings Search Terms">
-      <b-taginput
-          v-model="searchForm.tags"
-          ellipsis
-          icon="label"
-          placeholder="Add a listing term">
-      </b-taginput>
-    </b-field>
+    <div class="search-form--listings">
+      <b-field label="Listings Search Terms">
+        <b-taginput
+            v-model="searchForm.tags"
+            ellipsis
+            icon="label"
+            placeholder="Add a listing term">
+        </b-taginput>
+      </b-field>
+      <div class="search-form--options">
+        <div class="search-form--options--listings">
+          <h4>Listing Sites</h4>
+          <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
+          <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox>
+          <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
+        </div>
+      </div>
+    </div>
     <b-field label="Garage Sale Terms">
       <b-taginput
         v-model="searchForm.gs"
@@ -28,12 +38,12 @@
       </b-taginput>
     </b-field>
     <div class="search-form--options">
-      <div class="search-form--options--listings">
+      <!-- <div class="search-form--options--listings">
         <h4>Listings</h4>
         <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
         <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox>
         <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
-      </div>
+      </div> -->
       <div class="search-form--options--sales">
         <h4>Garage Sales</h4>
         <b-checkbox v-model="searchForm.cls">Craiglist</b-checkbox>

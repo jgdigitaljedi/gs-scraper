@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
-    <div class="result-area">
+    <div class="sidebar">
+      <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
+      <hr>
+      <ViewOptions v-on:viewChanged="viewChanged"/>
+    </div>
+    <div class="result-area" v-if="viewSelected === 'grouped'">
         <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
       <section class="result-area--listings">
         <h2>Item Listings</h2>
@@ -26,13 +30,15 @@
 <script>
 import SearchForm from './components/SearchForm';
 import CollapseResults from './components/CollapseResults';
+import ViewOptions from './components/ViewOptions';
 import GetData from './services/getData.service.js';
 
 export default {
   name: 'app',
   components: {
     SearchForm,
-    CollapseResults
+    CollapseResults,
+    ViewOptions
   },
   data: function() {
     return {
@@ -40,7 +46,8 @@ export default {
       noListings: Boolean,
       noSales: Boolean,
       searchRan: Boolean,
-      isLoading: Boolean
+      isLoading: Boolean,
+      viewSelected: String
     };
   },
   methods: {
@@ -102,6 +109,9 @@ export default {
               : 0;
           })
           .reduce((a, b) => a + b) === 0;
+    },
+    viewChanged: function(viewType) {
+      this.viewSelected = viewType;
     }
   },
   created() {
@@ -132,6 +142,13 @@ export default {
   .sidebar {
     min-width: 300px;
     border-right: 1px solid #ccc;
+    .view-options {
+      padding: 1em;
+      h3 {
+        font-weight: bold;
+        margin-bottom: 1em;
+      }
+    }
   }
   .result-area {
     width: 100%;
