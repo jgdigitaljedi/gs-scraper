@@ -32,6 +32,7 @@
         <h4>Listings</h4>
         <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
         <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox>
+        <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
       </div>
       <div class="search-form--options--sales">
         <h4>Garage Sales</h4>
@@ -56,7 +57,8 @@ export default {
         gs: ['games'],
         cll: true,
         cls: true,
-        lgl: true
+        lgl: true,
+        oul: true
       },
       cities: [
         { name: 'Austin', uri: 'austin', id: 'austin', lgKey: '0231301203311', clExtra: '' },
@@ -83,8 +85,8 @@ export default {
   },
   methods: {
     handleSubmit: function() {
-      const { area, tags, gs, cll, cls, lgl } = this.searchForm;
-      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl });
+      const { area, tags, gs, cll, cls, lgl, oul } = this.searchForm;
+      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul });
     }
   }
 };

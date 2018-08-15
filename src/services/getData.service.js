@@ -1,17 +1,20 @@
 import Craigslist from './craiglist.service';
 import Letgo from './letgo.service';
+import Offerup from './offerUp.service';
 
 export default {
   fetch(search) {
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
     const lglPromise = this.lglPromise(search);
+    const ouPromise = this.ouPromise(search);
 
-    return Promise.all([cllPromise, clsPromise, lglPromise]).then(result => {
+    return Promise.all([cllPromise, clsPromise, lglPromise, ouPromise]).then(result => {
       return {
         cll: result[0],
         cls: result[1],
-        lgl: result[2]
+        lgl: result[2],
+        oul: result[3]
       };
     });
   },
@@ -76,6 +79,20 @@ export default {
         });
     } else {
       return Promise.resolve(null);
+    }
+  },
+  ouPromise(search) {
+    console.log('in ou promise');
+    if (search.oul) {
+      return Offerup.getOuData(search)
+        .then(result => {
+          console.log('ou result', result);
+          return result;
+        })
+        .catch(err => {
+          console.log('ou error', err);
+          return null;
+        });
     }
   }
 };

@@ -4,6 +4,7 @@ import '../node_modules/buefy/lib/buefy.css';
 import App from './App.vue';
 import Craigslist from './services/craiglist.service';
 import Letgo from './services/letgo.service';
+import Offerup from './services/offerUp.service';
 import GetData from './services/getData.service';
 import { Toast } from 'buefy';
 
@@ -29,5 +30,6 @@ new Vue({
   render: h => h(App),
   Craigslist,
   Letgo,
+  Offerup,
   GetData
 }).$mount('#app');
