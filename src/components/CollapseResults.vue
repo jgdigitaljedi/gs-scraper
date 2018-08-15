@@ -11,6 +11,10 @@
             <b-icon icon="arrow-up-bold"></b-icon>
             <span>Top of Section</span>
           </button>
+          <button class="button is-info" v-on:click="isOpen = false">
+            <b-icon icon="close-outline"></b-icon>
+            <span>Close Section</span>
+          </button>
         </div>
       </div>
     </b-collapse>
@@ -62,6 +66,9 @@ export default {
         justify-content: center;
         align-items: center;
         padding: 0.5em;
+        .is-info {
+          margin-left: 1em;
+        }
       }
     }
   }
