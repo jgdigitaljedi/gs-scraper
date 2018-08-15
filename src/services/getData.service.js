@@ -2,6 +2,23 @@ import Craigslist from './craiglist.service';
 import Letgo from './letgo.service';
 import Offerup from './offerUp.service';
 
+function getCl(search) {
+  return Craigslist.get(search)
+    .then(result => {
+      if (!result) {
+        return { error: false, message: `No Craigslist ${search.which} match your search!` };
+      } else if (result.error) {
+        return { error: true, message: `ERROR FECTHING CRAIGSLIST ${search.which.toUpperCase()}!` };
+      } else {
+        return result;
+      }
+    })
+    .catch(err => {
+      console.warn('ERROR FETCHING CRAIGLIST LISTINGS!', err);
+      return { error: true, message: 'ERROR FETCHING CRAIGLIST LISTINGS!' };
+    });
+}
+
 export default {
   fetch(search) {
     const cllPromise = this.cllPromise(search);
@@ -20,43 +37,17 @@ export default {
   },
   cllPromise(search) {
     if (search.cll) {
-      return Craigslist.get(search)
-        .then(result => {
-          if (!result) {
-            return { error: false, message: 'No Craigslist listings match your search!' };
-          } else if (result.error) {
-            return { error: true, message: 'ERROR FECTHING CRAIGSLIST LISTINGS!' };
-          } else {
-            return result;
-          }
-        })
-        .catch(err => {
-          console.warn('ERROR FETCHING CRAIGLIST LISTINGS!', err);
-          return { error: true, message: 'ERROR FETCHING CRAIGLIST LISTINGS!' };
-        });
+      search.which = 'listings';
+      return getCl(search);
     } else {
       return Promise.resolve(null);
     }
   },
   clsPromise(search) {
     if (search.cls) {
-      return Craigslist.getGarageSales(search)
-        .then(result => {
-          if (!result) {
-            return { error: false, message: 'No Craigslist garage sales match your search!' };
-          } else if (result.error) {
-            return { error: true, message: 'ERROR FECTHING CRAIGSLIST GARAGE SALES!' };
-          } else {
-            return result;
-          }
-        })
-        .catch(err => {
-          console.warn('ERROR FETCHING CRAIGLIST GARAGE SALES!', err);
-          return {
-            error: true,
-            message: 'ERROR FETCHING CRAIGLIST GARAGE SALES!'
-          };
-        });
+      search.which = 'garage sales';
+      search.tags = search.gs;
+      return getCl(search);
     } else {
       return Promise.resolve(null);
     }

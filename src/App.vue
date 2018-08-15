@@ -7,7 +7,7 @@
         <h2>Item Listings</h2>
         <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
         <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/>
-        <CollapseResults v-if="results && results.oul && results.oul.length" :source="'LetGo'" :dataArr="results.oul"/>
+        <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
         <div class="result-area--no-results" v-if="noListings">
           No listings met your search criteria.
         </div>
