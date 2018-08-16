@@ -44,6 +44,12 @@ export default {
     return {
       isOpen: false
     };
+  },
+  watch: {
+    dataArr: function(val, oldVal) {
+      console.log('val', val);
+      console.log('oldVal', oldVal);
+    }
   }
 };
 </script>

@@ -31,7 +31,8 @@ function formatItem(item, index) {
     description: item.hasOwnProperty('description') ? item.description[0] : 'NO DESCRIPTION',
     image: item.hasOwnProperty('enc:enclosure') ? item['enc:enclosure'][0].$.resource : null,
     price: title ? getPrice(title) : 'NO PRICE',
-    key: index
+    key: index,
+    source: 'Craiglist'
   };
 }
 router.post('/', function (req, res) {

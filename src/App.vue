@@ -15,7 +15,7 @@
           <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
         </div>
         <div class="result-area--combined" v-if="viewSelected === 'combined'">
-          <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="results.combinedListings"/>
+          <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="combinedListings"/>
         </div>
         <div class="result-area--no-results" v-if="noListings">
           No listings met your search criteria.
@@ -27,7 +27,7 @@
           <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
         </div>
         <div class="result-area--sales--combined" v-if="viewSelected === 'combined'">
-          <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="results.combinedSales"/>
+          <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="combinedSales"/>
         </div>
         <div class="result-area--no-results" v-if="noSales">
           No garage sales met your search criteria.
@@ -57,7 +57,9 @@ export default {
       noSales: Boolean,
       searchRan: Boolean,
       isLoading: Boolean,
-      viewSelected: String
+      viewSelected: String,
+      combinedListings: Array,
+      combinedSales: Array
     };
   },
   methods: {
@@ -82,6 +84,8 @@ export default {
             }
           }
         });
+        this.combinedListings = this.results.combinedListings;
+        this.combinedSales = this.results.combinedSales;
         this.isLoading = false;
         this.noResults();
       });
@@ -124,10 +128,10 @@ export default {
       this.viewSelected = viewType;
     },
     sortResults: function(theSort) {
-      console.log('theSort', theSort);
+      const sortedListings = theSort.sort([...this.results.combinedListings]);
+      this.combinedListings = [...sortedListings];
+      this.combinedSales = theSort.sort([...this.results.combinedSales]);
       console.log('sorted listings', theSort.sort(this.results.combinedListings));
-      this.results.combinedListings = theSort.sort(this.results.combinedListings);
-      this.results.combinedSales = theSort.sort(this.results.combinedSales);
     }
   },
   created() {

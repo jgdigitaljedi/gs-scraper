@@ -6,7 +6,7 @@ export default {
     return axios
       .get(
         `https://search-products-pwa.letgo.com/api/products?country_code=US&offset=0&search_term=${
-          search.tags
+        search.tags
         }&quadkey=${search.area.lgKey}&sort=recent&num_results=32&distance_type=mi`
       )
       .then(result => {
@@ -32,14 +32,15 @@ export default {
         : 'NO DATE',
       link:
         item.hasOwnProperty('image_information') &&
-        item.hasOwnProperty('id') &&
-        item.image_information
+          item.hasOwnProperty('id') &&
+          item.image_information
           ? `https://us.letgo.com/en/i/${item.image_information.trim()}_${item.id}`
           : null,
       description: item.hasOwnProperty('description') ? item.description : 'NO DESCRIPTION',
       image: item.hasOwnProperty('images') && item.images.length ? item.images[0].url : null,
       price: item.hasOwnProperty('price') ? item.price : 'NO PRICE',
-      key: index
+      key: index,
+      source: 'LetGo'
     };
   }
 };

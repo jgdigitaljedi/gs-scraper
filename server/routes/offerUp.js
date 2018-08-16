@@ -11,7 +11,8 @@ function cleanItem(item) {
     title: item.hasOwnProperty('title') ? item.title : '',
     price: item.hasOwnProperty('price') ? item.price.split('.')[0] : '',
     image: item.hasOwnProperty('image_mob_det_hd') ? item.image_mob_det_hd : null,
-    link: item.hasOwnProperty('get_full_url') ? item.get_full_url : null
+    link: item.hasOwnProperty('get_full_url') ? item.get_full_url : null,
+    source: 'OfferUp'
   };
 }
 

@@ -15,6 +15,9 @@
       <div class="card-body--description">
         {{data.description}}
       </div>
+      <div class="card-body--source">
+        from {{data.source}}
+      </div>
       <div class="card-footer">
         <a target="__blank" :href="data.link">Link</a>
         <div class="card-header--date">
@@ -73,6 +76,11 @@ export default {
   }
   .card-body--description {
     height: 144px;
+  }
+  .card-body--source {
+    font-style: italic;
+    color: red;
+    text-align: center;
   }
   .card-body--image {
     height: 300px;

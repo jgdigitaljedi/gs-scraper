@@ -22,7 +22,8 @@ function formatItem(item, index) {
     description: item.hasOwnProperty('description') ? item.description : 'NO DESCRIPTION',
     image: item.hasOwnProperty('images') && item.images.length ? item.images[0].url : null,
     price: item.hasOwnProperty('price') ? item.price : 'NO PRICE',
-    key: index
+    key: index,
+    source: 'LetGo'
   };
 }
 
