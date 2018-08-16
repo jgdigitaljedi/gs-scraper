@@ -31,7 +31,9 @@ export default {
         cll: result[0],
         cls: result[1],
         lgl: result[2],
-        oul: result[3]
+        oul: result[3],
+        combinedListings: [...result[0], ...result[2], ...[result[3]]].filter(i => i),
+        combinedSales: [...result[1]].filter(i => i)
       };
     });
   },

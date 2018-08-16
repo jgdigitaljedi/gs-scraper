@@ -3,22 +3,32 @@
     <div class="sidebar">
       <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
       <hr>
-      <ViewOptions v-on:viewChanged="viewChanged"/>
+      <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults"/>
     </div>
-    <div class="result-area" v-if="viewSelected === 'grouped'">
-        <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
+    <div class="result-area">
+      <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
       <section class="result-area--listings">
         <h2>Item Listings</h2>
-        <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
-        <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/>
-        <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
+        <div class="result-area--grouped" v-if="viewSelected === 'grouped'">
+          <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
+          <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/>
+          <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
+        </div>
+        <div class="result-area--combined" v-if="viewSelected === 'combined'">
+          <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="results.combinedListings"/>
+        </div>
         <div class="result-area--no-results" v-if="noListings">
           No listings met your search criteria.
         </div>
       </section>
       <section class="result-area--sales">
         <h2>Garage Sales</h2>
-        <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
+        <div class="result-area--sales--grouped" v-if="viewSelected === 'grouped'">
+          <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
+        </div>
+        <div class="result-area--sales--combined" v-if="viewSelected === 'combined'">
+          <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="results.combinedSales"/>
+        </div>
         <div class="result-area--no-results" v-if="noSales">
           No garage sales met your search criteria.
         </div>
@@ -112,6 +122,12 @@ export default {
     },
     viewChanged: function(viewType) {
       this.viewSelected = viewType;
+    },
+    sortResults: function(theSort) {
+      console.log('theSort', theSort);
+      console.log('sorted listings', theSort.sort(this.results.combinedListings));
+      this.results.combinedListings = theSort.sort(this.results.combinedListings);
+      this.results.combinedSales = theSort.sort(this.results.combinedSales);
     }
   },
   created() {

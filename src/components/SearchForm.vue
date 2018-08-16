@@ -1,7 +1,9 @@
 <template>
+
   <form class="search-form-form form"
     @submit.prevent="handleSubmit">
-    <b-field label="Area">
+
+    <b-field label="Area" class="search-from--area">
       <b-select placeholder="Select a city" v-model="searchForm.area">
         <option
           v-for="city in cities"
@@ -11,6 +13,7 @@
         </option>
       </b-select>
     </b-field>
+
     <div class="search-form--listings">
       <b-field label="Listings Search Terms">
         <b-taginput
@@ -20,40 +23,40 @@
             placeholder="Add a listing term">
         </b-taginput>
       </b-field>
-      <div class="search-form--options">
-        <div class="search-form--options--listings">
-          <h4>Listing Sites</h4>
-          <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
-          <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox>
-          <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
-        </div>
-      </div>
-    </div>
-    <b-field label="Garage Sale Terms">
-      <b-taginput
-        v-model="searchForm.gs"
-        ellipsis
-        icon="label"
-        placeholder="Add a sale term">
-      </b-taginput>
-    </b-field>
-    <div class="search-form--options">
-      <!-- <div class="search-form--options--listings">
-        <h4>Listings</h4>
+      <div class="search-form--listings--options">
+        <h4>Listing Sites</h4>
         <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
         <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox>
         <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
-      </div> -->
-      <div class="search-form--options--sales">
-        <h4>Garage Sales</h4>
-        <b-checkbox v-model="searchForm.cls">Craiglist</b-checkbox>
       </div>
     </div>
-    <button class="button is-primary" type="submit" :disabled="!searchForm.area">
-      <b-icon icon="search-web"></b-icon>
-      <span>Search</span>
-    </button>
+
+    <div class="search-form--sales">
+      <b-field label="Garage Sale Terms">
+        <b-taginput
+          v-model="searchForm.gs"
+          ellipsis
+          icon="label"
+          placeholder="Add a sale term">
+        </b-taginput>
+      </b-field>
+      <div class="search-form--options">
+        <div class="search-form--options--sales">
+          <h4>Garage Sale Sites</h4>
+          <b-checkbox v-model="searchForm.cls">Craiglist</b-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-form--actions">
+      <button class="button is-primary" type="submit" :disabled="!searchForm.area">
+        <b-icon icon="search-web"></b-icon>
+        <span>Search</span>
+      </button>
+    </div>
+
   </form>
+  
 </template>
 
 <script>
@@ -112,9 +115,12 @@ export default {
   input {
     width: 20px;
   }
-  .search-form--options {
+  .search-form--listings,
+  .search-form--sales,
+  .search-form--area,
+  .search-form--actions {
+    padding: 1em 0;
     div {
-      margin-bottom: 1em;
       h4 {
         font-weight: bold;
       }
