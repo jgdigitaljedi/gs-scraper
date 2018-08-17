@@ -85,6 +85,7 @@ export default {
           }
         });
         this.combinedListings = this.results.combinedListings;
+        console.log('combinedListings', this.combinedListings);
         this.combinedSales = this.results.combinedSales;
         this.isLoading = false;
         this.noResults();

@@ -27,12 +27,19 @@ export default {
     const ouPromise = this.ouPromise(search);
 
     return Promise.all([cllPromise, clsPromise, lglPromise, ouPromise]).then(result => {
+      const listingsIndexes = [0, 2, 3];
+      const validListings = listingsIndexes
+        .map(item => {
+          const r = result[item];
+          return r && Array.isArray(r) ? r : null;
+        })
+        .filter(f => f);
       return {
         cll: result[0],
         cls: result[1],
         lgl: result[2],
         oul: result[3],
-        combinedListings: [...result[0], ...result[2], ...result[3]].filter(i => i),
+        combinedListings: validListings,
         combinedSales: [...result[1]].filter(i => i)
       };
     });
