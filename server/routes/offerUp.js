@@ -16,7 +16,8 @@ function cleanItem(item) {
   };
 }
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
+  console.log('req', req.body);
   if (
     req.body.hasOwnProperty('area') &&
     req.body.area &&
@@ -34,7 +35,11 @@ router.post('/', function (req, res) {
       })
       .then(
         function success(response) {
-          res.status(200).send(response.map(i => cleanItem(i)));
+          if (response && Array.isArray(response) && response.length) {
+            res.status(200).send(response.map(i => cleanItem(i)));
+          } else {
+            res.status(500).send({ error: true, message: response });
+          }
         },
         function error(err) {
           res.status(500).send(err);

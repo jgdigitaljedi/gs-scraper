@@ -74,22 +74,38 @@ export default {
         oul: true
       },
       cities: [
-        { name: 'Austin', uri: 'austin', id: 'austin', lgKey: '0231301203311', clExtra: '' },
+        {
+          name: 'Austin',
+          uri: 'austin',
+          id: 'austin',
+          lgKey: '0231301203311',
+          clExtra: '',
+          ouArea: 'Austin, TX'
+        },
         {
           name: 'Fort Worth',
           uri: 'dallas',
           id: 'fortWorth',
           lgKey: '0231123213021',
-          clExtra: 'ftw/'
+          clExtra: 'ftw/',
+          ouArea: 'Fort Worth, TX'
         },
         {
           name: 'Wichita Falls',
           uri: 'wichitafalls',
           id: 'wichitaFalls',
           lgKey: '0231122113130',
-          clExtra: ''
+          clExtra: '',
+          ouArea: 'Wichita Falls, TX'
         },
-        { name: 'Vacaville', uri: 'sfbay', id: 'vacaville', lgKey: '0230102103202', clExtra: '' }
+        {
+          name: 'Vacaville',
+          uri: 'sfbay',
+          id: 'vacaville',
+          lgKey: '0230102103202',
+          clExtra: '',
+          ouArea: 'Vacaville, CA'
+        }
       ]
     };
   },
@@ -100,6 +116,7 @@ export default {
     handleSubmit: function() {
       const { area, tags, gs, cll, cls, lgl, oul } = this.searchForm;
       this.$store.commit('searchTags', tags);
+      this.$store.commit('salesTags', gs);
       this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul });
     }
   }

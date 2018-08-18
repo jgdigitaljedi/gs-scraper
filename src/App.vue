@@ -64,13 +64,12 @@ export default {
       combinedSales: Array
     };
   },
-  computed: mapGetters(['searchTags']),
+  computed: mapGetters(['searchTags', 'salesTags']),
   methods: {
     runSearch: function(search) {
       this.clearResults();
       this.isLoading = true;
       GetData.fetch(search).then(result => {
-        console.log('master result', result);
         const keys = Object.keys(result);
         keys.forEach(key => {
           if (Array.isArray(result[key])) {
@@ -132,13 +131,21 @@ export default {
       this.viewSelected = viewType;
     },
     sortResults: function(theSort) {
-      const sortedListings = theSort.sort([...this.results.combinedListings]);
+      const rev = theSort.hasOwnProperty('reverse') && theSort.reverse;
+      const sortedListings = theSort.sort(
+        [...this.results.combinedListings],
+        Array.from(this.searchTags),
+        rev
+      );
       this.combinedListings = [...sortedListings];
-      this.combinedSales = theSort.sort([...this.results.combinedSales]);
+      this.combinedSales = theSort.sort(
+        [...this.results.combinedSales],
+        Array.from(this.salesTags),
+        rev
+      );
     }
   },
   created() {
-    console.log('this.searchTerms', this.searchTags);
     this.results = {
       cll: null,
       cls: null,

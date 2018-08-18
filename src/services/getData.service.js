@@ -89,11 +89,9 @@ export default {
   //   }
   // },
   ouPromise(search) {
-    console.log('in ou promise');
     if (search.oul) {
       return Offerup.getOuData(search)
         .then(result => {
-          console.log('ou result', result);
           return result;
         })
         .catch(err => {

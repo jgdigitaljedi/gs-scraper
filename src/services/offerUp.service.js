@@ -4,7 +4,7 @@ export default {
   getOuData(search) {
     return axios
       .post(`http://localhost:3000/api/offerup`, {
-        area: search.area.name,
+        area: search.area.ouArea,
         tags: search.tags
       })
       .then(response => {

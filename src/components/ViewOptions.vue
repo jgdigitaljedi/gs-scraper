@@ -43,7 +43,6 @@ export default {
       this.$emit('viewChanged', this.viewType);
     },
     sortSelected: function() {
-      console.log('sort', this.sortSelected);
       this.$emit('sortSelected', this.sortSelected);
     }
   },
@@ -51,10 +50,11 @@ export default {
     this.viewType = 'grouped';
     this.$emit('viewChanged', this.viewType);
     this.sortOptions = [
-      { display: 'Price', sort: Sort.sortByPrice },
+      { display: 'Price (low - high)', sort: Sort.sortByPrice },
+      { display: 'Price (high - low)', sort: Sort.sortByPrice, reverse: true },
       { display: 'Date (desc)', sort: Sort.sortByDateDesc },
-      { display: 'Date (asc)', sort: Sort.sortByDateAsc }
-      // { display: 'Relevance', sort: Sort.sortByRel } // gonna have to bring in vuex and setup store to get searchForm.tags from SearchForm.vue
+      { display: 'Date (asc)', sort: Sort.sortByDateAsc },
+      { display: 'Relevance', sort: Sort.sortByRel }
     ];
   }
 };

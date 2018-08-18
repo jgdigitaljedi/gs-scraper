@@ -47,8 +47,8 @@ export default {
   },
   watch: {
     dataArr: function(val, oldVal) {
-      console.log('val', val);
-      console.log('oldVal', oldVal);
+      // console.log('val', val);
+      // console.log('oldVal', oldVal);
     }
   }
 };
