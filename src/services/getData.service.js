@@ -1,5 +1,5 @@
 import Craigslist from './craiglist.service';
-import Letgo from './letgo.service';
+// import Letgo from './letgo.service';
 import Offerup from './offerUp.service';
 
 function getCl(search) {
@@ -23,10 +23,10 @@ export default {
   fetch(search) {
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
-    const lglPromise = this.lglPromise(search);
+    // const lglPromise = this.lglPromise(search);
     const ouPromise = this.ouPromise(search);
 
-    return Promise.all([cllPromise, clsPromise, lglPromise, ouPromise]).then(result => {
+    return Promise.all([cllPromise, clsPromise, ouPromise]).then(result => {
       const listingsIndexes = [0, 2, 3];
       const validListings = listingsIndexes
         .map(item => {
@@ -37,9 +37,9 @@ export default {
       return {
         cll: result[0],
         cls: result[1],
-        lgl: result[2],
-        oul: result[3],
-        combinedListings: validListings,
+        // lgl: result[2],
+        oul: result[2],
+        combinedListings: [].concat.apply([], validListings),
         combinedSales: [...result[1]].filter(i => i)
       };
     });
@@ -61,26 +61,26 @@ export default {
       return Promise.resolve(null);
     }
   },
-  lglPromise(search) {
-    if (search.lgl) {
-      return Letgo.searchLetgo(search)
-        .then(result => {
-          if (!result) {
-            return { error: false, message: 'No LetGo listings match your search!' };
-          } else if (result.error) {
-            return { error: true, message: 'ERROR FECTHING LETGO LISTINGS!' };
-          } else {
-            return result;
-          }
-        })
-        .catch(err => {
-          console.warn('ERROR FETCHING LETGO LISTINGS!', err);
-          return { error: true, message: 'ERROR FETCHING LETGO LISTINGS!' };
-        });
-    } else {
-      return Promise.resolve(null);
-    }
-  },
+  // lglPromise(search) {
+  //   if (search.lgl) {
+  //     return Letgo.searchLetgo(search)
+  //       .then(result => {
+  //         if (!result) {
+  //           return { error: false, message: 'No LetGo listings match your search!' };
+  //         } else if (result.error) {
+  //           return { error: true, message: 'ERROR FECTHING LETGO LISTINGS!' };
+  //         } else {
+  //           return result;
+  //         }
+  //       })
+  //       .catch(err => {
+  //         console.warn('ERROR FETCHING LETGO LISTINGS!', err);
+  //         return { error: true, message: 'ERROR FETCHING LETGO LISTINGS!' };
+  //       });
+  //   } else {
+  //     return Promise.resolve(null);
+  //   }
+  // },
   ouPromise(search) {
     console.log('in ou promise');
     if (search.oul) {

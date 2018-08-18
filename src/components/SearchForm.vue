@@ -26,7 +26,7 @@
       <div class="search-form--listings--options">
         <h4>Listing Sites</h4>
         <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
-        <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox>
+        <!-- <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox> -->
         <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
       </div>
     </div>
@@ -56,7 +56,7 @@
     </div>
 
   </form>
-  
+
 </template>
 
 <script>

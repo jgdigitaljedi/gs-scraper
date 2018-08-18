@@ -11,7 +11,7 @@
         <h2>Item Listings</h2>
         <div class="result-area--grouped" v-if="viewSelected === 'grouped'">
           <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
-          <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/>
+          <!-- <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/> -->
           <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
         </div>
         <div class="result-area--combined" v-if="viewSelected === 'combined'">
@@ -98,7 +98,7 @@ export default {
       });
     },
     noResults() {
-      const listings = ['cll', 'lgl', 'oul'];
+      const listings = ['cll', 'oul'];
       const sales = ['cls'];
 
       this.noListings =
@@ -150,6 +150,7 @@ export default {
 
 /*eslint-disable */
 <style lang="scss">
+@import './styles/theme.scss';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

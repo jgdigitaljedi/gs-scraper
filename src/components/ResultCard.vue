@@ -56,6 +56,7 @@ export default {
 /*eslint-disable */
 <style lang="scss" scoped>
 @import '../styles/shadows.scss';
+@import '../styles/theme.scss';
 .result-card {
   @include box_shadow(2);
   padding: 1em;
@@ -79,7 +80,7 @@ export default {
   }
   .card-body--source {
     font-style: italic;
-    color: red;
+    color: $danger;
     text-align: center;
   }
   .card-body--image {
@@ -93,7 +94,7 @@ export default {
     }
   }
   .card-header--price {
-    color: green;
+    color: $success;
     font-size: 1.2em;
   }
 }
