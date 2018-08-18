@@ -99,6 +99,7 @@ export default {
   methods: {
     handleSubmit: function() {
       const { area, tags, gs, cll, cls, lgl, oul } = this.searchForm;
+      this.$store.commit('searchTags', tags);
       this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul });
     }
   }

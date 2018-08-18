@@ -8,6 +8,7 @@ import Offerup from './services/offerUp.service';
 import GetData from './services/getData.service';
 import Sort from './services/sort.service';
 import { Toast } from 'buefy';
+import store from './store';
 
 Vue.use(Buefy, {
   defaultToastDuration: 2000,
@@ -30,6 +31,7 @@ Vue.config.productionTip = false;
 
 new Vue({
   render: h => h(App),
+  store,
   Craigslist,
   Letgo,
   Offerup,

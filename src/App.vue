@@ -42,6 +42,8 @@ import SearchForm from './components/SearchForm';
 import CollapseResults from './components/CollapseResults';
 import ViewOptions from './components/ViewOptions';
 import GetData from './services/getData.service.js';
+// import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'app',
@@ -62,6 +64,7 @@ export default {
       combinedSales: Array
     };
   },
+  computed: mapGetters(['searchTags']),
   methods: {
     runSearch: function(search) {
       this.clearResults();
@@ -132,10 +135,10 @@ export default {
       const sortedListings = theSort.sort([...this.results.combinedListings]);
       this.combinedListings = [...sortedListings];
       this.combinedSales = theSort.sort([...this.results.combinedSales]);
-      console.log('sorted listings', theSort.sort(this.results.combinedListings));
     }
   },
   created() {
+    console.log('this.searchTerms', this.searchTags);
     this.results = {
       cll: null,
       cls: null,

@@ -1,3 +1,6 @@
+import compareAsc from 'date-fns/compare_asc';
+import compareDesc from 'date-fns/compare_desc';
+
 export default {
   sortByPrice(data) {
     const dataWithPrices = [...data].filter(i => i.hasOwnProperty('price') && i.price);
@@ -18,5 +21,16 @@ export default {
         return 1;
       })
       .concat(dataNoPrices);
+  },
+  sortByDateAsc(data) {
+    return data.sort((a, b) => {
+      return compareAsc(a.date, b.date);
+    });
+  },
+  sortByDateDesc(data) {
+    return data.sort((a, b) => {
+      return compareDesc(a.date, b.date);
+    });
   }
+  // sortByRel(data) {}
 };

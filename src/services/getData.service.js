@@ -28,7 +28,14 @@ export default {
 
     return Promise.all([cllPromise, clsPromise, ouPromise]).then(result => {
       const listingsIndexes = [0, 2, 3];
+      const salesIndexes = [1];
       const validListings = listingsIndexes
+        .map(item => {
+          const r = result[item];
+          return r && Array.isArray(r) ? r : null;
+        })
+        .filter(f => f);
+      const validSales = salesIndexes
         .map(item => {
           const r = result[item];
           return r && Array.isArray(r) ? r : null;
@@ -40,7 +47,7 @@ export default {
         // lgl: result[2],
         oul: result[2],
         combinedListings: [].concat.apply([], validListings),
-        combinedSales: [...result[1]].filter(i => i)
+        combinedSales: [].concat.apply([], validSales)
       };
     });
   },
