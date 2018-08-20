@@ -20,8 +20,26 @@ function cleanTitle(title) {
   return titleSplit.join(' ');
 }
 
+function nearbyString(area) {
+  switch (area) {
+    case 'austin':
+      return '&nearbyArea=270&nearbyArea=327&nearbyArea=449&searchNearby=1';
+    case 'dallas':
+      return '&nearbyArea=308&searchNearby=1';
+    case 'wichitafalls':
+      return '&nearbyArea=422&nearbyArea=649&searchNearby=1';
+    case 'sfbay':
+      return '&nearbyArea=102&nearbyArea=12&nearbyArea=373&searchNearby=1';
+    default:
+      return '';
+  }
+}
+
 function formatItem(item, index) {
   const title = item.hasOwnProperty('title') ? item.title[0] : null;
+  const idArr = item.hasOwnProperty('link') ? item.link[0].split('/') : null;
+  const idArrLast = idArr && idArr.length ? idArr.length - 1 : null;
+  const id = idArrLast ? idArr[idArrLast].split('.')[0] : null;
   return {
     title: title ? cleanTitle(title) : 'NO TITLE',
     date: item.hasOwnProperty('dc:date')
@@ -32,19 +50,25 @@ function formatItem(item, index) {
     image: item.hasOwnProperty('enc:enclosure') ? item['enc:enclosure'][0].$.resource : null,
     price: title ? getPrice(title) : 'NO PRICE',
     key: index,
+    id: id,
     source: 'Craiglist'
   };
 }
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
+  console.log('req.body', req.body);
   const tagsURI = makeURIformat(req.body.tags);
-  const which =
+  let which =
     req.body.which === 'garage sales'
       ? `https://${req.body.area.uri}.craigslist.org/search/${
-      req.body.area.clExtra
-      }gms?format=rss&query=${tagsURI}`
+          req.body.area.clExtra
+        }gms?format=rss&query=${tagsURI}`
       : `http://${req.body.area.uri}.craigslist.org/search/${
-      req.body.area.clExtra
-      }sss?format=rss&query=${tagsURI}`;
+          req.body.area.clExtra
+        }sss?format=rss&query=${tagsURI}`;
+  if (req.body.widen) {
+    which += nearbyString(req.body.area.uri);
+  }
+  console.log('which', which);
   axios
     .get(which)
     .then(response => {

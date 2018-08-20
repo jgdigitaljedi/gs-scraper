@@ -7,7 +7,8 @@ export default {
         .post('http://localhost:3000/api/cl', {
           area: data.area,
           tags: data.tags,
-          which: data.which
+          which: data.which,
+          widen: data.widen
         })
         .then(result => {
           if (result.data) {

@@ -21,6 +21,7 @@ function getCl(search) {
 
 export default {
   fetch(search) {
+    console.log('search', search);
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
     // const lglPromise = this.lglPromise(search);

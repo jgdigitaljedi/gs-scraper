@@ -45,7 +45,8 @@ export default {
       const scored = dataCopy.map(item => {
         item.score = _sum(
           tags.map(tag => {
-            const count = item.description.toLowerCase().split(tag.toLowerCase()).length - 1;
+            const titleDesc = `${item.title} ${item.description}`;
+            const count = titleDesc.toLowerCase().split(tag.toLowerCase()).length - 1;
             return count;
           })
         );

@@ -13,6 +13,7 @@
         </option>
       </b-select>
     </b-field>
+    <b-checkbox v-model="searchForm.widen">Widen Search Area</b-checkbox>
 
     <div class="search-form--listings">
       <b-field label="Listings Search Terms">
@@ -114,10 +115,10 @@ export default {
   },
   methods: {
     handleSubmit: function() {
-      const { area, tags, gs, cll, cls, lgl, oul } = this.searchForm;
+      const { area, tags, gs, cll, cls, lgl, oul, widen } = this.searchForm;
       this.$store.commit('searchTags', tags);
       this.$store.commit('salesTags', gs);
-      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul });
+      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen });
     }
   }
 };
