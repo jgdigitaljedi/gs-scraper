@@ -9,11 +9,13 @@ import GetData from './services/getData.service';
 import Sort from './services/sort.service';
 import { Toast } from 'buefy';
 import store from './store';
+import BackToTop from 'vue-backtotop';
 
 Vue.use(Buefy, {
   defaultToastDuration: 2000,
   defaultContainerElement: '#app'
 });
+Vue.use(BackToTop);
 
 Vue.component(Buefy.Field.name, Buefy.Field);
 Vue.component(Buefy.Input.name, Buefy.Input);

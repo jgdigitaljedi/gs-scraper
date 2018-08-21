@@ -34,6 +34,12 @@
         </div>
       </section>
     </div>
+    <back-to-top visibleoffset="500">
+      <button class="button is-success">
+        <b-icon icon="chevron-double-up"></b-icon>
+        <span>&nbsp; Top</span>
+      </button>
+    </back-to-top>
   </div>
 </template>
 
@@ -45,14 +51,15 @@ import GetData from './services/getData.service.js';
 // import { mapState } from 'vuex';
 import Sort from './services/sort.service.js';
 import { mapGetters } from 'vuex';
-import * as _flatten from 'lodash/flatten';
+import BackToTop from 'vue-backtotop';
 
 export default {
   name: 'app',
   components: {
     SearchForm,
     CollapseResults,
-    ViewOptions
+    ViewOptions,
+    BackToTop
   },
   data: function() {
     return {
@@ -141,7 +148,6 @@ export default {
           Array.from(this.searchTags),
           rev
         );
-        // this.combinedListings = [...sortedListings];
         this.combinedSales = theSort.sort(
           [...this.results.combinedSales],
           Array.from(this.salesTags),
