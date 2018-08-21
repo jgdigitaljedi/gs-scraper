@@ -21,7 +21,6 @@ function getCl(search) {
 
 export default {
   fetch(search) {
-    console.log('search', search);
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
     // const lglPromise = this.lglPromise(search);
@@ -61,9 +60,10 @@ export default {
     }
   },
   clsPromise(search) {
-    if (search.cls) {
-      search.which = 'garage sales';
-      search.tags = search.gs;
+    const sCopy = { ...search };
+    if (sCopy.cls) {
+      sCopy.which = 'garage sales';
+      sCopy.tags = search.gs;
       return getCl(search);
     } else {
       return Promise.resolve(null);

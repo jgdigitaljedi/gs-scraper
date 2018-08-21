@@ -5,7 +5,8 @@ export default {
     return axios
       .post(`http://localhost:3000/api/offerup`, {
         area: search.area.ouArea,
-        tags: search.tags
+        tags: search.tags,
+        widen: search.widen
       })
       .then(response => {
         return response.data;

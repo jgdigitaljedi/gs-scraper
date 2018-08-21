@@ -67,6 +67,7 @@ export default {
   computed: mapGetters(['searchTags', 'salesTags']),
   methods: {
     runSearch: function(search) {
+      console.log('search', search);
       this.clearResults();
       this.isLoading = true;
       GetData.fetch(search).then(result => {
@@ -132,17 +133,20 @@ export default {
     },
     sortResults: function(theSort) {
       const rev = theSort.hasOwnProperty('reverse') && theSort.reverse;
-      const sortedListings = theSort.sort(
-        [...this.results.combinedListings],
-        Array.from(this.searchTags),
-        rev
-      );
-      this.combinedListings = [...sortedListings];
-      this.combinedSales = theSort.sort(
-        [...this.results.combinedSales],
-        Array.from(this.salesTags),
-        rev
-      );
+      if (this.viewSelected === 'combined') {
+        const sortedListings = theSort.sort(
+          [...this.results.combinedListings],
+          Array.from(this.searchTags),
+          rev
+        );
+        this.combinedListings = [...sortedListings];
+        this.combinedSales = theSort.sort(
+          [...this.results.combinedSales],
+          Array.from(this.salesTags),
+          rev
+        );
+      } else {
+      }
     }
   },
   created() {
@@ -166,7 +170,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  padding-top: 60px;
+  padding-top: 30px;
   background-color: #fafafa;
   display: flex;
   flex-direction: row;

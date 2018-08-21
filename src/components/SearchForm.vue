@@ -3,19 +3,21 @@
   <form class="search-form-form form"
     @submit.prevent="handleSubmit">
 
-    <b-field label="Area" class="search-from--area">
-      <b-select placeholder="Select a city" v-model="searchForm.area">
-        <option
-          v-for="city in cities"
-          :value="city"
-          :key="city.id">
-          {{ city.name }}
-        </option>
-      </b-select>
-    </b-field>
-    <b-checkbox v-model="searchForm.widen">Widen Search Area</b-checkbox>
+    <div class="search-form--area form-section">
+      <b-field label="Area">
+        <b-select placeholder="Select a city" v-model="searchForm.area">
+          <option
+            v-for="city in cities"
+            :value="city"
+            :key="city.id">
+            {{ city.name }}
+          </option>
+        </b-select>
+      </b-field>
+      <b-checkbox v-model="searchForm.widen">Widen Search Area</b-checkbox>
+    </div>
 
-    <div class="search-form--listings">
+    <div class="search-form--listings form-section">
       <b-field label="Listings Search Terms">
         <b-taginput
             v-model="searchForm.tags"
@@ -32,7 +34,7 @@
       </div>
     </div>
 
-    <div class="search-form--sales">
+    <div class="search-form--sales form-section">
       <b-field label="Garage Sale Terms">
         <b-taginput
           v-model="searchForm.gs"
@@ -134,10 +136,7 @@ export default {
   input {
     width: 20px;
   }
-  .search-form--listings,
-  .search-form--sales,
-  .search-form--area,
-  .search-form--actions {
+  .form-section {
     padding: 1em 0;
     div {
       h4 {

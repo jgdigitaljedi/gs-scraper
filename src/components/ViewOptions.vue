@@ -1,29 +1,33 @@
 <template>
   <section class="view-options">
-    <h3>View Options</h3>
-    <div class="field">
-      <b-radio v-model="viewType"
-        native-value="grouped">
-          Grouped
-      </b-radio>
-    </div>
-    <div class="field">
-      <b-radio v-model="viewType"
-        native-value="combined">
-          Combined
-      </b-radio>
+    <div class="view-options--options options-section">
+      <h3>View Options</h3>
+      <div class="field">
+        <b-radio v-model="viewType"
+          native-value="grouped">
+            Grouped
+        </b-radio>
+      </div>
+      <div class="field">
+        <b-radio v-model="viewType"
+          native-value="combined">
+            Combined
+        </b-radio>
+      </div>
     </div>
 
-    <b-field label="Sort By:" class="combined-sort" v-if="viewType === 'combined'">
-      <b-select placeholder="Sort options" v-model="sortSelected">
-        <option
-          v-for="option in sortOptions"
-          :value="option"
-          :key="option.display">
-          {{ option.display }}
-        </option>
-      </b-select>
-    </b-field>
+    <div class="view-options--sort options-section">
+      <b-field label="Sort By:" class="combined-sort">
+        <b-select placeholder="Sort options" v-model="sortSelected">
+          <option
+            v-for="option in sortOptions"
+            :value="option"
+            :key="option.display">
+            {{ option.display }}
+          </option>
+        </b-select>
+      </b-field>
+    </div>
   </section>
 </template>
 
@@ -63,5 +67,8 @@ export default {
 <style lang="scss" scoped>
 .view-options {
   padding: 1em;
+  .options-section {
+    margin-bottom: 1em;
+  }
 }
 </style>

@@ -55,7 +55,6 @@ function formatItem(item, index) {
   };
 }
 router.post('/', function(req, res) {
-  console.log('req.body', req.body);
   const tagsURI = makeURIformat(req.body.tags);
   let which =
     req.body.which === 'garage sales'
@@ -68,7 +67,6 @@ router.post('/', function(req, res) {
   if (req.body.widen) {
     which += nearbyString(req.body.area.uri);
   }
-  console.log('which', which);
   axios
     .get(which)
     .then(response => {

@@ -17,7 +17,6 @@ function cleanItem(item) {
 }
 
 router.post('/', function(req, res) {
-  console.log('req', req.body);
   if (
     req.body.hasOwnProperty('area') &&
     req.body.area &&
@@ -28,7 +27,7 @@ router.post('/', function(req, res) {
       .getFullListByQuery({
         location: req.body.area, // required
         search: req.body.tags.join(','), // required
-        radius: 30,
+        radius: req.body.widen ? 50 : 30,
         limit: 30,
         price_min: 0,
         price_max: 1000
