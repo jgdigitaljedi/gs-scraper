@@ -43,7 +43,9 @@ import CollapseResults from './components/CollapseResults';
 import ViewOptions from './components/ViewOptions';
 import GetData from './services/getData.service.js';
 // import { mapState } from 'vuex';
+import Sort from './services/sort.service.js';
 import { mapGetters } from 'vuex';
+import * as _flatten from 'lodash/flatten';
 
 export default {
   name: 'app',
@@ -134,18 +136,29 @@ export default {
     sortResults: function(theSort) {
       const rev = theSort.hasOwnProperty('reverse') && theSort.reverse;
       if (this.viewSelected === 'combined') {
-        const sortedListings = theSort.sort(
+        this.combinedListings = theSort.sort(
           [...this.results.combinedListings],
           Array.from(this.searchTags),
           rev
         );
-        this.combinedListings = [...sortedListings];
+        // this.combinedListings = [...sortedListings];
         this.combinedSales = theSort.sort(
           [...this.results.combinedSales],
           Array.from(this.salesTags),
           rev
         );
       } else {
+        const keys = Object.keys(this.results);
+        keys.forEach(key => {
+          this.results[key] = Sort.sortGrouped(
+            this.results[key],
+            theSort,
+            rev,
+            Array.from(this.searchTags),
+            Array.from(this.salesTags),
+            key
+          );
+        });
       }
     }
   },
@@ -153,7 +166,8 @@ export default {
     this.results = {
       cll: null,
       cls: null,
-      lgl: null
+      lgl: null,
+      oul: null
     };
     this.isLoading = false;
     this.noListings = false;

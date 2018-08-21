@@ -3,7 +3,14 @@ import compareDesc from 'date-fns/compare_desc';
 import * as _sortBy from 'lodash/sortBy';
 import * as _sum from 'lodash/sum';
 
+const salesKeys = ['cls'];
+
 export default {
+  sortGrouped(results, theSort, rev, searchTags, salesTags, key) {
+    return results
+      ? theSort.sort(results, salesKeys.indexOf(key) >= 0 ? salesTags : searchTags, rev)
+      : null;
+  },
   sortByPrice(data, tags, rev) {
     const dataWithPrices = [...data].filter(i => i.hasOwnProperty('price') && i.price);
     const dataNoPrices = [...data].filter(i => !i.hasOwnProperty('price') || !i.price);
