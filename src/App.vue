@@ -211,8 +211,11 @@ export default {
   .sidebar {
     min-width: 300px;
     border-right: 1px solid #ccc;
+    transition: all 0.5s;
     &.hidden {
       transform: translateX(-100%);
+      width: 0;
+      display: none;
     }
     .view-options {
       padding: 1em;
