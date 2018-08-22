@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <div class="sidebar">
+    <button class="button hide-icon is-success" v-on:click="hideSidebar = !hideSidebar">
+      <b-icon v-if="!hideSidebar" icon="eye-off"></b-icon>
+      <b-icon v-if="hideSidebar" icon="eye"></b-icon>
+    </button>
+    <div class="sidebar" :class="{'hidden': hideSidebar}">
       <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
       <hr>
       <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults"/>
@@ -70,7 +74,8 @@ export default {
       isLoading: Boolean,
       viewSelected: String,
       combinedListings: Array,
-      combinedSales: Array
+      combinedSales: Array,
+      hideSidebar: Boolean
     };
   },
   computed: mapGetters(['searchTags', 'salesTags']),
@@ -178,6 +183,7 @@ export default {
     this.isLoading = false;
     this.noListings = false;
     this.noSales = false;
+    this.hideSidebar = false;
   }
 };
 </script>
@@ -195,9 +201,19 @@ export default {
   display: flex;
   flex-direction: row;
   min-height: 100vh;
+  width: 100%;
+  .hide-button {
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 10;
+  }
   .sidebar {
     min-width: 300px;
     border-right: 1px solid #ccc;
+    &.hidden {
+      transform: translateX(-100%);
+    }
     .view-options {
       padding: 1em;
       h3 {
