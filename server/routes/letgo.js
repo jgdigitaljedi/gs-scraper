@@ -5,15 +5,15 @@ const format = require('date-fns/format');
 const request = require('request');
 const cheerio = require('cheerio');
 
-function makeURIformat(arr) {
-  return arr.map(tag => encodeURIComponent(tag.trim())).join();
-}
+// function makeURIformat(arr) {
+//   return arr.map(tag => encodeURIComponent(tag.trim())).join();
+// }
 
 router.post('/', function(req, res) {
   request('https://us.letgo.com/en', function(error, response, html) {
-    // res.setHeader('Content-Type', 'text/plain').send(response);
     const $ = cheerio.load(html);
-    res.send({ response: html });
+    // const body = $(body);
+    res.send({ headers: response.headers });
     // const tagsURI = makeURIformat(req.body.tags);
     // axios
     //   .get(
