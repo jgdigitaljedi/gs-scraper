@@ -1,6 +1,18 @@
 import Craigslist from './craiglist.service';
 // import Letgo from './letgo.service';
 import Offerup from './offerUp.service';
+import Storage from './storage.service';
+
+let hidden;
+
+function isHidden(result) {
+  if (hidden) {
+    result.hide = hidden.filter(i => i === result.id).length > 0;
+  } else {
+    result.hide = false;
+  }
+  return result;
+}
 
 function getCl(search) {
   return Craigslist.get(search)
@@ -21,12 +33,19 @@ function getCl(search) {
 
 export default {
   fetch(search) {
+    hidden = Storage.getHiddenCards();
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
     // const lglPromise = this.lglPromise(search);
     const ouPromise = this.ouPromise(search);
 
     return Promise.all([cllPromise, clsPromise, ouPromise]).then(result => {
+      result.forEach(r => {
+        r.forEach(o => {
+          const hide = isHidden(o);
+          o.hide = hide;
+        });
+      });
       const listingsIndexes = [0, 2, 3];
       const salesIndexes = [1];
       const validListings = listingsIndexes
@@ -42,7 +61,7 @@ export default {
         })
         .filter(f => f);
       return {
-        cll: result[0],
+        cll: result[0].map(r => isHidden(r)),
         cls: result[1],
         // lgl: result[2],
         oul: result[2],

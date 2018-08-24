@@ -5,7 +5,7 @@
         <strong>{{source}}</strong>
       </div>
       <div class="panel-block">
-        <ResultCard v-for="result in dataArr" :key="result.key" :cardData="result"/>
+        <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard" v-if="!result.hide"/>
         <div class="btn-container">
           <button class="button is-primary" v-on:click="backToTop">
             <b-icon icon="arrow-up-bold"></b-icon>
@@ -30,6 +30,14 @@ export default {
     source: String,
     dataArr: Array
   },
+  data: function() {
+    return {
+      cardArr: []
+    };
+  },
+  created() {
+    this.cardArr = this.dataArr;
+  },
   methods: {
     backToTop: function() {
       const offset = this.$el.offsetTop;
@@ -38,6 +46,16 @@ export default {
         top: offset,
         behavior: 'smooth'
       });
+    },
+    hideCard(card) {
+      const newDataArr = [...this.cardArr].map(item => {
+        if (item.id === card.id) {
+          item.hide = true;
+        }
+        return item;
+      });
+      this.cardArr = newDataArr;
+      console.log('cardArr', this.cardArr);
     }
   },
   data() {
@@ -47,6 +65,7 @@ export default {
   },
   watch: {
     dataArr: function(val, oldVal) {
+      this.cardArr = val;
       // console.log('val', val);
       // console.log('oldVal', oldVal);
     }

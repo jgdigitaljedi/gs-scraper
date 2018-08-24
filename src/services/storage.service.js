@@ -5,7 +5,7 @@ export default {
       const ind = hidden.indexOf(card.id);
       if (ind < 0) {
         hidden.push(card.id);
-        localStorage.setItem(JSON.stringify(hidden));
+        localStorage.setItem('hiddenCards', JSON.stringify(hidden));
       }
     } else {
       localStorage.setItem('hiddenCards', `[${card.id}]`);
@@ -27,7 +27,7 @@ export default {
     const hidden = this.getHiddenCards();
     if (hidden) {
       const newHidden = [...hidden].filter(i => i !== card.id);
-      localStorage.setItem(JSON.stringify(newHidden));
+      localStorage.setItem('hiddenCards', JSON.stringify(newHidden));
     }
   }
 };
