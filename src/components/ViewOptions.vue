@@ -28,6 +28,10 @@
         </b-select>
       </b-field>
     </div>
+
+    <div class="view-options--show-hidden options-section">
+      <b-checkbox v-model="showHidden">Show Hidden Results</b-checkbox>
+    </div>
   </section>
 </template>
 
@@ -39,7 +43,8 @@ export default {
     return {
       viewType: String,
       sortSelected: String,
-      sortOptions: Array
+      sortOptions: Array,
+      showHidden: Boolean
     };
   },
   watch: {

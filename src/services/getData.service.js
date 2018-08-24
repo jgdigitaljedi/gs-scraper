@@ -64,7 +64,7 @@ export default {
     if (sCopy.cls) {
       sCopy.which = 'garage sales';
       sCopy.tags = search.gs;
-      return getCl(search);
+      return getCl(sCopy);
     } else {
       return Promise.resolve(null);
     }

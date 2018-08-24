@@ -7,6 +7,7 @@ import Letgo from './services/letgo.service';
 import Offerup from './services/offerUp.service';
 import GetData from './services/getData.service';
 import Sort from './services/sort.service';
+import Storage from './services/storage.service';
 import { Toast } from 'buefy';
 import store from './store';
 import BackToTop from 'vue-backtotop';
@@ -38,5 +39,6 @@ new Vue({
   Letgo,
   Offerup,
   GetData,
-  Sort
+  Sort,
+  Storage
 }).$mount('#app');

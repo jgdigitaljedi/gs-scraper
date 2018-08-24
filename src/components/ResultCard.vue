@@ -2,26 +2,38 @@
   <div class="result-card card">
     <div class="card-header">
       <div class="card-header--title">
-        {{data.title}}
+        {{cardData.title}}
       </div>
       <div class="card-header--price">
-        ${{data.price}}
+        ${{cardData.price}}
       </div>
     </div>
     <div class="card-body">
-      <div class="card-body--image card-image" v-if="data.image">
-        <img :src="data.image"/>
+      <div class="card-body--image card-image" v-if="cardData.image">
+        <img :src="cardData.image"/>
       </div>
       <div class="card-body--description">
-        {{data.description}}
+        {{cardData.description}}
       </div>
-      <div class="card-body--source">
-        from {{data.source}}
+      <div class="card-body--source-hide">
+        <div class="card-body--source">
+          from {{cardData.source}}
+        </div>
+        <div class="card-body--hide">
+          <button class="button is-danger" v-if="!cardData.hide" v-on:click="hideResult(cardData)">
+            <b-icon icon="eye-off-outline"></b-icon>
+            <span class="hide-text">Hide</span>
+          </button>
+          <button class="button is-success" v-if="cardData.hide" v-on:click="showResult(cardData)">
+            <b-icon icon="eye-outline"></b-icon>
+            <span class="hide-text">Unhide</span>
+          </button>
+        </div>
       </div>
       <div class="card-footer">
-        <a target="__blank" :href="data.link">Link</a>
+        <a target="__blank" :href="cardData.link">Link</a>
         <div class="card-header--date">
-          {{data.date}}
+          {{cardData.date}}
         </div>
       </div>
     </div>
@@ -29,25 +41,41 @@
 </template>
 
 <script>
+import Storage from '../services/storage.service.js';
 export default {
   name: 'ResultCard',
   props: {
-    data: Object,
+    cardData: Object,
     description: String
   },
+  methods: {
+    hideResult: function(card) {
+      console.log('card', card);
+      Storage.hideCard(card);
+      // @TODO: some logic to hide and show
+    },
+    showResult(card) {
+      Storage.showCard(card);
+      // something to show card again
+    }
+  },
   created() {
-    if (this.data.hasOwnProperty('title') && this.data.title && this.data.title.length > 60) {
-      const titleShortened = this.data.title.substr(0, 56);
-      this.data.title = titleShortened + '...';
+    if (
+      this.cardData.hasOwnProperty('title') &&
+      this.cardData.title &&
+      this.cardData.title.length > 60
+    ) {
+      const titleShortened = this.cardData.title.substr(0, 56);
+      this.cardData.title = titleShortened + '...';
     }
     if (
-      this.data.hasOwnProperty('description') &&
-      this.data.description &&
-      this.data.description.length > 252
+      this.cardData.hasOwnProperty('description') &&
+      this.cardData.description &&
+      this.cardData.description.length > 252
     ) {
       // console.warn('GREATER THAN 252');
-      const dShortened = this.data.description.substr(0, 249);
-      this.data.description = dShortened + '...';
+      const dShortened = this.cardData.description.substr(0, 249);
+      this.cardData.description = dShortened + '...';
     }
   }
 };
@@ -78,10 +106,20 @@ export default {
   .card-body--description {
     height: 144px;
   }
-  .card-body--source {
-    font-style: italic;
-    color: $danger;
-    text-align: center;
+  .card-body--source-hide {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 0;
+    .card-body--source {
+      font-style: italic;
+      color: $primary;
+    }
+    .card-body--hide button {
+      .hide-text {
+        margin-left: 0.3em;
+      }
+    }
   }
   .card-body--image {
     height: 300px;

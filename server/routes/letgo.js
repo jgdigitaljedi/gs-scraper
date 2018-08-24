@@ -4,13 +4,14 @@ const format = require('date-fns/format');
 // const axios = require('axios');
 const request = require('request');
 const cheerio = require('cheerio');
+// @TODO: come back to this; there are better things I could be focused on right now
 
 // function makeURIformat(arr) {
 //   return arr.map(tag => encodeURIComponent(tag.trim())).join();
 // }
 
-router.post('/', function(req, res) {
-  request('https://us.letgo.com/en', function(error, response, html) {
+router.post('/', function (req, res) {
+  request('https://us.letgo.com/en', function (error, response, html) {
     const $ = cheerio.load(html);
     // const body = $(body);
     res.send({ headers: response.headers });

@@ -81,7 +81,6 @@ export default {
   computed: mapGetters(['searchTags', 'salesTags']),
   methods: {
     runSearch: function(search) {
-      console.log('search', search);
       this.clearResults();
       this.isLoading = true;
       GetData.fetch(search).then(result => {
@@ -102,7 +101,6 @@ export default {
           }
         });
         this.combinedListings = this.results.combinedListings;
-        console.log('combinedListings', this.combinedListings);
         this.combinedSales = this.results.combinedSales;
         this.isLoading = false;
         this.noResults();
