@@ -31,12 +31,18 @@
 
     <div class="view-options--show-hidden options-section">
       <b-checkbox v-model="showHidden">Show Hidden Results</b-checkbox>
+      <button class="button is-danger" v-on:click="clearHidden">
+        <b-icon icon="delete"></b-icon>
+        <span>Reset Hidden</span>
+      </button>
     </div>
   </section>
 </template>
 
 <script>
 import Sort from '../services/sort.service.js';
+import Storage from '../services/storage.service.js';
+
 export default {
   name: 'ViewOptions',
   data() {
@@ -47,12 +53,22 @@ export default {
       showHidden: Boolean
     };
   },
+  // computed: mapGetters(['showHiddenCards']),
   watch: {
     viewType: function() {
       this.$emit('viewChanged', this.viewType);
     },
     sortSelected: function() {
       this.$emit('sortSelected', this.sortSelected);
+    },
+    showHidden: function(val) {
+      this.$store.commit('showHiddenCards', val);
+    }
+  },
+  methods: {
+    clearHidden: function() {
+      Storage.clearHidden();
+      this.$emit('clearHidden');
     }
   },
   created() {

@@ -8,6 +8,7 @@ import Offerup from './services/offerUp.service';
 import GetData from './services/getData.service';
 import Sort from './services/sort.service';
 import Storage from './services/storage.service';
+import AppLogic from './services/appLogic.service';
 import { Toast } from 'buefy';
 import store from './store';
 import BackToTop from 'vue-backtotop';
@@ -40,5 +41,6 @@ new Vue({
   Offerup,
   GetData,
   Sort,
-  Storage
+  Storage,
+  AppLogic
 }).$mount('#app');

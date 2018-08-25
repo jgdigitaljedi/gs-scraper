@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <button class="button hide-icon is-success" v-on:click="hideSidebar = !hideSidebar">
+    <button class="button hide-icon is-info" v-on:click="hideSidebar = !hideSidebar">
       <b-icon v-if="!hideSidebar" icon="eye-off"></b-icon>
       <b-icon v-if="hideSidebar" icon="eye"></b-icon>
     </button>
     <div class="sidebar" :class="{'hidden': hideSidebar}">
       <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
       <hr>
-      <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults"/>
+      <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults" v-on:clearHidden="resetHidden"/>
     </div>
     <div class="result-area">
       <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
@@ -39,7 +39,7 @@
       </section>
     </div>
     <back-to-top visibleoffset="500">
-      <button class="button is-success">
+      <button class="button is-info">
         <b-icon icon="chevron-double-up"></b-icon>
         <span>&nbsp; Top</span>
       </button>
@@ -56,6 +56,7 @@ import GetData from './services/getData.service.js';
 import Sort from './services/sort.service.js';
 import { mapGetters } from 'vuex';
 import BackToTop from 'vue-backtotop';
+import AppLogic from './services/appLogic.service.js';
 
 export default {
   name: 'app',
@@ -80,10 +81,20 @@ export default {
   },
   computed: mapGetters(['searchTags', 'salesTags']),
   methods: {
+    resetHidden: function() {
+      AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales).then(
+        results => {
+          this.results = results.results;
+          this.combinedListings = results.listings;
+          this.combinedSales = results.sales;
+        }
+      );
+    },
     runSearch: function(search) {
       this.clearResults();
       this.isLoading = true;
       GetData.fetch(search).then(result => {
+        console.log('result', result);
         const keys = Object.keys(result);
         keys.forEach(key => {
           if (Array.isArray(result[key])) {

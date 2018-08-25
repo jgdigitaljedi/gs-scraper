@@ -7,11 +7,10 @@ let hidden;
 
 function isHidden(result) {
   if (hidden) {
-    result.hide = hidden.filter(i => i === result.id).length > 0;
+    return hidden.filter(i => i === result.id).length > 0;
   } else {
-    result.hide = false;
+    return false;
   }
-  return result;
 }
 
 function getCl(search) {
@@ -22,7 +21,10 @@ function getCl(search) {
       } else if (result.error) {
         return { error: true, message: `ERROR FECTHING CRAIGSLIST ${search.which.toUpperCase()}!` };
       } else {
-        return result;
+        return result.map(o => {
+          o.hide = isHidden(o);
+          return o;
+        });
       }
     })
     .catch(err => {
@@ -40,12 +42,11 @@ export default {
     const ouPromise = this.ouPromise(search);
 
     return Promise.all([cllPromise, clsPromise, ouPromise]).then(result => {
-      result.forEach(r => {
-        r.forEach(o => {
-          const hide = isHidden(o);
-          o.hide = hide;
-        });
-      });
+      // result.forEach(r => {
+      //   r.forEach(o => {
+      //     o.hide = isHidden(o);
+      //   });
+      // });
       const listingsIndexes = [0, 2, 3];
       const salesIndexes = [1];
       const validListings = listingsIndexes
@@ -61,7 +62,7 @@ export default {
         })
         .filter(f => f);
       return {
-        cll: result[0].map(r => isHidden(r)),
+        cll: result[0],
         cls: result[1],
         // lgl: result[2],
         oul: result[2],
@@ -112,7 +113,10 @@ export default {
     if (search.oul) {
       return Offerup.getOuData(search)
         .then(result => {
-          return result;
+          return result.map(o => {
+            o.hide = isHidden(o);
+            return o;
+          });
         })
         .catch(err => {
           console.log('ou error', err);

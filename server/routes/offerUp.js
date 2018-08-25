@@ -5,7 +5,8 @@ const format = require('date-fns/format');
 
 function cleanItem(item) {
   return {
-    key: item.hasOwnProperty('id') ? item.id : Math.floor(Math.random() * 3333),
+    key: item.hasOwnProperty('id') ? item.id : Math.floor(Math.random() * 33333),
+    id: item.hasOwnProperty('id') ? item.id : Math.floor(Math.random() * 33333),
     description: item.hasOwnProperty('description') ? item.description : '',
     date: item.hasOwnProperty('post_date') ? format(item.post_date, 'MM/DD/YYYY hh:mm a') : '',
     title: item.hasOwnProperty('title') ? item.title : '',
@@ -16,7 +17,7 @@ function cleanItem(item) {
   };
 }
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
   if (
     req.body.hasOwnProperty('area') &&
     req.body.area &&

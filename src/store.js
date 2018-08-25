@@ -7,12 +7,14 @@ export default new Vuex.Store({
   state: {
     // Current state of the application lies here.
     searchTags: [],
-    salesTags: []
+    salesTags: [],
+    showHiddenCards: false
   },
   getters: {
     // Compute derived state based on the current state. More like computed property.
     searchTags: state => state.searchTags,
-    salesTags: state => state.salesTags
+    salesTags: state => state.salesTags,
+    showHiddenCards: state => state.showHiddenCards
   },
   mutations: {
     // Mutate the current state
@@ -21,6 +23,10 @@ export default new Vuex.Store({
     },
     salesTags(state, tags) {
       state.salesTags = tags;
+    },
+    showHiddenCards(state, show) {
+      console.log('state hidden', show);
+      state.showHiddenCards = show;
     }
   },
   actions: {

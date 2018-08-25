@@ -50,14 +50,12 @@ export default {
   },
   methods: {
     hideResult: function(card) {
-      console.log('card', card);
       Storage.hideCard(card);
-      // @TODO: some logic to hide and show
       this.$emit('hideCardAction', card);
     },
     showResult(card) {
       Storage.showCard(card);
-      // something to show card again
+      card.hide = false;
     }
   },
   created() {

@@ -5,7 +5,7 @@
         <strong>{{source}}</strong>
       </div>
       <div class="panel-block">
-        <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard" v-if="!result.hide"/>
+        <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard" v-if="!result.hide || showAll"/>
         <div class="btn-container">
           <button class="button is-primary" v-on:click="backToTop">
             <b-icon icon="arrow-up-bold"></b-icon>
@@ -23,6 +23,8 @@
 
 <script>
 import ResultCard from './ResultCard';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'CollapseResults',
   components: { ResultCard },
@@ -30,9 +32,15 @@ export default {
     source: String,
     dataArr: Array
   },
+  computed: {
+    ...mapGetters({
+      showAll: 'showHiddenCards'
+    })
+  },
   data: function() {
     return {
-      cardArr: []
+      cardArr: [],
+      isOpen: false
     };
   },
   created() {
@@ -55,19 +63,11 @@ export default {
         return item;
       });
       this.cardArr = newDataArr;
-      console.log('cardArr', this.cardArr);
     }
   },
-  data() {
-    return {
-      isOpen: false
-    };
-  },
   watch: {
-    dataArr: function(val, oldVal) {
+    dataArr: function(val) {
       this.cardArr = val;
-      // console.log('val', val);
-      // console.log('oldVal', oldVal);
     }
   }
 };
