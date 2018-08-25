@@ -47,6 +47,7 @@ export default {
       //     o.hide = isHidden(o);
       //   });
       // });
+      console.log('master result', result);
       const listingsIndexes = [0, 2, 3];
       const salesIndexes = [1];
       const validListings = listingsIndexes
@@ -113,10 +114,13 @@ export default {
     if (search.oul) {
       return Offerup.getOuData(search)
         .then(result => {
-          return result.map(o => {
-            o.hide = isHidden(o);
-            return o;
-          });
+          if (result && Array.isArray(result)) {
+            return result.map(o => {
+              o.hide = isHidden(o);
+              return o;
+            });
+          }
+          return result;
         })
         .catch(err => {
           console.log('ou error', err);

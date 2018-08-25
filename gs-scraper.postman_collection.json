@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "e04daf6f-9152-4174-bd51-8c506ffef7d2",
+		"name": "gs-scraper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "edcd810f-d3a0-429e-8144-044bcd70f00e",
+			"name": "letGo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/letgo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"letgo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "ce025cc6-ed57-4509-af16-8188edea5e28",
+			"name": "CL Listings",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tags\": [\n\t\t\"nintendo\",\n\t\t\"sega\"\n\t],\n\t\"which\": \"listings\",\n\t\"area\": {\n\t\t\"uri\": \"austin\",\n\t\t\"clExtra\": \"\"\n\t},\n\t\"widen\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/cl",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"cl"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "fcf9ad1e-e7ea-4d96-ae4a-2a4c6d5ecb20",
+			"name": "offerUp",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tags\": [\n\t\t\"nintendo\",\n\t\t\"sega\"\n\t],\n\t\"which\": \"listings\",\n\t\"area\": \"Austin, TX\",\n\t\"widen\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/offerup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"offerup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

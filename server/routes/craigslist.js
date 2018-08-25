@@ -4,9 +4,12 @@ const format = require('date-fns/format');
 const axios = require('axios');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser();
+const _flattenDeep = require('lodash/flattenDeep');
+const _uniqBy = require('lodash/uniqBy');
 
 function makeURIformat(arr) {
-  return arr.map(tag => encodeURIComponent(tag.trim())).join();
+  // return arr.map(tag => encodeURIComponent(tag.trim())).join();
+  return arr.map(tag => encodeURIComponent(tag.trim()));
 }
 
 function getPrice(str) {
@@ -36,6 +39,7 @@ function nearbyString(area) {
 }
 
 function formatItem(item, index) {
+  // console.log('item', item);
   const title = item.hasOwnProperty('title') ? item.title[0] : null;
   const idArr = item.hasOwnProperty('link') ? item.link[0].split('/') : null;
   const idArrLast = idArr && idArr.length ? idArr.length - 1 : null;
@@ -54,43 +58,61 @@ function formatItem(item, index) {
     source: 'Craiglist'
   };
 }
+
+function parseResult(response, keyBase) {
+  return new Promise((resolve, reject) => {
+    parser.parseString(response, (err, result) => {
+      if (!err) {
+        if (
+          result &&
+          result.hasOwnProperty('rdf:RDF') &&
+          result['rdf:RDF'].hasOwnProperty('item') &&
+          result['rdf:RDF'].item
+        ) {
+          resolve(result['rdf:RDF'].item.map((i, index) => formatItem(i, index + keyBase)));
+        } else {
+          resolve(null);
+        }
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+
+function makeWhich({ which, area, widen }, tag) {
+  return which === 'garage sales'
+    ? `https://${area.uri}.craigslist.org/search/${area.clExtra}gms?format=rss&query=${tag}${
+        widen ? nearbyString(area.uri) : ''
+      }`
+    : `https://${area.uri}.craigslist.org/search/${area.clExtra}sss?format=rss&query=${tag}${
+        widen ? nearbyString(area.uri) : ''
+      }`;
+}
+
 router.post('/', function(req, res) {
   const tagsURI = makeURIformat(req.body.tags);
-  let which =
-    req.body.which === 'garage sales'
-      ? `https://${req.body.area.uri}.craigslist.org/search/${
-          req.body.area.clExtra
-        }gms?format=rss&query=${tagsURI}`
-      : `http://${req.body.area.uri}.craigslist.org/search/${
-          req.body.area.clExtra
-        }sss?format=rss&query=${tagsURI}`;
-  if (req.body.widen) {
-    which += nearbyString(req.body.area.uri);
-  }
   axios
-    .get(which)
-    .then(response => {
-      parser.parseString(response.data, (err, result) => {
-        if (!err) {
-          if (
-            result &&
-            result.hasOwnProperty('rdf:RDF') &&
-            result['rdf:RDF'].hasOwnProperty('item') &&
-            result['rdf:RDF'].item
-          ) {
-            res
-              .status(200)
-              .send(result['rdf:RDF'].item.map((i, index) => formatItem(i, index + 2000)));
+    .all(tagsURI.map(tag => axios.get(makeWhich(req.body, tag))))
+    .then(results => {
+      const response = results.map(r => r.data);
+      const combinedPromises = response.map((r, index) => {
+        return parseResult(r, 2000 * (index + 1));
+      });
+      Promise.all(combinedPromises)
+        .then(resArr => {
+          if (resArr && resArr.length) {
+            res.status(200).send(_uniqBy(_flattenDeep(resArr), 'id'));
           } else {
             res.status(200).send(null);
           }
-        } else {
-          res.status(500).send(err);
-        }
-      });
+        })
+        .catch(error => {
+          res.status(500).send(error);
+        });
     })
     .catch(err => {
-      res.status(500).send(err);
+      res.send(err);
     });
 });
 

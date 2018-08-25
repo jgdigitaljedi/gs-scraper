@@ -95,6 +95,8 @@ export default {
     margin-bottom: $large-gap;
   }
   .view-options--show-hidden {
+    display: flex;
+    flex-direction: column;
     h4 {
       font-weight: bold;
       margin-bottom: 0.9em;
