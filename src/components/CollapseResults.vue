@@ -74,6 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/variables.scss';
 .collapsable {
   .panel {
     .panel-block {
@@ -82,7 +83,7 @@ export default {
       flex-direction: row;
       .result-card {
         max-width: 400px;
-        margin: 1em;
+        margin: $large-gap;
       }
       .btn-container {
         width: 100%;
@@ -90,9 +91,9 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0.5em;
+        padding: $standard-gap;
         .is-info {
-          margin-left: 1em;
+          margin-left: $large-gap;
         }
       }
     }

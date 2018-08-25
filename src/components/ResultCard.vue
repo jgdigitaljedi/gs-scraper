@@ -84,9 +84,10 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/shadows.scss';
 @import '../styles/theme.scss';
+@import '../styles/variables.scss';
 .result-card {
   @include box_shadow(2);
-  padding: 1em;
+  padding: $large-gap;
   background-color: #fff;
   width: 100%;
   .card-header,
@@ -109,14 +110,14 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5em 0;
+    padding: $standard-gap 0;
     .card-body--source {
       font-style: italic;
       color: $primary;
     }
     .card-body--hide button {
       .hide-text {
-        margin-left: 0.3em;
+        margin-left: $small-gap;
       }
     }
   }

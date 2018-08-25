@@ -30,6 +30,7 @@
     </div>
 
     <div class="view-options--show-hidden options-section">
+      <h4>Show/Hide</h4>
       <b-checkbox v-model="showHidden">Show Hidden Results</b-checkbox>
       <button class="button is-danger" v-on:click="clearHidden">
         <b-icon icon="delete"></b-icon>
@@ -86,10 +87,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/variables.scss';
 .view-options {
-  padding: 1em;
+  padding: $large-gap;
+  font-size: $smaller-font;
   .options-section {
-    margin-bottom: 1em;
+    margin-bottom: $large-gap;
+  }
+  .view-options--show-hidden {
+    h4 {
+      font-weight: bold;
+      margin-bottom: 0.9em;
+    }
+    button {
+      margin-top: $standard-gap;
+    }
   }
 }
 </style>

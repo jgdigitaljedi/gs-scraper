@@ -128,16 +128,18 @@ export default {
 
 /*eslint-disable */
 <style lang="scss" scoped>
+@import '../styles/variables.scss';
 .search-form-form {
-  padding: 1em;
+  font-size: $smaller-font;
+  padding: $large-gap;
   .field {
-    margin-bottom: 1em;
+    margin-bottom: $large-gap;
   }
   input {
     width: 20px;
   }
   .form-section {
-    padding: 1em 0;
+    padding: $large-gap 0;
     div {
       h4 {
         font-weight: bold;
