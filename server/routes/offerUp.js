@@ -21,30 +21,31 @@ function cleanItem(item) {
 
 function makeRequest({ area, widen }, tag) {
   return new Promise(resolve => {
-    offerUp
-      .getFullListByQuery({
-        location: area, // required
-        search: tag, // required
-        radius: widen ? 50 : 30,
-        limit: widen ? 50 : 30,
-        price_min: 0,
-        price_max: 1000
-      })
-      .then(
-        function success(response) {
-          if (response && Array.isArray(response) && response.length) {
-            // res.status(200).send(response.map(i => cleanItem(i)));
-            resolve(response.map(i => cleanItem(i)));
-          } else {
-            // res.status(500).send({ error: true, message: response });
-            resolve({ error: true, message: response });
+    try {
+      offerUp
+        .getFullListByQuery({
+          location: area, // required
+          search: tag, // required
+          radius: widen ? 50 : 30,
+          limit: widen ? 50 : 30,
+          price_min: 0,
+          price_max: 1000
+        })
+        .then(
+          function success(response) {
+            if (response && Array.isArray(response) && response.length) {
+              resolve(response.map(i => cleanItem(i)));
+            } else {
+              resolve({ error: true, message: response });
+            }
+          },
+          function error(err) {
+            resolve({ error: true, message: 'ERROR FETCHING OFFERUP RESULTS!', err });
           }
-        },
-        function error() {
-          // res.status(500).send(err);
-          resolve({ error: true, message: 'ERROR FETCHING OFFERUP RESULTS!' });
-        }
-      );
+        );
+    } catch (err) {
+      resolve({ error: true, message: 'ERROR FETCHING OFFERUP RESULTS!', err });
+    }
   });
 }
 
@@ -65,8 +66,7 @@ router.post('/', function(req, res) {
         return result && Array.isArray(result) && result.length;
       });
       if (validResults && Array.isArray(validResults) && validResults.length) {
-        // res.send(_uniqBy(_flattenDeep(validResults), 'id'));
-        res.send(validResults);
+        res.send(_uniqBy(_flattenDeep(validResults), 'id'));
       } else if (results && results.length === errors.length) {
         res.status(500).send({
           error: true,

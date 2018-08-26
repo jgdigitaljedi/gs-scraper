@@ -28,6 +28,7 @@ Vue.component(Buefy.Collapse.name, Buefy.Collapse);
 Vue.component(Buefy.Select.name, Buefy.Select);
 Vue.component(Buefy.Loading.name, Buefy.Loading);
 Vue.component(Buefy.Radio.name, Buefy.Radio);
+Vue.component(Buefy.Tabs.name, Buefy.Tabs);
 
 Vue.prototype.$toast = Toast;
 
