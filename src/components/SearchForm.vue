@@ -23,7 +23,7 @@
             v-model="searchForm.tags"
             ellipsis
             icon="label"
-            placeholder="Add a listing term">
+            placeholder="Add a term">
         </b-taginput>
       </b-field>
       <div class="search-form--listings--options">
@@ -40,7 +40,7 @@
           v-model="searchForm.gs"
           ellipsis
           icon="label"
-          placeholder="Add a sale term">
+          placeholder="Add a term">
         </b-taginput>
       </b-field>
       <div class="search-form--options">

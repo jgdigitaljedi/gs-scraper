@@ -9,35 +9,17 @@
       <hr>
       <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults" v-on:clearHidden="resetHidden"/>
     </div>
-    <div class="result-area">
-      <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false"></b-loading>
-      <section class="result-area--listings">
-        <h2>Item Listings</h2>
-        <div class="result-area--grouped" v-if="viewSelected === 'grouped'">
-          <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
-          <!-- <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/> -->
-          <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
-        </div>
-        <div class="result-area--combined" v-if="viewSelected === 'combined'">
-          <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="combinedListings"/>
-        </div>
-        <div class="result-area--no-results" v-if="noListings">
-          No listings met your search criteria.
-        </div>
-      </section>
-      <section class="result-area--sales">
-        <h2>Garage Sales</h2>
-        <div class="result-area--sales--grouped" v-if="viewSelected === 'grouped'">
-          <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
-        </div>
-        <div class="result-area--sales--combined" v-if="viewSelected === 'combined'">
-          <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="combinedSales"/>
-        </div>
-        <div class="result-area--no-results" v-if="noSales">
-          No garage sales met your search criteria.
-        </div>
-      </section>
-    </div>
+    <b-tabs v-model="activeTab" class="app--tabs">
+      <b-tab-item label="Search" class="app--tabs--tab">
+        <SearchView :params="searchParams" :reset="resetHides" :view="viewSelected" :sortOption="sortOption" />
+      </b-tab-item>
+      <b-tab-item label="Faves" class="app--tabs--tab">
+        <HiddenView />
+      </b-tab-item>
+      <b-tab-item label="Hidden" class="app--tabs--tab">
+
+      </b-tab-item>
+    </b-tabs>
     <back-to-top visibleoffset="500">
       <button class="button is-info">
         <b-icon icon="chevron-double-up"></b-icon>
@@ -51,12 +33,11 @@
 import SearchForm from './components/SearchForm';
 import CollapseResults from './components/CollapseResults';
 import ViewOptions from './components/ViewOptions';
-import GetData from './services/getData.service.js';
-// import { mapState } from 'vuex';
-import Sort from './services/sort.service.js';
 import { mapGetters } from 'vuex';
 import BackToTop from 'vue-backtotop';
-import AppLogic from './services/appLogic.service.js';
+import SearchView from './components/tabs/SearchView';
+import HiddenView from './components/tabs/HiddenView';
+// import { mapState } from 'vuex';
 
 export default {
   name: 'app',
@@ -64,122 +45,34 @@ export default {
     SearchForm,
     CollapseResults,
     ViewOptions,
-    BackToTop
+    BackToTop,
+    SearchView,
+    HiddenView
   },
   data: function() {
     return {
-      results: Object,
-      noListings: Boolean,
-      noSales: Boolean,
       searchRan: Boolean,
-      isLoading: Boolean,
       viewSelected: String,
-      combinedListings: Array,
-      combinedSales: Array,
-      hideSidebar: Boolean
+      hideSidebar: Boolean,
+      activeTab: Number,
+      searchParams: Object,
+      resetHides: Date,
+      sortOption: Object
     };
   },
   computed: mapGetters(['searchTags', 'salesTags']),
   methods: {
     resetHidden: function() {
-      AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales).then(
-        results => {
-          this.results = results.results;
-          this.combinedListings = results.listings;
-          this.combinedSales = results.sales;
-        }
-      );
+      this.resetHides = new Date();
     },
     runSearch: function(search) {
-      this.clearResults();
-      this.isLoading = true;
-      GetData.fetch(search).then(result => {
-        console.log('result', result);
-        const keys = Object.keys(result);
-        keys.forEach(key => {
-          if (Array.isArray(result[key])) {
-            this.results[key] = result[key];
-          } else if (result[key]) {
-            this.results[key] = null;
-            if (result[key].error) {
-              this.$toast.open({
-                type: 'is-danger',
-                message: result[key].message
-              });
-            } else {
-              this.$toast.open(result[key].message);
-            }
-          }
-        });
-        this.combinedListings = this.results.combinedListings;
-        this.combinedSales = this.results.combinedSales;
-        this.isLoading = false;
-        this.noResults();
-      });
-    },
-    clearResults() {
-      const keys = Object.keys(this.results);
-      keys.forEach(key => {
-        this.results[key] = null;
-      });
-    },
-    noResults() {
-      const listings = ['cll', 'oul'];
-      const sales = ['cls'];
-
-      this.noListings =
-        listings
-          .map(item => {
-            return this.results &&
-              this.results.hasOwnProperty(item) &&
-              this.results[item] &&
-              this.results[item].length
-              ? 1
-              : 0;
-          })
-          .reduce((a, b) => a + b) === 0;
-
-      this.noSales =
-        sales
-          .map(item => {
-            return this.results &&
-              this.results.hasOwnProperty(item) &&
-              this.results[item] &&
-              this.results[item].length
-              ? 1
-              : 0;
-          })
-          .reduce((a, b) => a + b) === 0;
+      this.searchParams = search;
     },
     viewChanged: function(viewType) {
       this.viewSelected = viewType;
     },
     sortResults: function(theSort) {
-      const rev = theSort.hasOwnProperty('reverse') && theSort.reverse;
-      if (this.viewSelected === 'combined') {
-        this.combinedListings = theSort.sort(
-          [...this.results.combinedListings],
-          Array.from(this.searchTags),
-          rev
-        );
-        this.combinedSales = theSort.sort(
-          [...this.results.combinedSales],
-          Array.from(this.salesTags),
-          rev
-        );
-      } else {
-        const keys = Object.keys(this.results);
-        keys.forEach(key => {
-          this.results[key] = Sort.sortGrouped(
-            this.results[key],
-            theSort,
-            rev,
-            Array.from(this.searchTags),
-            Array.from(this.salesTags),
-            key
-          );
-        });
-      }
+      this.sortOption = theSort;
     }
   },
   created() {
@@ -189,10 +82,11 @@ export default {
       lgl: null,
       oul: null
     };
-    this.isLoading = false;
-    this.noListings = false;
-    this.noSales = false;
+    // this.isLoading = false;
+    // this.noListings = false;
+    // this.noSales = false;
     this.hideSidebar = false;
+    this.activeTab = 0;
   }
 };
 </script>
@@ -211,6 +105,12 @@ export default {
   flex-direction: row;
   min-height: 100vh;
   width: 100%;
+  .app--tabs {
+    width: 100%;
+    .app--tabs--tab {
+      width: 100%;
+    }
+  }
   .hide-button {
     top: 0;
     left: 0;
@@ -232,18 +132,6 @@ export default {
         font-weight: bold;
         margin-bottom: 1em;
       }
-    }
-  }
-  .result-area {
-    width: 100%;
-    h2 {
-      font-size: 2em;
-      font-weight: bold;
-      margin-left: 0.5em;
-    }
-    .result-area--no-results {
-      font-style: italic;
-      margin-left: 2em;
     }
   }
 }

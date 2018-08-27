@@ -2,12 +2,12 @@
   <section class="results-tab">
     <section class="result-tab--listings">
       <h2>Item Listings</h2>
-      <div class="result-tab--grouped" v-if="viewSelected === 'grouped'">
+      <div class="result-tab--grouped" v-if="view === 'grouped'">
         <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
         <!-- <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/> -->
         <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
       </div>
-      <div class="result-tab--combined" v-if="viewSelected === 'combined'">
+      <div class="result-tab--combined" v-if="view === 'combined'">
         <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="combinedListings"/>
       </div>
       <div class="result-tab--no-results" v-if="noListings">
@@ -16,10 +16,10 @@
     </section>
     <section class="result-tab--sales">
       <h2>Garage Sales</h2>
-      <div class="result-tab--sales--grouped" v-if="viewSelected === 'grouped'">
+      <div class="result-tab--sales--grouped" v-if="view === 'grouped'">
         <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
       </div>
-      <div class="result-tab--sales--combined" v-if="viewSelected === 'combined'">
+      <div class="result-tab--sales--combined" v-if="view === 'combined'">
         <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="combinedSales"/>
       </div>
       <div class="result-tab--no-results" v-if="noSales">
@@ -30,15 +30,31 @@
 </template>
 
 <script>
-import CollapseResults from './components/CollapseResults';
-import GetData from './services/getData.service.js';
-import Sort from './services/sort.service.js';
-import AppLogic from './services/appLogic.service.js';
+import CollapseResults from '../CollapseResults';
+import GetData from '../../services/getData.service.js';
+import Sort from '../../services/sort.service.js';
+import AppLogic from '../../services/appLogic.service.js';
 
 export default {
-  name: 'searchView',
+  name: 'SearchView',
   components: {
     CollapseResults
+  },
+  props: {
+    view: null,
+    params: {},
+    reset: null,
+    sortOption: {}
+  },
+  data: function() {
+    return {
+      results: Object,
+      noListings: Boolean,
+      noSales: Boolean,
+      isLoading: Boolean,
+      combinedListings: Array,
+      combinedSales: Array
+    };
   },
   created() {
     this.results = {
@@ -50,9 +66,29 @@ export default {
     this.isLoading = false;
     this.noListings = false;
     this.noSales = false;
-    this.hideSidebar = false;
+    // this.hideSidebar = false;
+  },
+  watch: {
+    params: function(val) {
+      this.runSearch(val);
+    },
+    reset: function() {
+      this.resetHidden();
+    },
+    sortOption: function(val) {
+      this.sortResults(val);
+    }
   },
   methods: {
+    resetHidden: function() {
+      AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales).then(
+        results => {
+          this.results = results.results;
+          this.combinedListings = results.listings;
+          this.combinedSales = results.sales;
+        }
+      );
+    },
     runSearch: function(search) {
       this.clearResults();
       this.isLoading = true;
@@ -114,22 +150,15 @@ export default {
           })
           .reduce((a, b) => a + b) === 0;
     },
-    viewChanged: function(viewType) {
-      this.viewSelected = viewType;
-    },
     sortResults: function(theSort) {
       const rev = theSort.hasOwnProperty('reverse') && theSort.reverse;
-      if (this.viewSelected === 'combined') {
+      if (this.view === 'combined') {
         this.combinedListings = theSort.sort(
           [...this.results.combinedListings],
-          Array.from(this.searchTags),
+          this.params.tags,
           rev
         );
-        this.combinedSales = theSort.sort(
-          [...this.results.combinedSales],
-          Array.from(this.salesTags),
-          rev
-        );
+        this.combinedSales = theSort.sort([...this.results.combinedSales], this.params.gs, rev);
       } else {
         const keys = Object.keys(this.results);
         keys.forEach(key => {
@@ -137,8 +166,8 @@ export default {
             this.results[key],
             theSort,
             rev,
-            Array.from(this.searchTags),
-            Array.from(this.salesTags),
+            this.params.tags,
+            this.params.gs,
             key
           );
         });
@@ -150,5 +179,15 @@ export default {
 
 <style lang="scss" scoped>
 .results-tab {
+  width: 100%;
+  h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-left: 0.5em;
+  }
+  .result-area--no-results {
+    font-style: italic;
+    margin-left: 2em;
+  }
 }
 </style>
