@@ -1,8 +1,8 @@
 const logger = require('../config/logger');
 const rCtrl = require('./result.controller');
 
-module.exports.getHidden = (req, res) => {
-  rCtrl.getResult('hidden')
+module.exports.getFaves = (req, res) => {
+  rCtrl.getResult('fave')
     .then(result => {
       res.status(200).json(result);
     })
@@ -12,9 +12,9 @@ module.exports.getHidden = (req, res) => {
     });
 };
 
-module.exports.saveHidden = (req, res) => {
+module.exports.saveFave = (req, res) => {
   if (req.body && req.body.hasOwnProperty('id') && req.body.hasOwnProperty('source')) {
-    rCtrl.addResult('hidden', req.body)
+    rCtrl.addResult('fave', req.body)
       .then(result => {
         res.status(200).json(result);
       })
@@ -23,13 +23,13 @@ module.exports.saveHidden = (req, res) => {
         res.status(500).json(err);
       });
   } else {
-    res.status(400).json({ error: true, message: 'ERROR: bad request; req either didn\'t have a body or the body was missing id or source!' });
+    res.status(400).json({ error: true, message: 'ERROR: bad request; request either didn\'t have a body or the body was missing id or source!' });
   }
 };
 
-module.exports.deleteHidden = (req, res) => {
+module.exports.deleteFave = (req, res) => {
   if (req.body && req.body.hasOwnProperty('id') && req.body.hasOwnProperty('source')) {
-    rCtrl.deleteResult('hidden', req.body)
+    rCtrl.deleteResult('fave', req.body)
       .then(result => {
         res.status(200).json(result);
       })

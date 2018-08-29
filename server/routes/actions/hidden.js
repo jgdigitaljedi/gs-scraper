@@ -6,14 +6,10 @@ const ctrlHidden = require('../../controllers/hidden.controller');
 router.get('/', ctrlHidden.getHidden);
 
 // // add to hidden
-// router.post('/', (req, res) => {
-
-// });
+router.post('/', ctrlHidden.saveHidden);
 
 // // remove from hidden
-// router.delete('/', (req, res) => {
-
-// });
+router.delete('/', ctrlHidden.deleteHidden);
 
 // // delete all hidden
 // router.delete('/all', (req, res) => {

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const format = require('date-fns/format');
+// const format = require('date-fns/format');
 
 const resultSchema = new mongoose.Schema({
   savedDate: {
-    type: String,
+    type: Date,
     required: true
   },
   link: {
@@ -43,7 +43,7 @@ const resultSchema = new mongoose.Schema({
 });
 
 resultSchema.methods.timestamp = function () {
-  this.savedDate = format(new Date(), 'MM/DD/YYYY hh:mm a');
+  this.savedDate = new Date();
 };
 
 mongoose.model('Result', resultSchema);

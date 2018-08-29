@@ -1,25 +1,19 @@
 const express = require('express');
 const router = express.Router();
-// const format = require('date-fns/format');
+const favesCtrl = require('../../controllers/faves.controller');
 
 // get faves
-router.get('/', (req, res) => {
-
-});
+router.get('/', favesCtrl.getFaves);
 
 // add to faves
-router.post('/', (req, res) => {
+router.post('/', favesCtrl.saveFave);
 
-});
+// // remove from faves
+router.delete('/', favesCtrl.deleteFave);
 
-// remove from faves
-router.delete('/', (req, res) => {
+// // delete all faves
+// router.delete('/all', (req, res) => {
 
-});
-
-// delete all faves
-router.delete('/all', (req, res) => {
-
-});
+// });
 
 module.exports = router;
