@@ -38,7 +38,7 @@ function nearbyString(area) {
   }
 }
 
-function formatItem(item, index) {
+function formatItem(item, index, which) {
   // console.log('item', item);
   const title = item.hasOwnProperty('title') ? item.title[0] : null;
   const idArr = item.hasOwnProperty('link') ? item.link[0].split('/') : null;
@@ -55,11 +55,12 @@ function formatItem(item, index) {
     price: title ? getPrice(title) : 'NO PRICE',
     key: index,
     id: id,
-    source: 'Craiglist'
+    source: 'Craiglist',
+    type: which
   };
 }
 
-function parseResult(response, keyBase) {
+function parseResult(response, keyBase, which) {
   return new Promise((resolve, reject) => {
     parser.parseString(response, (err, result) => {
       if (!err) {
@@ -69,7 +70,7 @@ function parseResult(response, keyBase) {
           result['rdf:RDF'].hasOwnProperty('item') &&
           result['rdf:RDF'].item
         ) {
-          resolve(result['rdf:RDF'].item.map((i, index) => formatItem(i, index + keyBase)));
+          resolve(result['rdf:RDF'].item.map((i, index) => formatItem(i, index + keyBase, which)));
         } else {
           resolve(null);
         }
@@ -83,21 +84,21 @@ function parseResult(response, keyBase) {
 function makeWhich({ which, area, widen }, tag) {
   return which === 'garage sales'
     ? `https://${area.uri}.craigslist.org/search/${area.clExtra}gms?format=rss&query=${tag}${
-        widen ? nearbyString(area.uri) : ''
-      }`
+    widen ? nearbyString(area.uri) : ''
+    }`
     : `https://${area.uri}.craigslist.org/search/${area.clExtra}sss?format=rss&query=${tag}${
-        widen ? nearbyString(area.uri) : ''
-      }`;
+    widen ? nearbyString(area.uri) : ''
+    }`;
 }
 
-router.post('/', function(req, res) {
+router.post('/', function (req, res) {
   const tagsURI = makeURIformat(req.body.tags);
   axios
     .all(tagsURI.map(tag => axios.get(makeWhich(req.body, tag))))
     .then(results => {
       const response = results.map(r => r.data);
       const combinedPromises = response.map((r, index) => {
-        return parseResult(r, 2000 * (index + 1));
+        return parseResult(r, 2000 * (index + 1), req.body.which);
       });
       Promise.all(combinedPromises)
         .then(resArr => {

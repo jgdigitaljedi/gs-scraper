@@ -68,3 +68,15 @@ module.exports.deleteHidden = (req, res) => {
       });
   }
 };
+
+module.exports.deleteAll = (req, res) => {
+  rCtrl
+    .deleteAll('hidden')
+    .then(result => {
+      res.status(200).json(result);
+    })
+    .catch(err => {
+      logger.logThis(err.code, req);
+      res.status(500).json(err);
+    });
+};

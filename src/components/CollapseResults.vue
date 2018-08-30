@@ -5,7 +5,7 @@
         <strong>{{source}}</strong>
       </div>
       <div class="panel-block">
-        <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard" v-if="!result.hide || showAll"/>
+        <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard" v-if="!result.hide || hiddenView"/>
         <div class="btn-container">
           <button class="button is-primary" v-on:click="backToTop">
             <b-icon icon="arrow-up-bold"></b-icon>
@@ -30,7 +30,8 @@ export default {
   components: { ResultCard },
   props: {
     source: String,
-    dataArr: Array
+    dataArr: Array,
+    hiddenView: Boolean
   },
   computed: {
     ...mapGetters({

@@ -14,10 +14,9 @@
         <SearchView :params="searchParams" :reset="resetHides" :view="viewSelected" :sortOption="sortOption" />
       </b-tab-item>
       <b-tab-item label="Faves" class="app--tabs--tab">
-        <HiddenView />
       </b-tab-item>
       <b-tab-item label="Hidden" class="app--tabs--tab">
-
+        <HiddenView v-if="activeTab === 2" />
       </b-tab-item>
     </b-tabs>
     <back-to-top visibleoffset="500">
@@ -87,12 +86,16 @@ export default {
     this.activeTab = 0;
     Storage.getHiddenCards()
       .then(result => {
+        console.log('hidden result in app', result);
         if (!result.data.error) {
           const hiddenIds = result.data.payload.map(item => item.id);
           this.$store.commit('hiddenIds', hiddenIds);
         }
       })
-      .catch(err => {});
+      .catch(err => {
+        console.error(err);
+        this.$toast.open(err.message);
+      });
   }
 };
 </script>

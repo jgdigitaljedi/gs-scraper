@@ -15,7 +15,8 @@ function cleanItem(item) {
     price: item.hasOwnProperty('price') ? item.price.split('.')[0] : '',
     image: item.hasOwnProperty('image_mob_det_hd') ? item.image_mob_det_hd : null,
     link: item.hasOwnProperty('get_full_url') ? item.get_full_url : null,
-    source: 'OfferUp'
+    source: 'OfferUp',
+    type: 'listings'
   };
 }
 
@@ -49,7 +50,7 @@ function makeRequest({ area, widen }, tag) {
   });
 }
 
-router.post('/', function(req, res) {
+router.post('/', function (req, res) {
   if (
     req.body.hasOwnProperty('area') &&
     req.body.area &&

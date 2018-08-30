@@ -11,6 +11,8 @@ module.exports.getResult = (which) => {
       if (result && result.length) {
         const hidden = result.filter(r => r.action === which);
         resolve({ error: false, payload: hidden });
+      } else {
+        resolve({ error: false, payload: [] });
       }
     });
   });
@@ -30,6 +32,7 @@ module.exports.addResult = (which, result) => {
     r.source = result.source;
     r.id = result.id;
     r.key = result.key || null;
+    r.type = result.type;
 
     r.save((err) => {
       if (err) {
@@ -60,6 +63,18 @@ module.exports.deleteResult = (which, result) => {
         } else {
           reject({ error: true, code: 'NOT FOUND', message: `ERROR: could not find ${which} with matching source and id!` });
         }
+      }
+    });
+  });
+};
+
+module.exports.deleteAll = (which) => {
+  return new Promise((resolve, reject) => {
+    Result.remove({ action: which }, (err, result) => {
+      if (err) {
+        reject({ error: true, message: `ERROR: Problem deleting all ${which}!`, code: err });
+      } else {
+        resolve({ error: false, message: `All ${which} were successfully deleted!`, payload: result });
       }
     });
   });

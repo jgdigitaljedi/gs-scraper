@@ -3,12 +3,12 @@
     <section class="result-tab--listings">
       <h2>Item Listings</h2>
       <div class="result-tab--grouped" v-if="view === 'grouped'">
-        <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll"/>
+        <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll" :hiddenView="false" />
         <!-- <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/> -->
-        <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul"/>
+        <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul" :hiddenView="false" />
       </div>
       <div class="result-tab--combined" v-if="view === 'combined'">
-        <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="combinedListings"/>
+        <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="combinedListings" :hiddenView="false" />
       </div>
       <div class="result-tab--no-results" v-if="noListings">
         No listings met your search criteria.
@@ -17,10 +17,10 @@
     <section class="result-tab--sales">
       <h2>Garage Sales</h2>
       <div class="result-tab--sales--grouped" v-if="view === 'grouped'">
-        <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls"/>
+        <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls" :hiddenView="false" />
       </div>
       <div class="result-tab--sales--combined" v-if="view === 'combined'">
-        <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="combinedSales"/>
+        <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="combinedSales" :hiddenView="false" />
       </div>
       <div class="result-tab--no-results" v-if="noSales">
         No garage sales met your search criteria.
@@ -81,13 +81,19 @@ export default {
   },
   methods: {
     resetHidden: function() {
-      AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales).then(
-        results => {
+      AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales)
+        .then(results => {
           this.results = results.results;
           this.combinedListings = results.listings;
           this.combinedSales = results.sales;
-        }
-      );
+          this.$store.commit('hiddenIds', []);
+        })
+        .catch(err => {
+          this.$toast.open({
+            type: 'is-danger',
+            message: err.message
+          });
+        });
     },
     runSearch: function(search) {
       this.clearResults();

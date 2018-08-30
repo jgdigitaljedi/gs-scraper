@@ -11,9 +11,7 @@ router.post('/', ctrlHidden.saveHidden);
 // // remove from hidden
 router.delete('/', ctrlHidden.deleteHidden);
 
-// // delete all hidden
-// router.delete('/all', (req, res) => {
-
-// });
+// delete all hidden
+router.delete('/all', ctrlHidden.deleteAll);
 
 module.exports = router;

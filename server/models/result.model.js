@@ -39,6 +39,10 @@ const resultSchema = new mongoose.Schema({
   action: {
     type: String,
     required: true
+  },
+  type: {
+    type: String,
+    required: true
   }
 });
 
