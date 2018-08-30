@@ -37,6 +37,7 @@ import { mapGetters } from 'vuex';
 import BackToTop from 'vue-backtotop';
 import SearchView from './components/tabs/SearchView';
 import HiddenView from './components/tabs/HiddenView';
+import Storage from './services/storage.service.js';
 // import { mapState } from 'vuex';
 
 export default {
@@ -82,11 +83,16 @@ export default {
       lgl: null,
       oul: null
     };
-    // this.isLoading = false;
-    // this.noListings = false;
-    // this.noSales = false;
     this.hideSidebar = false;
     this.activeTab = 0;
+    Storage.getHiddenCards()
+      .then(result => {
+        if (!result.data.error) {
+          const hiddenIds = result.data.payload.map(item => item.id);
+          this.$store.commit('hiddenIds', hiddenIds);
+        }
+      })
+      .catch(err => {});
   }
 };
 </script>

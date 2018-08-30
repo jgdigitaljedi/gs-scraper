@@ -1,7 +1,8 @@
 import Craigslist from './craiglist.service';
 // import Letgo from './letgo.service';
 import Offerup from './offerUp.service';
-import Storage from './storage.service';
+import store from '../store';
+// import Storage from './storage.service';
 
 let hidden;
 
@@ -35,7 +36,9 @@ function getCl(search) {
 
 export default {
   fetch(search) {
-    hidden = Storage.getHiddenCards();
+    // hidden = Storage.getHiddenCards();
+    console.log('sotre', store);
+    hidden = store.getters.hiddenIds;
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
     // const lglPromise = this.lglPromise(search);

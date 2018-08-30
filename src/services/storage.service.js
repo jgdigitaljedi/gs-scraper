@@ -1,27 +1,11 @@
+const axios = require('axios');
+
 export default {
   hideCard: function(card) {
-    const hidden = this.getHiddenCards();
-    if (hidden) {
-      const ind = hidden.indexOf(card.id);
-      if (ind < 0) {
-        hidden.push(card.id);
-        localStorage.setItem('hiddenCards', JSON.stringify(hidden));
-      }
-    } else {
-      localStorage.setItem('hiddenCards', `["${card.id}"]`);
-    }
+    return axios.post('http://localhost:3000/api/hidden', card);
   },
   getHiddenCards: function() {
-    const hidden = localStorage.getItem('hiddenCards');
-    if (hidden) {
-      try {
-        return JSON.parse(hidden);
-      } catch (e) {
-        return null;
-      }
-    } else {
-      return null;
-    }
+    return axios.get('http://localhost:3000/api/hidden');
   },
   showCard: function(card) {
     const hidden = this.getHiddenCards();

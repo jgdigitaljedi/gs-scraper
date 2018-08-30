@@ -50,11 +50,27 @@ export default {
   },
   methods: {
     hideResult: function(card) {
-      Storage.hideCard(card);
-      this.$emit('hideCardAction', card);
+      Storage.hideCard(card)
+        .then(result => {
+          console.log('hide result result', result);
+          const hiddenIds = result.data.payload.map(item => item.id);
+          this.$store.commit('hiddenIds', hiddenIds);
+          this.$emit('hideCardAction', card);
+          // notify user that WAS successful
+        })
+        .catch(err => {
+          console.log('hide result error', err);
+          // notify user that wasn't successful
+        });
     },
     showResult(card) {
-      Storage.showCard(card);
+      Storage.showCard(card)
+        .then(result => {
+          console.log('show result result', result);
+        })
+        .catch(err => {
+          console.log('show result err', err);
+        });
       card.hide = false;
     }
   },

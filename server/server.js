@@ -6,10 +6,9 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const chalk = require('chalk');
 const winston = require('./config/logger');
+require('./models/db.model');
 
 const routes = require('./routes/index');
-
-require('./models/db.model');
 
 app.use(morgan('combined', { stream: winston.stream }));
 app.use(bodyParser.json());
