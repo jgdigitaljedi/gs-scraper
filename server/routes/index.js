@@ -11,4 +11,6 @@ router.use('/hidden', require('./actions/hidden'));
 
 router.use('/faves', require('./actions/faves'));
 
+router.use('/garagesales', require('./proxy/garageSales'));
+
 module.exports = router;
