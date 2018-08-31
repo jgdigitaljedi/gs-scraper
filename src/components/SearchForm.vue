@@ -83,7 +83,8 @@ export default {
           id: 'austin',
           lgKey: '0231301203311',
           clExtra: '',
-          ouArea: 'Austin, TX'
+          ouArea: 'Austin, TX',
+          estateBounds: '30.341523_-97.530101'
         },
         {
           name: 'Fort Worth',

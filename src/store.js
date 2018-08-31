@@ -9,6 +9,7 @@ export default new Vuex.Store({
     searchTags: [],
     salesTags: [],
     showHiddenCards: false,
+    hiddenCards: [],
     hiddenIds: [],
     faveIds: []
   },
@@ -17,8 +18,11 @@ export default new Vuex.Store({
     searchTags: state => state.searchTags,
     salesTags: state => state.salesTags,
     showHiddenCards: state => state.showHiddenCards,
-    hiddenIds: state => state.hiddenIds,
-    faveIds: state => state.faveIds
+    hiddenIds: state => {
+      return state.hiddenCards.map(item => item.id);
+    },
+    faveIds: state => state.faveIds,
+    hiddenCards: state => state.hiddenCards
   },
   mutations: {
     // Mutate the current state
@@ -31,7 +35,7 @@ export default new Vuex.Store({
     showHiddenCards(state, show) {
       state.showHiddenCards = show;
     },
-    hiddenIds(state, hidden) {
+    hiddenCards(state, hidden) {
       state.hiddenIds = hidden;
     },
     faveIds(state, fave) {

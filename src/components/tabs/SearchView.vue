@@ -86,7 +86,7 @@ export default {
           this.results = results.results;
           this.combinedListings = results.listings;
           this.combinedSales = results.sales;
-          this.$store.commit('hiddenIds', []);
+          this.$store.commit('hiddenCards', []);
         })
         .catch(err => {
           this.$toast.open({

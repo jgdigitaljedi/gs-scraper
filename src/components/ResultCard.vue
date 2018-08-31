@@ -53,14 +53,13 @@ export default {
       Storage.hideCard(card)
         .then(result => {
           console.log('hide result result', result);
-          const hiddenIds = result.data.payload.map(item => item.id);
-          this.$store.commit('hiddenIds', hiddenIds);
+          this.$store.commit('hiddenCards', result.data.payload);
           this.$emit('hideCardAction', card);
-          // notify user that WAS successful
+          // @TODO: notify user that WAS successful
         })
         .catch(err => {
           console.log('hide result error', err);
-          // notify user that wasn't successful
+          // @TODO: notify user that wasn't successful
         });
     },
     showResult(card) {

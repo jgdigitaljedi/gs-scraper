@@ -2,9 +2,9 @@
 const mongoose = require('mongoose');
 const Result = mongoose.model('Result');
 
-module.exports.getResult = (which) => {
+module.exports.getResult = which => {
   return new Promise((resolve, reject) => {
-    Result.find({}, function (err, result) {
+    Result.find({}, function(err, result) {
       if (err) {
         reject({ error: true, message: 'ERROR: Error fetching hidden results list!', code: err });
       }
@@ -34,7 +34,7 @@ module.exports.addResult = (which, result) => {
     r.key = result.key || null;
     r.type = result.type;
 
-    r.save((err) => {
+    r.save(err => {
       if (err) {
         reject({ error: true, message: `ERROR: Problem saving new ${which}.`, code: err });
       } else {
@@ -52,29 +52,46 @@ module.exports.deleteResult = (which, result) => {
       } else {
         if (!Array.isArray(r)) r = [r];
         const chosen = r.filter(item => item.id === result.id && item.source === result.source);
+        const remaining = r.filter(item => item.id !== result.id);
         if (chosen && chosen.length === 1) {
           r.remove(e => {
             if (e) {
-              reject({ error: true, code: e, message: `ERROR: Problem deleting the request ${which}!` });
+              reject({
+                error: true,
+                code: e,
+                message: `ERROR: Problem deleting the request ${which}!`
+              });
             } else {
-              resolve({ error: false, message: `Successfully deleted the selected ${which}!` });
+              resolve({
+                error: false,
+                message: `Successfully deleted the selected ${which}!`,
+                payload: remaining
+              });
             }
           });
         } else {
-          reject({ error: true, code: 'NOT FOUND', message: `ERROR: could not find ${which} with matching source and id!` });
+          reject({
+            error: true,
+            code: 'NOT FOUND',
+            message: `ERROR: could not find ${which} with matching source and id!`
+          });
         }
       }
     });
   });
 };
 
-module.exports.deleteAll = (which) => {
+module.exports.deleteAll = which => {
   return new Promise((resolve, reject) => {
     Result.remove({ action: which }, (err, result) => {
       if (err) {
         reject({ error: true, message: `ERROR: Problem deleting all ${which}!`, code: err });
       } else {
-        resolve({ error: false, message: `All ${which} were successfully deleted!`, payload: result });
+        resolve({
+          error: false,
+          message: `All ${which} were successfully deleted!`,
+          payload: result
+        });
       }
     });
   });

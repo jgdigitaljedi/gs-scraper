@@ -88,8 +88,7 @@ export default {
       .then(result => {
         console.log('hidden result in app', result);
         if (!result.data.error) {
-          const hiddenIds = result.data.payload.map(item => item.id);
-          this.$store.commit('hiddenIds', hiddenIds);
+          this.$store.commit('hiddenCards', result.data.payload);
         }
       })
       .catch(err => {

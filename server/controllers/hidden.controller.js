@@ -37,17 +37,16 @@ module.exports.saveHidden = (req, res) => {
         res.status(500).json(err);
       });
   } else {
-    res
-      .status(400)
-      .json({
-        error: true,
-        message:
-          "ERROR: bad request; req either didn't have a body or the body was missing id or source!"
-      });
+    res.status(400).json({
+      error: true,
+      message:
+        "ERROR: bad request; req either didn't have a body or the body was missing id or source!"
+    });
   }
 };
 
 module.exports.deleteHidden = (req, res) => {
+  console.log('req, body', req.body);
   if (req.body && req.body.hasOwnProperty('id') && req.body.hasOwnProperty('source')) {
     rCtrl
       .deleteResult('hidden', req.body)
@@ -59,13 +58,12 @@ module.exports.deleteHidden = (req, res) => {
         res.status(500).json(err);
       });
   } else {
-    res
-      .status(400)
-      .json({
-        error: true,
-        message:
-          "ERROR: bad request; req either didn't have a body or the body was missing id or source!"
-      });
+    res.status(400).json({
+      error: true,
+      message:
+        "ERROR: bad request; req either didn't have a body or the body was missing id or source!",
+      request: req.body
+    });
   }
 };
 
