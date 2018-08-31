@@ -36,7 +36,8 @@ export default new Vuex.Store({
       state.showHiddenCards = show;
     },
     hiddenCards(state, hidden) {
-      state.hiddenIds = hidden;
+      console.log('hidden cards state updated', hidden);
+      state.hiddenCards = hidden;
     },
     faveIds(state, fave) {
       state.faveIds = fave;

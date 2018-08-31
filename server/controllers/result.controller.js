@@ -4,7 +4,7 @@ const Result = mongoose.model('Result');
 
 module.exports.getResult = which => {
   return new Promise((resolve, reject) => {
-    Result.find({}, function(err, result) {
+    Result.find({}, function (err, result) {
       if (err) {
         reject({ error: true, message: 'ERROR: Error fetching hidden results list!', code: err });
       }
@@ -54,7 +54,7 @@ module.exports.deleteResult = (which, result) => {
         const chosen = r.filter(item => item.id === result.id && item.source === result.source);
         const remaining = r.filter(item => item.id !== result.id);
         if (chosen && chosen.length === 1) {
-          r.remove(e => {
+          chosen[0].remove(e => {
             if (e) {
               reject({
                 error: true,
@@ -62,6 +62,7 @@ module.exports.deleteResult = (which, result) => {
                 message: `ERROR: Problem deleting the request ${which}!`
               });
             } else {
+              console.log('in else');
               resolve({
                 error: false,
                 message: `Successfully deleted the selected ${which}!`,

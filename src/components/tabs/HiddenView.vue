@@ -21,22 +21,30 @@ export default {
       hiddenSales: Array
     };
   },
+  computed: {
+    hiddenCards() {
+      return this.$store.getters.hiddenCards;
+    }
+  },
+  methods: {
+    listingsAndSales: function(cards) {
+      this.hiddenResults = cards.filter(item => {
+        item.hide = true;
+        if (item.type === 'garage sales') {
+          this.hiddenSales.push(item);
+        } else {
+          return item;
+        }
+      });
+    }
+  },
   created() {
-    console.log('hidden view created');
     this.hiddenSales = [];
     Storage.getHiddenCards()
       .then(result => {
         console.log('result', result);
-        this.hiddenResults = Array.from(result.data.payload).filter(item => {
-          item.hide = true;
-          if (item.type === 'garage sales') {
-            this.hiddenSales.push(item);
-          } else {
-            return item;
-          }
-        });
-        console.log('hiddenResults', this.hiddenResults);
-        console.log('hiddenSales', this.hiddenSales);
+        this.$store.commit('hiddenCards', result.data.payload);
+        this.listingsAndSales(result.data.payload);
       })
       .catch(err => {
         console.log('hidden view get error', err);
@@ -45,6 +53,15 @@ export default {
           message: err.message
         });
       });
+  },
+  watch: {
+    hiddenCards: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        this.listingsAndSales(val);
+      }
+    }
   }
 };
 </script>

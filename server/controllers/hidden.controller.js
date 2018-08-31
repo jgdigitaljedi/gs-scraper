@@ -46,11 +46,11 @@ module.exports.saveHidden = (req, res) => {
 };
 
 module.exports.deleteHidden = (req, res) => {
-  console.log('req, body', req.body);
   if (req.body && req.body.hasOwnProperty('id') && req.body.hasOwnProperty('source')) {
     rCtrl
       .deleteResult('hidden', req.body)
       .then(result => {
+        console.log('in then');
         res.status(200).json(result);
       })
       .catch(err => {

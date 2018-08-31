@@ -46,14 +46,19 @@ export default {
     reset: null,
     sortOption: {}
   },
+  computed: {
+    hiddenCards() {
+      return this.$store.getters.hiddenCards;
+    }
+  },
   data: function() {
     return {
       results: Object,
       noListings: Boolean,
       noSales: Boolean,
       isLoading: Boolean,
-      combinedListings: Array,
-      combinedSales: Array
+      combinedListings: [],
+      combinedSales: []
     };
   },
   created() {
@@ -68,17 +73,17 @@ export default {
     this.noSales = false;
     // this.hideSidebar = false;
   },
-  watch: {
-    params: function(val) {
-      this.runSearch(val);
-    },
-    reset: function() {
-      this.resetHidden();
-    },
-    sortOption: function(val) {
-      this.sortResults(val);
-    }
-  },
+  // watch: {
+  //   params: function(val) {
+  //     this.runSearch(val);
+  //   },
+  //   reset: function() {
+  //     this.resetHidden();
+  //   },
+  //   sortOption: function(val) {
+  //     this.sortResults(val);
+  //   }
+  // },
   methods: {
     resetHidden: function() {
       AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales)
@@ -177,6 +182,53 @@ export default {
             key
           );
         });
+      }
+    }
+  },
+  watch: {
+    params: function(val) {
+      this.runSearch(val);
+    },
+    reset: function() {
+      this.resetHidden();
+    },
+    sortOption: function(val) {
+      this.sortResults(val);
+    },
+    hiddenCards: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        console.log('val', val);
+        const hiddenIds = val.map(i => i.id);
+        if (val && val.length) {
+          const keys = Object.keys(this.results);
+          if (keys && keys.length) {
+            keys.forEach(key => {
+              if (this.results && this.results[key] && this.results[key].length) {
+                const newResult = this.results[key].map(item => {
+                  item.hide = hiddenIds.indexOf(item.id) >= 0;
+                  return item;
+                });
+                this.results[key] = newResult;
+              }
+            });
+          }
+          if (this.combinedListings && this.combinedListings.length) {
+            const newListings = [...this.combinedListings].map(item => {
+              item.hide = hiddenIds.indexOf(item.id) >= 0;
+              return item;
+            });
+            this.combinedListings = newListings;
+          }
+          if (this.combinedSales && this.combinedSales.length) {
+            const newSales = [...this.combinedSales].map(item => {
+              item.hide = hiddenIds.indexOf(item.id) >= 0;
+              return item;
+            });
+            this.combinedSales = newSales;
+          }
+        }
       }
     }
   }

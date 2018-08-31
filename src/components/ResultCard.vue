@@ -52,13 +52,12 @@ export default {
     hideResult: function(card) {
       Storage.hideCard(card)
         .then(result => {
-          console.log('hide result result', result);
           this.$store.commit('hiddenCards', result.data.payload);
           this.$emit('hideCardAction', card);
           // @TODO: notify user that WAS successful
         })
         .catch(err => {
-          console.log('hide result error', err);
+          console.warn('hide result error', err);
           // @TODO: notify user that wasn't successful
         });
     },
@@ -66,6 +65,11 @@ export default {
       Storage.showCard(card)
         .then(result => {
           console.log('show result result', result);
+          if (result.data.error) {
+            // @TODO: notify
+          } else {
+            this.$store.commit('hiddenCards', result.data.payload);
+          }
         })
         .catch(err => {
           console.log('show result err', err);
