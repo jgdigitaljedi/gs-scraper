@@ -37,7 +37,6 @@ function getCl(search) {
 export default {
   fetch(search) {
     // hidden = Storage.getHiddenCards();
-    console.log('sotre', store);
     hidden = store.getters.hiddenIds;
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
@@ -50,7 +49,6 @@ export default {
       //     o.hide = isHidden(o);
       //   });
       // });
-      console.log('master result', result);
       const listingsIndexes = [0, 2, 3];
       const salesIndexes = [1];
       const validListings = listingsIndexes

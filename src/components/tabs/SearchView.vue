@@ -199,7 +199,6 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
-        console.log('val', val);
         const hiddenIds = val.map(i => i.id);
         if (val && val.length) {
           const keys = Object.keys(this.results);

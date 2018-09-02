@@ -8,7 +8,9 @@ const _uniqBy = require('lodash/uniqBy');
 function cleanItem(item) {
   return {
     key: item.hasOwnProperty('id') ? item.id : Math.floor(Math.random() * 33333),
-    id: item.hasOwnProperty('id') ? item.id : Math.floor(Math.random() * 33333),
+    id: item.hasOwnProperty('id')
+      ? item.id.toString()
+      : Math.floor(Math.random() * 33333).toString(),
     description: item.hasOwnProperty('description') ? item.description : '',
     date: item.hasOwnProperty('post_date') ? format(item.post_date, 'MM/DD/YYYY hh:mm a') : '',
     title: item.hasOwnProperty('title') ? item.title : '',
@@ -50,7 +52,7 @@ function makeRequest({ area, widen }, tag) {
   });
 }
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
   if (
     req.body.hasOwnProperty('area') &&
     req.body.area &&

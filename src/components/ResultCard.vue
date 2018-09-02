@@ -1,6 +1,10 @@
 <template>
   <div class="result-card card">
     <div class="card-header">
+      <div class="car-header--fave">
+        <b-icon icon="heart-outline" v-if="!cardData.favorite" v-on:click="toggleFave(card)"></b-icon>
+        <b-icon icon="heart" v-if="cardData.favorite" v-on:click="toggleFave(card)"></b-icon>
+      </div>
       <div class="card-header--title">
         {{cardData.title}}
       </div>
@@ -49,16 +53,26 @@ export default {
     description: String
   },
   methods: {
+    toggleFave: function(card) {
+      const fave = !card.fave;
+      if (fave) {
+        // make call to save favorite to server
+      } else {
+        // make call to remove fave from server
+      }
+    },
     hideResult: function(card) {
       Storage.hideCard(card)
         .then(result => {
           this.$store.commit('hiddenCards', result.data.payload);
           this.$emit('hideCardAction', card);
           // @TODO: notify user that WAS successful
+          console.log('hide result', result);
         })
         .catch(err => {
           console.warn('hide result error', err);
           // @TODO: notify user that wasn't successful
+          console.log('hide err', err);
         });
     },
     showResult(card) {

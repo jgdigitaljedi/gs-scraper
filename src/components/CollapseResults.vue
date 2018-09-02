@@ -58,9 +58,12 @@ export default {
     },
     hideCard(card) {
       const newDataArr = [...this.cardArr].map(item => {
-        if (item.id === card.id) {
-          item.hide = true;
-        }
+        // if (item.id === card.id) {
+        //   console.log('item', item);
+        //   console.log('card', card);
+        //   //   item.hide = true;
+        // }
+        item.hide = item.id == card.id;
         return item;
       });
       this.cardArr = newDataArr;
