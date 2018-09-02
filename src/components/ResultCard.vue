@@ -1,9 +1,11 @@
 <template>
   <div class="result-card card">
     <div class="card-header">
-      <div class="car-header--fave">
-        <b-icon icon="heart-outline" v-if="!cardData.favorite" v-on:click="toggleFave(card)"></b-icon>
-        <b-icon icon="heart" v-if="cardData.favorite" v-on:click="toggleFave(card)"></b-icon>
+      <div class="card-header--fave">
+        <button class="icon-button" v-on:click="toggleFave(cardData)">
+          <b-icon icon="heart-outline" v-if="!cardData.favorite" ></b-icon>
+          <b-icon icon="heart" v-if="cardData.favorite"></b-icon>
+        </button>
       </div>
       <div class="card-header--title">
         {{cardData.title}}
@@ -54,9 +56,20 @@ export default {
   },
   methods: {
     toggleFave: function(card) {
-      const fave = !card.fave;
+      const fave = !card.favorite;
+      console.log('card', card);
       if (fave) {
         // make call to save favorite to server
+        Storage.saveFave(card)
+          .then(result => {
+            card.favorite = true;
+          })
+          .catch(err => {
+            this.$toast.open({
+              type: 'is-danger',
+              message: 'ERROR ADDING RESULT TO FAVORITES!'
+            });
+          });
       } else {
         // make call to remove fave from server
       }
@@ -66,13 +79,13 @@ export default {
         .then(result => {
           this.$store.commit('hiddenCards', result.data.payload);
           this.$emit('hideCardAction', card);
-          // @TODO: notify user that WAS successful
-          console.log('hide result', result);
         })
         .catch(err => {
           console.warn('hide result error', err);
-          // @TODO: notify user that wasn't successful
-          console.log('hide err', err);
+          this.$toast.open({
+            type: 'is-danger',
+            message: 'ERROR HIDING RESULT!'
+          });
         });
     },
     showResult(card) {
@@ -132,6 +145,15 @@ export default {
   }
   .card-header {
     height: 48px;
+    .card-header--fave {
+      .icon-button {
+        padding: 0;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+      }
+    }
     .card-header--title {
       max-width: 35ch;
     }
