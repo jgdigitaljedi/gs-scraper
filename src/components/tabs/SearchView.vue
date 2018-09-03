@@ -44,11 +44,15 @@ export default {
     view: null,
     params: {},
     reset: null,
-    sortOption: {}
+    sortOption: {},
+    resetFaves: null
   },
   computed: {
     hiddenCards() {
       return this.$store.getters.hiddenCards;
+    },
+    faveCards() {
+      return this.$store.getters.faveCards;
     }
   },
   data: function() {
@@ -71,19 +75,7 @@ export default {
     this.isLoading = false;
     this.noListings = false;
     this.noSales = false;
-    // this.hideSidebar = false;
   },
-  // watch: {
-  //   params: function(val) {
-  //     this.runSearch(val);
-  //   },
-  //   reset: function() {
-  //     this.resetHidden();
-  //   },
-  //   sortOption: function(val) {
-  //     this.sortResults(val);
-  //   }
-  // },
   methods: {
     resetHidden: function() {
       AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales)
@@ -199,8 +191,8 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
-        const hiddenIds = val.map(i => i.id);
         if (val && val.length) {
+          const hiddenIds = val.map(i => i.id);
           const keys = Object.keys(this.results);
           if (keys && keys.length) {
             keys.forEach(key => {

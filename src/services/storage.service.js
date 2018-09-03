@@ -43,7 +43,41 @@ export default {
     });
   },
   saveFave: function(card) {
-    return axios.post('http://localhost:3000/api/fave', card);
+    return axios.post('http://localhost:3000/api/faves', card);
   },
-  removeFave: function(card) {}
+  getFaveCards: function() {
+    return axios.get('http://localhost:3000/api/faves');
+  },
+  removeFave: function(card) {
+    return new Promise((resolve, reject) => {
+      const hidden = Store.getters.hiddenCards;
+      if (hidden) {
+        axios
+          .post('http://localhost:3000/api/faves/delete', card)
+          .then(result => {
+            if (result.data.error) {
+              reject(result);
+            } else {
+              resolve(result);
+            }
+          })
+          .catch(err => {
+            reject(err);
+          });
+      }
+    });
+  },
+  deleteAllFaves() {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete('http://localhost:3000/api/faves', {})
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          console.log('delete all fave ERROR', err);
+          reject(err);
+        });
+    });
+  }
 };

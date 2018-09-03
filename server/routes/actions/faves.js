@@ -9,11 +9,9 @@ router.get('/', favesCtrl.getFaves);
 router.post('/', favesCtrl.saveFave);
 
 // // remove from faves
-router.delete('/', favesCtrl.deleteFave);
+router.post('/delete', favesCtrl.deleteFave);
 
-// // delete all faves
-// router.delete('/all', (req, res) => {
-
-// });
+// delete all faves
+router.delete('/', favesCtrl.deleteAllFaves);
 
 module.exports = router;

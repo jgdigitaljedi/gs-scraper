@@ -5,7 +5,8 @@
         <strong>{{source}}</strong>
       </div>
       <div class="panel-block">
-        <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard" v-if="!result.hide || hiddenView"/>
+        <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard"
+          v-on:faveCardAction="faveCard" v-if="!result.hide || hiddenView"/>
         <div class="btn-container">
           <button class="button is-primary" v-on:click="backToTop">
             <b-icon icon="arrow-up-bold"></b-icon>
@@ -56,14 +57,22 @@ export default {
         behavior: 'smooth'
       });
     },
+    faveCard(card) {
+      const newDataArr = [...this.cardArr].map(item => {
+        if (item.id === card.id) {
+          item.hide = false;
+          item.favorite = true;
+        }
+        return item;
+      });
+      this.cardArr = newDataArr;
+    },
     hideCard(card) {
       const newDataArr = [...this.cardArr].map(item => {
-        // if (item.id === card.id) {
-        //   console.log('item', item);
-        //   console.log('card', card);
-        //   //   item.hide = true;
-        // }
-        item.hide = item.id == card.id;
+        if (item.id === card.id) {
+          item.hide = true;
+          item.favorite = false;
+        }
         return item;
       });
       this.cardArr = newDataArr;

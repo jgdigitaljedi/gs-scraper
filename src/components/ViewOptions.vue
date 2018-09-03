@@ -30,11 +30,13 @@
     </div>
 
     <div class="view-options--show-hidden options-section">
-      <h4>Show/Hide</h4>
-      <b-checkbox v-model="showHidden">Show Hidden Results</b-checkbox>
       <button class="button is-danger" v-on:click="clearHidden">
         <b-icon icon="delete"></b-icon>
         <span>Reset Hidden</span>
+      </button>
+      <button class="button is-danger" v-on:click="clearFaves">
+        <b-icon icon="delete"></b-icon>
+        <span>Reset Faves</span>
       </button>
     </div>
   </section>
@@ -50,8 +52,7 @@ export default {
     return {
       viewType: String,
       sortSelected: String,
-      sortOptions: Array,
-      showHidden: Boolean
+      sortOptions: Array
     };
   },
   // computed: mapGetters(['showHiddenCards']),
@@ -61,15 +62,16 @@ export default {
     },
     sortSelected: function() {
       this.$emit('sortSelected', this.sortSelected);
-    },
-    showHidden: function(val) {
-      this.$store.commit('showHiddenCards', val);
     }
   },
   methods: {
     clearHidden: function() {
       Storage.clearHidden();
       this.$emit('clearHidden');
+    },
+    clearFaves: function() {
+      Storage.deleteAllFaves();
+      this.$emit('clearFaves');
     }
   },
   created() {

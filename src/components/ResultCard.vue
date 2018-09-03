@@ -62,7 +62,16 @@ export default {
         // make call to save favorite to server
         Storage.saveFave(card)
           .then(result => {
-            card.favorite = true;
+            console.log('faveFave results', result);
+            if (!result.data.error) {
+              this.$store.commit('hiddenCards', result.data.payload);
+              this.$emit('faveCardAction', card);
+            } else {
+              this.$toast.open({
+                type: 'is-danger',
+                message: 'ERROR ADDING RESULT TO FAVORITES!'
+              });
+            }
           })
           .catch(err => {
             this.$toast.open({
@@ -72,6 +81,24 @@ export default {
           });
       } else {
         // make call to remove fave from server
+        Storage.removeFave(card)
+          .then(result => {
+            console.log('fave result', result);
+            if (result.data.error) {
+              this.$toast.open({
+                type: 'is-danger',
+                message: 'ERROR REMOVING RESULT FROM FAVORITES!'
+              });
+            } else {
+              this.$store.commit('faveCards', result.data.payload);
+            }
+          })
+          .catch(err => {
+            this.$toast.open({
+              type: 'is-danger',
+              message: 'ERROR REMOVING RESULT FROM FAVORITES!'
+            });
+          });
       }
     },
     hideResult: function(card) {
@@ -93,7 +120,10 @@ export default {
         .then(result => {
           console.log('show result result', result);
           if (result.data.error) {
-            // @TODO: notify
+            this.$toast.open({
+              type: 'is-danger',
+              message: 'ERROR REMOVING RESULT FROM HIDDEN!'
+            });
           } else {
             this.$store.commit('hiddenCards', result.data.payload);
           }

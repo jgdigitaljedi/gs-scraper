@@ -1,16 +1,15 @@
-// const logger = require('../config/logger');
 const mongoose = require('mongoose');
 const Result = mongoose.model('Result');
 
 module.exports.getResult = which => {
   return new Promise((resolve, reject) => {
-    Result.find({}, function (err, result) {
+    Result.find({}, function(err, result) {
       if (err) {
-        reject({ error: true, message: 'ERROR: Error fetching hidden results list!', code: err });
+        reject({ error: true, message: `ERROR: Error fetching ${which} results list!`, code: err });
       }
       if (result && result.length) {
-        const hidden = result.filter(r => r.action === which);
-        resolve({ error: false, payload: hidden });
+        const cards = result.filter(r => r.action === which);
+        resolve({ error: false, payload: cards });
       } else {
         resolve({ error: false, payload: [] });
       }
@@ -38,7 +37,21 @@ module.exports.addResult = (which, result) => {
       if (err) {
         reject({ error: true, message: `ERROR: Problem saving new ${which}.`, code: err });
       } else {
-        resolve({ error: false, message: `Your ${which} was successfully saved!` });
+        Result.find({ action: which }, (error, result) => {
+          if (err) {
+            resolve({
+              error: false,
+              message: `Your ${which} was saved, but there was a problem fetching all.`,
+              code: error
+            });
+          } else {
+            resolve({
+              error: false,
+              message: `Your ${which} was successfully saved!`,
+              payload: result
+            });
+          }
+        });
       }
     });
   });
