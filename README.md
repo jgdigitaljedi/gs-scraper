@@ -37,8 +37,12 @@ npm run lint
 
 ## Future Plans
 - re-implement LetGo
+- look into using VarageSale and Oodle
 - add eBay search
 - add more garage sale search sites
 - refactor to be even more modular
-- possibly make an electron app (can use indexDB or jsonStorage instead of mongo)?
+- possibly make an electron app (can use indexDB or jsonStorage instead of mongo) or vuido app (would just stand up DigitalOcean droplet to handle backend)?
 - make it look good
+
+## Crazy ideas
+- ranme to be Retro Collector Toolbox and add a whole collection manager (like my repo [HERE](https://github.com/jgdigitaljedi/vg-collection-manager))
