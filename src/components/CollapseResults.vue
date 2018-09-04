@@ -6,7 +6,7 @@
       </div>
       <div class="panel-block">
         <ResultCard v-for="result in cardArr" :key="result.key" :cardData="result" v-on:hideCardAction="hideCard"
-          v-on:faveCardAction="faveCard" v-if="!result.hide || hiddenView"/>
+          v-on:faveCardAction="faveCard" v-on:faveCardRemoved="faveCard" v-if="!result.hide || hiddenView"/>
         <div class="btn-container">
           <button class="button is-primary" v-on:click="backToTop">
             <b-icon icon="arrow-up-bold"></b-icon>
@@ -58,23 +58,16 @@ export default {
       });
     },
     faveCard(cards) {
-      console.log('cards', cards);
       const favesId = cards.map(item => item.id);
       const newDataArr = [...this.cardArr].map(item => {
-        console.log('item', item);
         if (favesId.indexOf(item.id) >= 0) {
           item.hide = false;
           item.favorite = true;
+        } else {
+          item.favorite = false;
         }
         return item;
       });
-      // const newDataArr = [...this.cardArr].map(item => {
-      //   if (item.id === card.id) {
-      //     item.hide = false;
-      //     item.favorite = true;
-      //   }
-      //   return item;
-      // });
       this.cardArr = newDataArr;
     },
     hideCard(card) {
@@ -90,6 +83,7 @@ export default {
   },
   watch: {
     dataArr: function(val) {
+      console.log('dataArr watcher', val);
       this.cardArr = val;
     }
   }

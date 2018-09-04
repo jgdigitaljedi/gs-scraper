@@ -74,6 +74,7 @@ export default {
             }
           })
           .catch(err => {
+            console.warn(err);
             this.$toast.open({
               type: 'is-danger',
               message: 'ERROR ADDING RESULT TO FAVORITES!'
@@ -91,9 +92,11 @@ export default {
               });
             } else {
               this.$store.commit('faveCards', result.data.payload);
+              this.$emit('faveCardRemoved', result.data.payload);
             }
           })
           .catch(err => {
+            console.warn(err);
             this.$toast.open({
               type: 'is-danger',
               message: 'ERROR REMOVING RESULT FROM FAVORITES!'

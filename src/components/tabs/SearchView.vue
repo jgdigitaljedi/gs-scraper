@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     resetHidden: function() {
-      AppLogic.clearAllHides(this.results, this.combinedListings, this.combinedSales)
+      AppLogic.clearAll(this.results, this.combinedListings, this.combinedSales, 'hide')
         .then(results => {
           this.results = results.results;
           this.combinedListings = results.listings;
@@ -92,11 +92,26 @@ export default {
           });
         });
     },
+    resetFaveResults: function() {
+      AppLogic.clearAll(this.results, this.combinedListings, this.combinedSales, 'favorite')
+        .then(results => {
+          console.log('faves reset', results);
+          this.results = results.results;
+          this.combinedListings = results.listings;
+          this.combinedSales = results.sales;
+          this.$store.commit('faveCards', []);
+        })
+        .catch(err => {
+          this.$toast.open({
+            type: 'is-danger',
+            message: err.message
+          });
+        });
+    },
     runSearch: function(search) {
       this.clearResults();
       this.isLoading = true;
       GetData.fetch(search).then(result => {
-        console.log('result', result);
         const keys = Object.keys(result);
         keys.forEach(key => {
           if (Array.isArray(result[key])) {
@@ -183,6 +198,10 @@ export default {
     },
     reset: function() {
       this.resetHidden();
+    },
+    resetFaves: function() {
+      console.log('initial fave reset call');
+      this.resetFaveResults();
     },
     sortOption: function(val) {
       this.sortResults(val);

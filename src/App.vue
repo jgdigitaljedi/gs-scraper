@@ -7,7 +7,7 @@
     <div class="sidebar" :class="{'hidden': hideSidebar}">
       <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
       <hr>
-      <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults" v-on:clearHidden="resetHidden" v-on:clearFaves="resetFaves"/>
+      <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults" v-on:clearHidden="resetHidden" v-on:clearFaves="resetFaveResults"/>
     </div>
     <b-tabs v-model="activeTab" class="app--tabs">
       <b-tab-item label="Search" class="app--tabs--tab">
@@ -57,7 +57,8 @@ export default {
       activeTab: Number,
       searchParams: Object,
       resetHides: Date,
-      sortOption: Object
+      sortOption: Object,
+      resetFaves: Date
     };
   },
   computed: mapGetters(['searchTags', 'salesTags']),
@@ -65,7 +66,7 @@ export default {
     resetHidden: function() {
       this.resetHides = new Date();
     },
-    resetFaves: function() {
+    resetFaveResults: function() {
       this.resetFaves = new Date();
     },
     runSearch: function(search) {

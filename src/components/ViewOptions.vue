@@ -44,7 +44,7 @@
 
 <script>
 import Sort from '../services/sort.service.js';
-import Storage from '../services/storage.service.js';
+// import Storage from '../services/storage.service.js';
 
 export default {
   name: 'ViewOptions',
@@ -66,11 +66,12 @@ export default {
   },
   methods: {
     clearHidden: function() {
-      Storage.clearHidden();
+      // Storage.clearHidden();
       this.$emit('clearHidden');
     },
     clearFaves: function() {
-      Storage.deleteAllFaves();
+      // Storage.deleteAllFaves();
+      // this.$store.commit('faveCards', []);
       this.$emit('clearFaves');
     }
   },

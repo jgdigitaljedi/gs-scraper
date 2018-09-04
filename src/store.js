@@ -38,7 +38,7 @@ export default new Vuex.Store({
       state.hiddenCards = hidden;
     },
     faveCards(state, fave) {
-      state.faveIds = fave;
+      state.faveCards = fave;
     }
   },
   actions: {

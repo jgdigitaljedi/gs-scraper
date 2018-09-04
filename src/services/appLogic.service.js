@@ -1,40 +1,41 @@
 import Storage from './storage.service';
 
 export default {
-  clearAllHides: function (results, listings, sales) {
+  clearAll: function (results, listings, sales, which) {
     return new Promise((resolve, reject) => {
-      Storage.clearHidden()
+      const clearMethod = which === 'hide' ? Storage.clearHidden : Storage.deleteAllFaves;
+      clearMethod()
         .then(() => {
-          let noHides = {};
+          let newResults = {};
           if (results) {
             const keys = Object.keys(results);
             keys.forEach(key => {
               if (key && results.hasOwnProperty(key) && results[key] && results[key].length) {
-                noHides[key] = results[key].map(result => {
-                  result.hide = false;
+                newResults[key] = results[key].map(result => {
+                  result[which] = false;
                   return result;
                 });
               } else {
-                noHides[key] = [];
+                newResults[key] = [];
               }
             });
           }
           const newListings =
             listings && Array.isArray(listings)
               ? [...listings].map(listing => {
-                listing.hide = false;
+                listing[which] = false;
                 return listing;
               })
               : [];
           const newSales =
             sales && Array.isArray(sales)
               ? [...sales].map(sale => {
-                sale.hide = false;
+                sale[which] = false;
                 return sale;
               })
               : [];
           resolve({
-            results: noHides,
+            results: newResults,
             listings: newListings,
             sales: newSales
           });
@@ -44,40 +45,5 @@ export default {
           reject(err);
         });
     });
-    // return new Promise(resolve => {
-    //   let noHides = {};
-    //   if (results) {
-    //     const keys = Object.keys(results);
-    //     keys.forEach(key => {
-    //       if (key && results.hasOwnProperty(key) && results[key] && results[key].length) {
-    //         noHides[key] = results[key].map(result => {
-    //           result.hide = false;
-    //           return result;
-    //         });
-    //       } else {
-    //         noHides[key] = [];
-    //       }
-    //     });
-    //   }
-    //   const newListings =
-    //     listings && Array.isArray(listings)
-    //       ? [...listings].map(listing => {
-    //           listing.hide = false;
-    //           return listing;
-    //         })
-    //       : [];
-    //   const newSales =
-    //     sales && Array.isArray(sales)
-    //       ? [...sales].map(sale => {
-    //           sale.hide = false;
-    //           return sale;
-    //         })
-    //       : [];
-    //   resolve({
-    //     results: noHides,
-    //     listings: newListings,
-    //     sales: newSales
-    //   });
-    // });
   }
 };
