@@ -45,4 +45,4 @@ npm run lint
 - make it look good
 
 ## Crazy ideas
-- ranme to be Retro Collector Toolbox and add a whole collection manager (like my repo [HERE](https://github.com/jgdigitaljedi/vg-collection-manager))
+- rename to be Retro Collector Toolbox and add a whole collection manager (like my repo [HERE](https://github.com/jgdigitaljedi/vg-collection-manager))
