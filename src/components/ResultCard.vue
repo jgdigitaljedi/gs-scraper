@@ -64,8 +64,8 @@ export default {
           .then(result => {
             console.log('faveFave results', result);
             if (!result.data.error) {
-              this.$store.commit('hiddenCards', result.data.payload);
-              this.$emit('faveCardAction', card);
+              this.$store.commit('faveCards', result.data.payload);
+              this.$emit('faveCardAction', result.data.payload);
             } else {
               this.$toast.open({
                 type: 'is-danger',
@@ -83,7 +83,7 @@ export default {
         // make call to remove fave from server
         Storage.removeFave(card)
           .then(result => {
-            console.log('fave result', result);
+            console.log('fave remove result', result);
             if (result.data.error) {
               this.$toast.open({
                 type: 'is-danger',

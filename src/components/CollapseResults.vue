@@ -57,14 +57,24 @@ export default {
         behavior: 'smooth'
       });
     },
-    faveCard(card) {
+    faveCard(cards) {
+      console.log('cards', cards);
+      const favesId = cards.map(item => item.id);
       const newDataArr = [...this.cardArr].map(item => {
-        if (item.id === card.id) {
+        console.log('item', item);
+        if (favesId.indexOf(item.id) >= 0) {
           item.hide = false;
           item.favorite = true;
         }
         return item;
       });
+      // const newDataArr = [...this.cardArr].map(item => {
+      //   if (item.id === card.id) {
+      //     item.hide = false;
+      //     item.favorite = true;
+      //   }
+      //   return item;
+      // });
       this.cardArr = newDataArr;
     },
     hideCard(card) {

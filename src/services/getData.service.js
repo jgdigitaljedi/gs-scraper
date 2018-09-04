@@ -4,11 +4,19 @@ import Offerup from './offerUp.service';
 import store from '../store';
 // import Storage from './storage.service';
 
-let hidden;
+let hidden, faves;
 
 function isHidden(result) {
   if (hidden) {
     return hidden.filter(i => i === result.id).length > 0;
+  } else {
+    return false;
+  }
+}
+
+function isFave(result) {
+  if (faves) {
+    return faves.filter(i => i === result.id).length > 0;
   } else {
     return false;
   }
@@ -24,6 +32,7 @@ function getCl(search) {
       } else {
         return result.map(o => {
           o.hide = isHidden(o);
+          o.favorite = isFave(o);
           return o;
         });
       }
@@ -38,6 +47,7 @@ export default {
   fetch(search) {
     // hidden = Storage.getHiddenCards();
     hidden = store.getters.hiddenIds;
+    faves = store.getters.faveIds;
     const cllPromise = this.cllPromise(search);
     const clsPromise = this.clsPromise(search);
     // const lglPromise = this.lglPromise(search);
@@ -118,6 +128,7 @@ export default {
           if (result && Array.isArray(result)) {
             return result.map(o => {
               o.hide = isHidden(o);
+              o.favorite = isFave(o);
               return o;
             });
           }

@@ -98,6 +98,17 @@ export default {
         console.error(err);
         this.$toast.open(err.message);
       });
+    Storage.getFaveCards()
+      .then(result => {
+        console.log('fave result in app', result);
+        if (!result.data.error) {
+          this.$store.commit('faveCards', result.data.payload);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        this.$toast.open(err.message);
+      });
   }
 };
 </script>
