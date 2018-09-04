@@ -14,6 +14,7 @@
         <SearchView :params="searchParams" :reset="resetHides" :resetFaves="resetFaves" :view="viewSelected" :sortOption="sortOption" />
       </b-tab-item>
       <b-tab-item label="Faves" class="app--tabs--tab">
+        <FavesView v-if="activeTab === 1" />
       </b-tab-item>
       <b-tab-item label="Hidden" class="app--tabs--tab">
         <HiddenView v-if="activeTab === 2" />
@@ -36,6 +37,7 @@ import { mapGetters } from 'vuex';
 import BackToTop from 'vue-backtotop';
 import SearchView from './components/tabs/SearchView';
 import HiddenView from './components/tabs/HiddenView';
+import FavesView from './components/tabs/FavesView';
 import Storage from './services/storage.service.js';
 // import { mapState } from 'vuex';
 
@@ -47,7 +49,8 @@ export default {
     ViewOptions,
     BackToTop,
     SearchView,
-    HiddenView
+    HiddenView,
+    FavesView
   },
   data: function() {
     return {
