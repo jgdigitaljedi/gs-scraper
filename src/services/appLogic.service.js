@@ -45,5 +45,17 @@ export default {
           reject(err);
         });
     });
+  },
+  adjustResultsForFaves(results, faves) {
+    const favesIds = faves.map(item => item.id);
+    const rCopy = [...results];
+    return rCopy.map(result => {
+      const isFave = favesIds.indexOf(result.id) >= 0;
+      result.favorite = isFave;
+      if (isFave) {
+        result.hide = false;
+      }
+      return result;
+    });
   }
 };

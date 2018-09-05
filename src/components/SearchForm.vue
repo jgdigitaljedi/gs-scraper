@@ -47,6 +47,7 @@
         <div class="search-form--options--sales">
           <h4>Garage Sale Sites</h4>
           <b-checkbox v-model="searchForm.cls">Craiglist</b-checkbox>
+          <b-checkbox v-model="searchForm.ess">EstateSales</b-checkbox>
         </div>
       </div>
     </div>
@@ -74,7 +75,8 @@ export default {
         cll: true,
         cls: true,
         lgl: true,
-        oul: true
+        oul: true,
+        ess: true
       },
       cities: [
         {
@@ -92,7 +94,8 @@ export default {
           id: 'fortWorth',
           lgKey: '0231123213021',
           clExtra: 'ftw/',
-          ouArea: 'Fort Worth, TX'
+          ouArea: 'Fort Worth, TX',
+          estateBounds: '32.881522_-97.353032'
         },
         {
           name: 'Wichita Falls',
@@ -100,7 +103,8 @@ export default {
           id: 'wichitaFalls',
           lgKey: '0231122113130',
           clExtra: '',
-          ouArea: 'Wichita Falls, TX'
+          ouArea: 'Wichita Falls, TX',
+          estateBounds: '33.787699_-98.532212'
         },
         {
           name: 'Vacaville',
@@ -108,7 +112,8 @@ export default {
           id: 'vacaville',
           lgKey: '0230102103202',
           clExtra: '',
-          ouArea: 'Vacaville, CA'
+          ouArea: 'Vacaville, CA',
+          estateBounds: '38.415742_-122.010393'
         }
       ]
     };
@@ -118,10 +123,10 @@ export default {
   },
   methods: {
     handleSubmit: function() {
-      const { area, tags, gs, cll, cls, lgl, oul, widen } = this.searchForm;
+      const { area, tags, gs, cll, cls, lgl, oul, widen, ess } = this.searchForm;
       this.$store.commit('searchTags', tags);
       this.$store.commit('salesTags', gs);
-      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen });
+      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen, ess });
     }
   }
 };

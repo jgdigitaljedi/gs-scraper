@@ -24,6 +24,7 @@
 
 <script>
 import ResultCard from './ResultCard';
+import AppLogic from '../services/appLogic.service.js';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -58,16 +59,7 @@ export default {
       });
     },
     faveCard(cards) {
-      const favesId = cards.map(item => item.id);
-      const newDataArr = [...this.cardArr].map(item => {
-        if (favesId.indexOf(item.id) >= 0) {
-          item.hide = false;
-          item.favorite = true;
-        } else {
-          item.favorite = false;
-        }
-        return item;
-      });
+      const newDataArr = AppLogic.adjustResultsForFaves(this.cardArr, cards);
       this.cardArr = newDataArr;
     },
     hideCard(card) {
@@ -83,7 +75,6 @@ export default {
   },
   watch: {
     dataArr: function(val) {
-      console.log('dataArr watcher', val);
       this.cardArr = val;
     }
   }

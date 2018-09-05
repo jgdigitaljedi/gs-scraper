@@ -93,7 +93,6 @@ export default {
     this.activeTab = 0;
     Storage.getHiddenCards()
       .then(result => {
-        console.log('hidden result in app', result);
         if (!result.data.error) {
           this.$store.commit('hiddenCards', result.data.payload);
         }
@@ -104,7 +103,6 @@ export default {
       });
     Storage.getFaveCards()
       .then(result => {
-        console.log('fave result in app', result);
         if (!result.data.error) {
           this.$store.commit('faveCards', result.data.payload);
         }

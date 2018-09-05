@@ -18,6 +18,7 @@
       <h2>Garage Sales</h2>
       <div class="result-tab--sales--grouped" v-if="view === 'grouped'">
         <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Craigslist'" :dataArr="results.cls" :hiddenView="false" />
+        <CollapseResults v-if="results && results.ess && results.ess.length" :source="'Estate Sales'" :dataArr="results.ess" :hiddenView="false" />
       </div>
       <div class="result-tab--sales--combined" v-if="view === 'combined'">
         <CollapseResults v-if="results && results.cls && results.cls.length" :source="'Sales'" :dataArr="combinedSales" :hiddenView="false" />
@@ -77,6 +78,25 @@ export default {
     this.noSales = false;
   },
   methods: {
+    setFaves(faves) {
+      if (this.combinedListings && this.combinedListings.length) {
+        const newListings = AppLogic.adjustResultsForFaves(this.combinedListings, faves);
+        this.combinedListings = newListings;
+      }
+      if (this.combinedSales && this.combinedSales.length) {
+        const newSales = AppLogic.adjustResultsForFaves(this.combinedSales, faves);
+        this.combinedSales = newSales;
+      }
+      if (this.results) {
+        const keys = Object.keys(this.results);
+        keys.forEach(key => {
+          if (this.results[key] && this.results[key].length) {
+            const newKeyResults = AppLogic.adjustResultsForFaves(this.results[key], faves);
+            this.results[key] = newKeyResults;
+          }
+        });
+      }
+    },
     resetHidden: function() {
       AppLogic.clearAll(this.results, this.combinedListings, this.combinedSales, 'hide')
         .then(results => {
@@ -95,7 +115,6 @@ export default {
     resetFaveResults: function() {
       AppLogic.clearAll(this.results, this.combinedListings, this.combinedSales, 'favorite')
         .then(results => {
-          console.log('faves reset', results);
           this.results = results.results;
           this.combinedListings = results.listings;
           this.combinedSales = results.sales;
@@ -205,6 +224,9 @@ export default {
     },
     sortOption: function(val) {
       this.sortResults(val);
+    },
+    faveCards: function(val) {
+      this.setFaves(val);
     },
     hiddenCards: {
       immediate: true,

@@ -2,7 +2,7 @@ import Craigslist from './craiglist.service';
 // import Letgo from './letgo.service';
 import Offerup from './offerUp.service';
 import store from '../store';
-// import Storage from './storage.service';
+import EstateSales from './salesServices/estateSales.service';
 
 let hidden, faves;
 
@@ -52,15 +52,11 @@ export default {
     const clsPromise = this.clsPromise(search);
     // const lglPromise = this.lglPromise(search);
     const ouPromise = this.ouPromise(search);
+    const esPromise = this.esPromise(search);
 
-    return Promise.all([cllPromise, clsPromise, ouPromise]).then(result => {
-      // result.forEach(r => {
-      //   r.forEach(o => {
-      //     o.hide = isHidden(o);
-      //   });
-      // });
-      const listingsIndexes = [0, 2, 3];
-      const salesIndexes = [1];
+    return Promise.all([cllPromise, clsPromise, ouPromise, esPromise]).then(result => {
+      const listingsIndexes = [0, 2];
+      const salesIndexes = [1, 3];
       const validListings = listingsIndexes
         .map(item => {
           const r = result[item];
@@ -78,6 +74,7 @@ export default {
         cls: result[1],
         // lgl: result[2],
         oul: result[2],
+        ess: result[3],
         combinedListings: [].concat.apply([], validListings),
         combinedSales: [].concat.apply([], validSales)
       };
@@ -138,6 +135,29 @@ export default {
           console.log('ou error', err);
           return null;
         });
+    } else {
+      return Promise.resolve(null);
+    }
+  },
+  esPromise(search) {
+    if (search.ess) {
+      return EstateSales.get(search)
+        .then(result => {
+          if (result && Array.isArray(result)) {
+            return result.map(o => {
+              o.hide = isHidden(o);
+              o.favorite = isFave(o);
+              return o;
+            });
+          }
+          return result;
+        })
+        .catch(err => {
+          console.warn('estate  sales err', err);
+          return null;
+        });
+    } else {
+      return Promise.resolve(null);
     }
   }
 };
