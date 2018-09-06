@@ -1,10 +1,6 @@
 # gs-scraper
 
-The idea is to build an app that scrapes data from local Craigslist, various websites, etc for deals on the types of items I'm looking for. Mainly, I'm a retro video game collector so I will be developing this to find deals on retro gaming stuff or even garage sales with listings that mention certain key words that I might like to visit in hopes of finding retro gaming stuff.
-
-Currently it can search Craiglist and OfferUp for listings and Craigslist for garage sales. I had LetGo working purely in the browser if I had CORS turned off and recently hit the site to have a user token, but I removed that and will eventually try to add it back server side with some web scraping instead of spoofing their API. I've also figured out the basics to pull garage sales from estatesales.net but haven't fully wired that in yet.
-
-Also, I'm almost always entirely focused on functionality before style so this won't be the prettiest app until I get it doing everything I want it to do.
+The point of this little project is to build something where I can search across multiple classifieds and garage/estate sale sites for the thing I am looking to buy all at once (usually retro video games). 
 
 ### Prerequisites
 - mongodb installed and running
@@ -36,13 +32,14 @@ npm run lint
 ```
 
 ## Future Plans
-- re-implement LetGo
+- form validation on search form (need to have it disable search button if fields are blank)
 - look into using VarageSale and Oodle
-- add eBay search
 - add more garage sale search sites
 - refactor to be even more modular
-- possibly make an electron app (can use indexDB or jsonStorage instead of mongo) or vuido app (would just stand up DigitalOcean droplet to handle backend)?
 - make it look good
+- re-implement LetGo
+- add eBay search
+- possibly make an electron app (can use indexDB or jsonStorage instead of mongo) or vuido app (would just stand up DigitalOcean droplet to handle backend)?
 
 ## Crazy ideas
 - rename to be Retro Collector Toolbox and add a whole collection manager (like my repo [HERE](https://github.com/jgdigitaljedi/vg-collection-manager))

@@ -13,4 +13,6 @@ router.use('/faves', require('./actions/faves'));
 
 router.use('/garagesales', require('./proxy/garageSales'));
 
+router.use('/oodle', require('./proxy/oodle'));
+
 module.exports = router;

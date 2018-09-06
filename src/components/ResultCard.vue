@@ -146,6 +146,9 @@ export default {
       const titleShortened = this.cardData.title.substr(0, 56);
       this.cardData.title = titleShortened + '...';
     }
+    if (!this.cardData.hasOwnProperty('image') || !this.cardData.image) {
+      this.cardData.image = require('../assets/No-images-placeholder.png');
+    }
     if (
       this.cardData.hasOwnProperty('description') &&
       this.cardData.description &&

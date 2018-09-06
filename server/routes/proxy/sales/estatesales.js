@@ -23,6 +23,7 @@ function formatData(data, key) {
 }
 
 module.exports.getEstateSales = function (request) {
+  // @TODO: make this handle multiple tags with multiple requests
   const query = makeURIformat(request.tags)[0];
   console.log('query', query);
   return new Promise((resolve, reject) => {
