@@ -6,7 +6,6 @@
 	},
 	"item": [
 		{
-			"_postman_id": "edcd810f-d3a0-429e-8144-044bcd70f00e",
 			"name": "letGo",
 			"request": {
 				"method": "POST",
@@ -37,7 +36,6 @@
 			"response": []
 		},
 		{
-			"_postman_id": "ce025cc6-ed57-4509-af16-8188edea5e28",
 			"name": "CL Listings",
 			"request": {
 				"method": "POST",
@@ -67,7 +65,6 @@
 			"response": []
 		},
 		{
-			"_postman_id": "fcf9ad1e-e7ea-4d96-ae4a-2a4c6d5ecb20",
 			"name": "offerUp",
 			"request": {
 				"method": "POST",
@@ -91,6 +88,65 @@
 					"path": [
 						"api",
 						"offerup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "estateSales",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tags\": [\"video games\"],\n\t\"widen\": true,\n\t\"area\": {\n\t\t\"estateBounds\": \"38.415742_-122.010393\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/garagesales/estatesales",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"garagesales",
+						"estatesales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Oodle",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tags\": [\"nintendo\"],\n\t\"widen\": true,\n\t\"area\": {\n\t\t\"oodle\": \"austin-tx\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/oodle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"oodle"
 					]
 				}
 			},
