@@ -3,6 +3,7 @@ import Craigslist from './craiglist.service';
 import Offerup from './offerUp.service';
 import store from '../store';
 import EstateSales from './salesServices/estateSales.service';
+import Oodle from './oodle.service';
 
 let hidden, faves;
 
@@ -53,9 +54,10 @@ export default {
     // const lglPromise = this.lglPromise(search);
     const ouPromise = this.ouPromise(search);
     const esPromise = this.esPromise(search);
+    const oodPromise = this.oodlePromise(search);
 
-    return Promise.all([cllPromise, clsPromise, ouPromise, esPromise]).then(result => {
-      const listingsIndexes = [0, 2];
+    return Promise.all([cllPromise, clsPromise, ouPromise, esPromise, oodPromise]).then(result => {
+      const listingsIndexes = [0, 2, 4];
       const salesIndexes = [1, 3];
       const validListings = listingsIndexes
         .map(item => {
@@ -75,6 +77,7 @@ export default {
         // lgl: result[2],
         oul: result[2],
         ess: result[3],
+        ood: result[4],
         combinedListings: [].concat.apply([], validListings),
         combinedSales: [].concat.apply([], validSales)
       };
@@ -154,6 +157,27 @@ export default {
         })
         .catch(err => {
           console.warn('estate  sales err', err);
+          return null;
+        });
+    } else {
+      return Promise.resolve(null);
+    }
+  },
+  oodlePromise(search) {
+    if (search.ood) {
+      return Oodle.get(search)
+        .then(result => {
+          if (result && Array.isArray(result)) {
+            return result.map(o => {
+              o.hide = isHidden(o);
+              o.favorite = isFave(o);
+              return o;
+            });
+          }
+          return result;
+        })
+        .catch(err => {
+          console.warn('Oodle err', err);
           return null;
         });
     } else {

@@ -31,6 +31,7 @@
         <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
         <!-- <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox> -->
         <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
+        <b-checkbox v-model="searchForm.ood">Oodle</b-checkbox>
       </div>
     </div>
 
@@ -64,6 +65,8 @@
 </template>
 
 <script>
+import Locations from '../services/location.service.js';
+
 export default {
   name: 'SearchForm',
   data() {
@@ -76,46 +79,10 @@ export default {
         cls: true,
         lgl: true,
         oul: true,
-        ess: true
+        ess: true,
+        ood: true
       },
-      cities: [
-        {
-          name: 'Austin',
-          uri: 'austin',
-          id: 'austin',
-          lgKey: '0231301203311',
-          clExtra: '',
-          ouArea: 'Austin, TX',
-          estateBounds: '30.341523_-97.530101'
-        },
-        {
-          name: 'Fort Worth',
-          uri: 'dallas',
-          id: 'fortWorth',
-          lgKey: '0231123213021',
-          clExtra: 'ftw/',
-          ouArea: 'Fort Worth, TX',
-          estateBounds: '32.881522_-97.353032'
-        },
-        {
-          name: 'Wichita Falls',
-          uri: 'wichitafalls',
-          id: 'wichitaFalls',
-          lgKey: '0231122113130',
-          clExtra: '',
-          ouArea: 'Wichita Falls, TX',
-          estateBounds: '33.787699_-98.532212'
-        },
-        {
-          name: 'Vacaville',
-          uri: 'sfbay',
-          id: 'vacaville',
-          lgKey: '0230102103202',
-          clExtra: '',
-          ouArea: 'Vacaville, CA',
-          estateBounds: '38.415742_-122.010393'
-        }
-      ]
+      cities: Locations.locations()
     };
   },
   props: {
@@ -123,10 +90,10 @@ export default {
   },
   methods: {
     handleSubmit: function() {
-      const { area, tags, gs, cll, cls, lgl, oul, widen, ess } = this.searchForm;
+      const { area, tags, gs, cll, cls, lgl, oul, widen, ess, ood } = this.searchForm;
       this.$store.commit('searchTags', tags);
       this.$store.commit('salesTags', gs);
-      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen, ess });
+      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen, ess, ood });
     }
   }
 };
