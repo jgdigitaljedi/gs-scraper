@@ -33,13 +33,12 @@ npm run lint
 
 ## Future Plans
 - form validation on search form (need to have it disable search button if fields are blank)
-- look into using VarageSale and Oodle
+- look into using VarageSale
+- I've been messy and the opposite of DRY; clean it up; lots of loose ends
 - add more garage sale search sites
 - refactor to be even more modular
 - make it look good
 - re-implement LetGo
-- add eBay search
 - possibly make an electron app (can use indexDB or jsonStorage instead of mongo) or vuido app (would just stand up DigitalOcean droplet to handle backend)?
 
-## Crazy ideas
-- rename to be Retro Collector Toolbox and add a whole collection manager (like my repo [HERE](https://github.com/jgdigitaljedi/vg-collection-manager))
+I was going to take this a lot further originally, but some of the ideas I came up with seemed better suited for a website/business idea I had which I will be prusuing in a private repo after this is "finished enough".

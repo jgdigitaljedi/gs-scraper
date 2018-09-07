@@ -32,6 +32,7 @@
         <!-- <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox> -->
         <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
         <b-checkbox v-model="searchForm.ood">Oodle</b-checkbox>
+        <b-checkbox v-model="searchForm.vsl">VarageSale</b-checkbox>
       </div>
     </div>
 
@@ -80,7 +81,8 @@ export default {
         lgl: true,
         oul: true,
         ess: true,
-        ood: true
+        ood: true,
+        vsl: true
       },
       cities: Locations.locations()
     };
@@ -90,10 +92,10 @@ export default {
   },
   methods: {
     handleSubmit: function() {
-      const { area, tags, gs, cll, cls, lgl, oul, widen, ess, ood } = this.searchForm;
+      const { area, tags, gs, cll, cls, lgl, oul, widen, ess, ood, vsl } = this.searchForm;
       this.$store.commit('searchTags', tags);
       this.$store.commit('salesTags', gs);
-      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen, ess, ood });
+      this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen, ess, ood, vsl });
     }
   }
 };

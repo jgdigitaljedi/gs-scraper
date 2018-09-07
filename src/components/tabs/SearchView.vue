@@ -7,6 +7,7 @@
         <!-- <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/> -->
         <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul" :hiddenView="false" />
         <CollapseResults v-if="results && results.ood && results.ood.length" :source="'Oodle'" :dataArr="results.ood" :hiddenView="false" />
+        <CollapseResults v-if="results && results.vsl && results.vsl.length" :source="'VarageSale'" :dataArr="results.vsl" :hiddenView="false" />
       </div>
       <div class="result-tab--combined" v-if="view === 'combined'">
         <CollapseResults v-if="results && results.combinedListings && results.combinedListings.length" :source="'Listings'" :dataArr="combinedListings" :hiddenView="false" />

@@ -4,10 +4,9 @@ export default {
   get(data) {
     if (data && data.hasOwnProperty('gs') && data.hasOwnProperty('area')) {
       return axios
-        .post('http://localhost:3000/api/garagesales/estatesales', {
+        .post('http://localhost:3000/api/varage', {
           area: data.area,
-          tags: data.gs,
-          widen: data.widen
+          tags: data.tags
         })
         .then(result => {
           if (result.data && result.data.payload) {
@@ -17,9 +16,9 @@ export default {
           }
         })
         .catch(err => {
-          console.error('estateSales err', err);
+          console.warn('varage err', err);
           return { error: true, err: err };
         });
     }
   }
-}
+};

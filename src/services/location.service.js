@@ -9,7 +9,8 @@ export default {
         clExtra: '',
         ouArea: 'Austin, TX',
         estateBounds: '30.341523_-97.530101',
-        oodle: 'austin-tx'
+        oodle: 'austin-tx',
+        varage: 'austin-round-rock-tx'
       },
       {
         name: 'Fort Worth',

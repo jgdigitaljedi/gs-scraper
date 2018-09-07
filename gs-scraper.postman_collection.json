@@ -151,6 +151,35 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "VarageSale",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tags\": [\"nintendo\", \"playstation\"],\n\t\"area\": {\n\t\t\"varage\": \"austin-round-rock-tx\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/varage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"varage"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

@@ -15,4 +15,6 @@ router.use('/garagesales', require('./proxy/garageSales'));
 
 router.use('/oodle', require('./proxy/oodle'));
 
+router.use('/varage', require('./proxy/varageSale'));
+
 module.exports = router;

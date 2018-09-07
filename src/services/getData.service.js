@@ -4,6 +4,7 @@ import Offerup from './offerUp.service';
 import store from '../store';
 import EstateSales from './salesServices/estateSales.service';
 import Oodle from './oodle.service';
+import Varage from './varageSale.service';
 
 let hidden, faves;
 
@@ -31,7 +32,7 @@ function getCl(search) {
       } else if (result.error) {
         return { error: true, message: `ERROR FECTHING CRAIGSLIST ${search.which.toUpperCase()}!` };
       } else {
-        return result.map(o => {
+        return result.filter(r => r).map(o => {
           o.hide = isHidden(o);
           o.favorite = isFave(o);
           return o;
@@ -55,9 +56,10 @@ export default {
     const ouPromise = this.ouPromise(search);
     const esPromise = this.esPromise(search);
     const oodPromise = this.oodlePromise(search);
+    const varPromise = this.varagePromise(search);
 
-    return Promise.all([cllPromise, clsPromise, ouPromise, esPromise, oodPromise]).then(result => {
-      const listingsIndexes = [0, 2, 4];
+    return Promise.all([cllPromise, clsPromise, ouPromise, esPromise, oodPromise, varPromise]).then(result => {
+      const listingsIndexes = [0, 2, 4, 5];
       const salesIndexes = [1, 3];
       const validListings = listingsIndexes
         .map(item => {
@@ -78,6 +80,7 @@ export default {
         oul: result[2],
         ess: result[3],
         ood: result[4],
+        vsl: result[5],
         combinedListings: [].concat.apply([], validListings),
         combinedSales: [].concat.apply([], validSales)
       };
@@ -178,6 +181,27 @@ export default {
         })
         .catch(err => {
           console.warn('Oodle err', err);
+          return null;
+        });
+    } else {
+      return Promise.resolve(null);
+    }
+  },
+  varagePromise(search) {
+    if (search.vsl) {
+      return Varage.get(search)
+        .then(result => {
+          if (result && Array.isArray(result)) {
+            return result.map(o => {
+              o.hide = isHidden(o);
+              o.favorite = isFave(o);
+              return o;
+            });
+          }
+          return result;
+        })
+        .catch(err => {
+          console.warn('VarageSale err', err);
           return null;
         });
     } else {
