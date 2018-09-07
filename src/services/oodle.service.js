@@ -17,7 +17,7 @@ export default {
           }
         })
         .catch(err => {
-          console.error('oodle err', err);
+          console.warn('oodle err', err);
           return { error: true, err: err };
         });
     }
