@@ -53,9 +53,9 @@ function formatItem(item, index, which) {
     description: item.hasOwnProperty('description') ? item.description[0] : 'NO DESCRIPTION',
     image: item.hasOwnProperty('enc:enclosure') ? item['enc:enclosure'][0].$.resource : null,
     price: title ? getPrice(title) : 'NO PRICE',
-    key: index,
+    key: id ? id : index,
     id: id,
-    source: 'Craiglist',
+    source: 'Craigslist',
     type: which
   };
 }
@@ -84,14 +84,14 @@ function parseResult(response, keyBase, which) {
 function makeWhich({ which, area, widen }, tag) {
   return which === 'garage sales'
     ? `https://${area.uri}.craigslist.org/search/${area.clExtra}gms?format=rss&query=${tag}${
-    widen ? nearbyString(area.uri) : ''
-    }`
+        widen ? nearbyString(area.uri) : ''
+      }`
     : `https://${area.uri}.craigslist.org/search/${area.clExtra}sss?format=rss&query=${tag}${
-    widen ? nearbyString(area.uri) : ''
-    }`;
+        widen ? nearbyString(area.uri) : ''
+      }`;
 }
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
   const tagsURI = makeURIformat(req.body.tags);
   axios
     .all(tagsURI.map(tag => axios.get(makeWhich(req.body, tag))))

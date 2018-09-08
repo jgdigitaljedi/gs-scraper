@@ -28,11 +28,13 @@
       </b-field>
       <div class="search-form--listings--options">
         <h4>Listing Sites</h4>
-        <b-checkbox v-model="searchForm.cll">Craiglist</b-checkbox>
-        <!-- <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox> -->
-        <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
-        <b-checkbox v-model="searchForm.ood">Oodle</b-checkbox>
-        <b-checkbox v-model="searchForm.vsl">VarageSale</b-checkbox>
+        <div class="search-form--listings--options--checkboxes">
+          <!-- <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox> -->
+          <b-checkbox v-model="searchForm.cll">Craigslist</b-checkbox>
+          <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
+          <b-checkbox v-model="searchForm.ood">Oodle</b-checkbox>
+          <b-checkbox v-model="searchForm.vsl">VarageSale</b-checkbox>
+        </div>
       </div>
     </div>
 
@@ -55,7 +57,7 @@
     </div>
 
     <div class="search-form--actions">
-      <button class="button is-primary" type="submit" :disabled="!searchForm.area">
+      <button class="button is-primary" type="submit" :disabled="searchDisabled">
         <b-icon icon="search-web"></b-icon>
         <span>Search</span>
       </button>
@@ -84,7 +86,10 @@ export default {
         ood: true,
         vsl: true
       },
-      cities: Locations.locations()
+      cities: Locations.locations(),
+      listingsKeys: ['cll', 'oul', 'ood', 'vsl'],
+      salesKeys: ['cls', 'ess'],
+      searchDisabled: true
     };
   },
   props: {
@@ -96,6 +101,31 @@ export default {
       this.$store.commit('searchTags', tags);
       this.$store.commit('salesTags', gs);
       this.$emit('runSearch', { area, tags, gs, cll, cls, lgl, oul, widen, ess, ood, vsl });
+    }
+  },
+  watch: {
+    searchForm: {
+      handler(val) {
+        let listingsValid, salesValid;
+        const areaValid = !!val.area;
+
+        const numListings = this.listingsKeys.filter(key => val[key]);
+        if (numListings && numListings.length) {
+          listingsValid = val.tags && val.tags.length ? true : false;
+        } else {
+          listingsValid = true;
+        }
+
+        const numSales = this.salesKeys.filter(key => val[key]);
+        if (numSales && numSales.length) {
+          salesValid = val.gs && val.gs.length ? true : false;
+        } else {
+          salesValid = true;
+        }
+
+        this.searchDisabled = !(listingsValid && salesValid && areaValid);
+      },
+      deep: true
     }
   }
 };
@@ -118,6 +148,13 @@ export default {
     div {
       h4 {
         font-weight: bold;
+      }
+    }
+    .search-form--listings--options--checkboxes {
+      display: flex;
+      flex-wrap: wrap;
+      .b-checkbox.checkbox {
+        margin: 0.2em 0 0 0.5em;
       }
     }
   }

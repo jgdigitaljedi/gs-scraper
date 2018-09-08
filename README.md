@@ -1,8 +1,9 @@
 # gs-scraper
 
-The point of this little project is to build something where I can search across multiple classifieds and garage/estate sale sites for the thing I am looking to buy all at once (usually retro video games). 
+The point of this little project is to build something where I can search across multiple classifieds and garage/estate sale sites for the thing I am looking to buy all at once (usually retro video games).
 
 ### Prerequisites
+
 - mongodb installed and running
 - node
 - npm
@@ -31,10 +32,13 @@ npm run build
 npm run lint
 ```
 
+## Notes
+
+- some of the salesServices are really similar. I thought about making 1 method to replace a few of them and calling it with different arguments, but I like the sepration of concerns that exists if any sort of changes were to happen to a particular source so I'm leaving it. Same goes for the backend services.
+
 ## Future Plans
-- form validation on search form (need to have it disable search button if fields are blank)
-- look into using VarageSale
-- I've been messy and the opposite of DRY; clean it up; lots of loose ends
+
+- clean it up; lots of loose ends
 - add more garage sale search sites
 - refactor to be even more modular
 - make it look good

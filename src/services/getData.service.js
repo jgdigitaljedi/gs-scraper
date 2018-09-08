@@ -1,10 +1,10 @@
-import Craigslist from './craiglist.service';
-// import Letgo from './letgo.service';
-import Offerup from './offerUp.service';
+import Craigslist from './salesServices/craiglist.service';
+// import Letgo from './salesServices/letgo.service';
+import Offerup from './salesServices/offerUp.service';
 import store from '../store';
 import EstateSales from './salesServices/estateSales.service';
-import Oodle from './oodle.service';
-import Varage from './varageSale.service';
+import Oodle from './salesServices/oodle.service';
+import Varage from './salesServices/varageSale.service';
 
 let hidden, faves;
 
@@ -58,33 +58,35 @@ export default {
     const oodPromise = this.oodlePromise(search);
     const varPromise = this.varagePromise(search);
 
-    return Promise.all([cllPromise, clsPromise, ouPromise, esPromise, oodPromise, varPromise]).then(result => {
-      const listingsIndexes = [0, 2, 4, 5];
-      const salesIndexes = [1, 3];
-      const validListings = listingsIndexes
-        .map(item => {
-          const r = result[item];
-          return r && Array.isArray(r) ? r : null;
-        })
-        .filter(f => f);
-      const validSales = salesIndexes
-        .map(item => {
-          const r = result[item];
-          return r && Array.isArray(r) ? r : null;
-        })
-        .filter(f => f);
-      return {
-        cll: result[0],
-        cls: result[1],
-        // lgl: result[2],
-        oul: result[2],
-        ess: result[3],
-        ood: result[4],
-        vsl: result[5],
-        combinedListings: [].concat.apply([], validListings),
-        combinedSales: [].concat.apply([], validSales)
-      };
-    });
+    return Promise.all([cllPromise, clsPromise, ouPromise, esPromise, oodPromise, varPromise]).then(
+      result => {
+        const listingsIndexes = [0, 2, 4, 5];
+        const salesIndexes = [1, 3];
+        const validListings = listingsIndexes
+          .map(item => {
+            const r = result[item];
+            return r && Array.isArray(r) ? r : null;
+          })
+          .filter(f => f);
+        const validSales = salesIndexes
+          .map(item => {
+            const r = result[item];
+            return r && Array.isArray(r) ? r : null;
+          })
+          .filter(f => f);
+        return {
+          cll: result[0],
+          cls: result[1],
+          // lgl: result[2],
+          oul: result[2],
+          ess: result[3],
+          ood: result[4],
+          vsl: result[5],
+          combinedListings: [].concat.apply([], validListings),
+          combinedSales: [].concat.apply([], validSales)
+        };
+      }
+    );
   },
   cllPromise(search) {
     if (search.cll) {

@@ -2,9 +2,6 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import '../node_modules/buefy/lib/buefy.css';
 import App from './App.vue';
-import Craigslist from './services/craiglist.service';
-import Letgo from './services/letgo.service';
-import Offerup from './services/offerUp.service';
 import GetData from './services/getData.service';
 import Sort from './services/sort.service';
 import Storage from './services/storage.service';
@@ -37,9 +34,6 @@ Vue.config.productionTip = false;
 new Vue({
   render: h => h(App),
   store,
-  Craigslist,
-  Letgo,
-  Offerup,
   GetData,
   Sort,
   Storage,

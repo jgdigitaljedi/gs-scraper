@@ -73,7 +73,10 @@ export default {
       cll: null,
       cls: null,
       lgl: null,
-      oul: null
+      oul: null,
+      ess: null,
+      ood: null,
+      vsl: null
     };
     this.isLoading = false;
     this.noListings = false;
@@ -221,7 +224,6 @@ export default {
       this.resetHidden();
     },
     resetFaves: function() {
-      console.log('initial fave reset call');
       this.resetFaveResults();
     },
     sortOption: function(val) {
