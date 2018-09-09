@@ -121,7 +121,6 @@ export default {
     showResult(card) {
       Storage.showCard(card)
         .then(result => {
-          console.log('show result result', result);
           if (result.data.error) {
             this.$toast.open({
               type: 'is-danger',
@@ -154,7 +153,6 @@ export default {
       this.cardData.description &&
       this.cardData.description.length > 252
     ) {
-      // console.warn('GREATER THAN 252');
       const dShortened = this.cardData.description.substr(0, 249);
       this.cardData.description = dShortened + '...';
     }

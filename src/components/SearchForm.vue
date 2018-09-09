@@ -87,7 +87,7 @@ export default {
         vsl: true
       },
       cities: Locations.locations(),
-      listingsKeys: ['cll', 'oul', 'ood', 'vsl'],
+      listingsKeys: ['cll', 'oul', 'ood', 'vsl', 'lgl'],
       salesKeys: ['cls', 'ess'],
       searchDisabled: true
     };
