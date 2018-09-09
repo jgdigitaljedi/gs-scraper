@@ -29,7 +29,7 @@
       <div class="search-form--listings--options">
         <h4>Listing Sites</h4>
         <div class="search-form--listings--options--checkboxes">
-          <!-- <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox> -->
+          <b-checkbox v-model="searchForm.lgl">LetGo</b-checkbox>
           <b-checkbox v-model="searchForm.cll">Craigslist</b-checkbox>
           <b-checkbox v-model="searchForm.oul">OfferUp</b-checkbox>
           <b-checkbox v-model="searchForm.ood">Oodle</b-checkbox>

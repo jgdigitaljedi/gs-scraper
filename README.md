@@ -39,10 +39,8 @@ npm run lint
 ## Future Plans
 
 - clean it up; lots of loose ends
-- add more garage sale search sites
-- refactor to be even more modular
+- add more garage sale search sites (if I find anymore that seem useful)
 - make it look good
-- re-implement LetGo
 - possibly make an electron app (can use indexDB or jsonStorage instead of mongo) or vuido app (would just stand up DigitalOcean droplet to handle backend)?
 
 I was going to take this a lot further originally, but some of the ideas I came up with seemed better suited for a website/business idea I had which I will be prusuing in a private repo after this is "finished enough".

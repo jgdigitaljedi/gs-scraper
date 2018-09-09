@@ -6,36 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "letGo",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/letgo",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"letgo"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "CL Listings",
 			"request": {
 				"method": "POST",
@@ -176,6 +146,35 @@
 					"path": [
 						"api",
 						"varage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "letGo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tags\": [\"nintendo\", \"sega\", \"playstation\", \"xbox\"],\n\t\"area\": {\n\t\t\"lgKey\": \"0231301203311\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/letgo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"letgo"
 					]
 				}
 			},

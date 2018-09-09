@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default {
   get(data) {
-    if (data && data.hasOwnProperty('gs') && data.hasOwnProperty('area')) {
+    if (data && data.hasOwnProperty('tags') && data.hasOwnProperty('area')) {
       return axios
         .post('http://localhost:3000/api/oodle', {
           area: data.area,
