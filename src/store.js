@@ -12,7 +12,8 @@ export default new Vuex.Store({
     hiddenIds: [],
     faveIds: [],
     faveCards: [],
-    currentSort: null
+    currentSort: null,
+    activeTab: 0
   },
   getters: {
     // Compute derived state based on the current state. More like computed property.
@@ -26,7 +27,8 @@ export default new Vuex.Store({
     },
     hiddenCards: state => state.hiddenCards,
     faveCards: state => state.faveCards,
-    currentSort: state => state.currentSort
+    currentSort: state => state.currentSort,
+    activeTab: state => state.activeTab
   },
   mutations: {
     // Mutate the current state
@@ -44,6 +46,9 @@ export default new Vuex.Store({
     },
     currentSort(state, cSort) {
       state.currentSort = cSort;
+    },
+    activeTab(state, active) {
+      state.activeTab = active;
     }
   },
   actions: {

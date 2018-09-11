@@ -111,6 +111,12 @@ export default {
         console.error(err);
         this.$toast.open(err.message);
       });
+  },
+  watch: {
+    activeTab: function(val) {
+      console.log('active tab changed', val);
+      this.$store.commit('activeTab', val);
+    }
   }
 };
 </script>

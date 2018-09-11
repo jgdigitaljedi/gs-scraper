@@ -179,6 +179,35 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "priceCheck",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"query\": \"power stone 2\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/pricecheck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pricecheck"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

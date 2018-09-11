@@ -17,4 +17,6 @@ router.use('/oodle', require('./proxy/oodle'));
 
 router.use('/varage', require('./proxy/varageSale'));
 
+router.use('/pricecheck', require('./actions/ebayPrice'));
+
 module.exports = router;
