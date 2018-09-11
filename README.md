@@ -38,6 +38,7 @@ npm run lint
 
 ## Future Plans
 
+- maybe add average price lookup on ebay to see if an item for sale is a good deal
 - clean it up; lots of loose ends
 - add more garage sale search sites (if I find anymore that seem useful)
 - make it look good

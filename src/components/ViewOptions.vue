@@ -59,6 +59,7 @@ export default {
       this.$emit('viewChanged', this.viewType);
     },
     sortSelected: function() {
+      this.$store.commit('currentSort', this.sortSelected);
       this.$emit('sortSelected', this.sortSelected);
     }
   },
@@ -74,12 +75,14 @@ export default {
     this.viewType = 'grouped';
     this.$emit('viewChanged', this.viewType);
     this.sortOptions = [
-      { display: 'Price (low - high)', sort: Sort.sortByPrice },
-      { display: 'Price (high - low)', sort: Sort.sortByPrice, reverse: true },
       { display: 'Date (desc)', sort: Sort.sortByDateDesc },
       { display: 'Date (asc)', sort: Sort.sortByDateAsc },
+      { display: 'Price (low - high)', sort: Sort.sortByPrice },
+      { display: 'Price (high - low)', sort: Sort.sortByPrice, reverse: true },
       { display: 'Relevance', sort: Sort.sortByRel }
     ];
+    this.sortSelected = this.sortOptions[0];
+    this.$store.commit('currentSort', this.sortSelected);
   }
 };
 </script>

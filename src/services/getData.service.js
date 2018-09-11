@@ -47,7 +47,6 @@ function getCl(search) {
 
 export default {
   fetch(search) {
-    // hidden = Storage.getHiddenCards();
     hidden = store.getters.hiddenIds;
     faves = store.getters.faveIds;
     const cllPromise = this.cllPromise(search);

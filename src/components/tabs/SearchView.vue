@@ -56,6 +56,9 @@ export default {
     },
     faveCards() {
       return this.$store.getters.faveCards;
+    },
+    cSort() {
+      return this.$store.getters.currentSort;
     }
   },
   data: function() {
@@ -155,6 +158,7 @@ export default {
         this.combinedListings = this.results.combinedListings;
         this.combinedSales = this.results.combinedSales;
         this.isLoading = false;
+        this.sortResults(this.cSort);
         this.noResults();
       });
     },
