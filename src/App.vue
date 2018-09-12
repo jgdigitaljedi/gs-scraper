@@ -7,7 +7,7 @@
     <div class="sidebar" :class="{'hidden': hideSidebar}">
       <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
       <hr>
-      <ViewOptions v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults" v-on:clearHidden="resetHidden" v-on:clearFaves="resetFaveResults"/>
+      <ViewOptions :tab="activeTab" v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults" v-on:clearHidden="resetHidden" v-on:clearFaves="resetFaveResults"/>
     </div>
     <b-tabs v-model="activeTab" class="app--tabs">
       <b-tab-item label="Search" class="app--tabs--tab">
@@ -111,12 +111,6 @@ export default {
         console.error(err);
         this.$toast.open(err.message);
       });
-  },
-  watch: {
-    activeTab: function(val) {
-      console.log('active tab changed', val);
-      this.$store.commit('activeTab', val);
-    }
   }
 };
 </script>

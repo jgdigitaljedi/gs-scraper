@@ -9,6 +9,7 @@ import AppLogic from './services/appLogic.service';
 import { Toast } from 'buefy';
 import store from './store';
 import BackToTop from 'vue-backtotop';
+import PriceCheck from './services/priceCheck.service';
 
 Vue.use(Buefy, {
   defaultToastDuration: 2000,
@@ -26,6 +27,7 @@ Vue.component(Buefy.Select.name, Buefy.Select);
 Vue.component(Buefy.Loading.name, Buefy.Loading);
 Vue.component(Buefy.Radio.name, Buefy.Radio);
 Vue.component(Buefy.Tabs.name, Buefy.Tabs);
+Vue.component(Buefy.Modal.name, Buefy.Modal);
 
 Vue.prototype.$toast = Toast;
 
@@ -37,5 +39,6 @@ new Vue({
   GetData,
   Sort,
   Storage,
-  AppLogic
+  AppLogic,
+  PriceCheck
 }).$mount('#app');
