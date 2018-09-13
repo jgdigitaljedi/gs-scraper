@@ -6,6 +6,7 @@ const _flattenDeep = require('lodash/flattenDeep');
 const _uniqBy = require('lodash/uniqBy');
 
 function cleanItem(item) {
+  console.log('item', item);
   return {
     key: item.hasOwnProperty('id') ? item.id : Math.floor(Math.random() * 33333),
     id: item.hasOwnProperty('id')
@@ -32,7 +33,7 @@ function makeRequest({ area, widen }, tag) {
           radius: widen ? 50 : 30,
           limit: widen ? 50 : 30,
           price_min: 0,
-          price_max: 1000
+          price_max: 10000
         })
         .then(
           function success(response) {
@@ -43,16 +44,17 @@ function makeRequest({ area, widen }, tag) {
             }
           },
           function error(err) {
-            resolve({ error: true, message: 'ERROR FETCHING OFFERUP RESULTS!', err });
+            resolve({ error: true, message: 'ERROR FETCHING OFFERUP RESULTS!', code: err });
           }
         );
     } catch (err) {
-      resolve({ error: true, message: 'ERROR FETCHING OFFERUP RESULTS!', err });
+      // I submitted a PR against this offerup library that has yet to be merged. The issue crashes the server (for me with Wichita Falls searches).
+      resolve({ error: true, message: 'ERROR FETCHING OFFERUP RESULTS!', code: err });
     }
   });
 }
 
-router.post('/', function(req, res) {
+router.post('/', function (req, res) {
   if (
     req.body.hasOwnProperty('area') &&
     req.body.area &&

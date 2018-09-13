@@ -11,12 +11,12 @@ function formatItem(item, index) {
   return {
     title: item.hasOwnProperty('name') ? item.name : 'NO TITLE',
     date: item.hasOwnProperty('updated_at')
-      ? format(item['updated_at'][0], 'MM/DD/YYYY hh:mm a')
+      ? format(item['updated_at'], 'MM/DD/YYYY hh:mm a')
       : 'NO DATE',
     link:
       item.hasOwnProperty('image_information') &&
-      item.hasOwnProperty('id') &&
-      item.image_information
+        item.hasOwnProperty('id') &&
+        item.image_information
         ? `https://us.letgo.com/en/i/${item.image_information.trim()}_${item.id}`
         : null,
     description: item.hasOwnProperty('description') ? item.description : 'NO DESCRIPTION',
@@ -29,14 +29,14 @@ function formatItem(item, index) {
   };
 }
 
-router.post('/', function(req, res) {
+router.post('/', function (req, res) {
   const tagsURI = makeURIformat(req.body.tags);
   if (tagsURI && tagsURI.length) {
     // thankfully LetGo handles multiple tags in 1 search
     axios
       .get(
         `https://search-products-pwa.letgo.com/api/products?country_code=US&offset=0&search_term=${tagsURI}&quadkey=${
-          req.body.area.lgKey
+        req.body.area.lgKey
         }&sort=recent&num_results=32&distance_type=mi`,
         {
           headers: {

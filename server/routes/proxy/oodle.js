@@ -4,10 +4,41 @@ const express = require('express');
 const router = express.Router();
 const _flattenDeep = require('lodash/flattenDeep');
 const _uniqBy = require('lodash/uniqBy');
+const _isFinite = require('lodash/isFinite');
+const subDays = require('date-fns/sub_days');
+const subWeeks = require('date-fns/sub_weeks')
+const format = require('date-fns/format');
 
 function makeURIformat(arr) {
   // return arr.map(tag => encodeURIComponent(tag.trim())).join();
   return arr.map(tag => encodeURIComponent(tag.trim()));
+}
+
+function timeUnitCoversion(num, unit) {
+  const now = new Date();
+  switch (unit) {
+    case 'days':
+      return subDays(now, num);
+    case 'weeks':
+      return subWeeks(now, num);
+    case 'month':
+      return subDays(now, 30);
+    default:
+      return now;
+  }
+}
+
+// the point of this is to make Ooodles dates sortable with the other sources dates
+function makeDateUsable(str) {
+  const strSplit = str.split(' ');
+  const firstNum = parseInt(strSplit[0]);
+  if (_isFinite(firstNum)) {
+    // assuming it says something like '1 day ago', '2 weeks ago', etc here
+    return format(timeUnitCoversion(firstNum, strSplit[1]), 'MM/DD/YYYY hh:mm a');
+  } else {
+    // assuming it says 'Over 4 weeks ago' here. Could be wrong but haven't done enough looking to make sure.
+    return format(subDays(new Date(), 42), 'MM/DD/YYYY hh:mm a');
+  }
 }
 
 function makeRequest(area, tag, widen) {
@@ -42,9 +73,11 @@ function makeRequest(area, tag, widen) {
           const id = $(element)
             .find('.new-listingaction')
             .attr('data-listingid');
-          const date = $(element)
-            .find('.posted-on > span:nth-child(1)')
-            .text();
+          const date = makeDateUsable(
+            $(element)
+              .find('.posted-on > span:nth-child(1)')
+              .text()
+          );
           const link = $(element)
             .find('.new-listing-action li:nth-child(2) > a')
             .attr('href');
