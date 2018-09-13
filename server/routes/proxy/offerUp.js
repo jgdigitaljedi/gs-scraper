@@ -6,7 +6,6 @@ const _flattenDeep = require('lodash/flattenDeep');
 const _uniqBy = require('lodash/uniqBy');
 
 function cleanItem(item) {
-  console.log('item', item);
   return {
     key: item.hasOwnProperty('id') ? item.id : Math.floor(Math.random() * 33333),
     id: item.hasOwnProperty('id')
@@ -54,7 +53,7 @@ function makeRequest({ area, widen }, tag) {
   });
 }
 
-router.post('/', function (req, res) {
+router.post('/', function(req, res) {
   if (
     req.body.hasOwnProperty('area') &&
     req.body.area &&

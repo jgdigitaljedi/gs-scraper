@@ -94,9 +94,6 @@ export default {
     sortSelected: function() {
       this.$store.commit('currentSort', this.sortSelected);
       this.$emit('sortSelected', this.sortSelected);
-    },
-    tab: function(val) {
-      console.log('A TAB', val);
     }
   },
   methods: {
