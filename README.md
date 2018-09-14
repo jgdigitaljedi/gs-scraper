@@ -39,6 +39,8 @@ npm run lint
 ## Future Plans
 
 - clean it up; lots of loose ends
+- better utilize scss variables for consistency
+- maybe some nice fonts?
 - make hidden only show hidden for current data set. Then add a 'Show All' button to show all hidden for when I want to do some cleanup.
 - add 'cleanup old' button to hidden to delete hidden results over a certain age
 - add loading animation back to search

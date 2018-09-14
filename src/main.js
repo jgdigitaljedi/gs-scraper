@@ -28,6 +28,7 @@ Vue.component(Buefy.Loading.name, Buefy.Loading);
 Vue.component(Buefy.Radio.name, Buefy.Radio);
 Vue.component(Buefy.Tabs.name, Buefy.Tabs);
 Vue.component(Buefy.Modal.name, Buefy.Modal);
+Vue.component(Buefy.Tooltip.name, Buefy.Tooltip);
 
 Vue.prototype.$toast = Toast;
 
