@@ -1,35 +1,6 @@
 <template>
   <section class="hidden-section">
-    <div class="hidden-extra-controls">
-      <b-tooltip label="Toggles between showing hidden from current data and showing all hidden in DB.">
-        <button class="button is-info" v-on:click="toggleHidden" v-if="!showAll">
-          <b-icon icon="eye"></b-icon>
-          Show All
-        </button>
-        <button class="button is-info" v-on:click="toggleHidden" v-if="showAll">
-          <b-icon icon="eye-outline"></b-icon>
-          Show Current
-        </button>
-      </b-tooltip>
-      <b-tooltip label="Makes all hidden results match that of the current search data.">
-        <button class="button is-warning" v-on:click="mergeHidden">
-          <b-icon icon="source-merge"></b-icon>
-          Merge Hidden
-        </button>
-      </b-tooltip>
-      <b-tooltip label="Opens a modal asking for a # of days. Then will delete any hidden results older than the # selected.">
-        <button class="button is-warning" v-on:click="trimHidden">
-          <b-icon icon="content-cut"></b-icon>
-          Trim Hidden
-        </button>
-      </b-tooltip>
-      <b-tooltip label="Deletes all hidden results both locally and on server.">
-        <button class="button is-danger" v-on:click="resetHidden">
-          <b-icon icon="delete"></b-icon>
-          Reset Hidden
-        </button>
-      </b-tooltip>
-    </div>
+    <HFToolbar :showAll="showAll" :which="'hidden'" v-on:toggle="toggleHidden" v-on:merge="mergeHidden" v-on:trim="trimHidden" v-on:reset="resetHidden" />
     <CollapseResults v-if="hiddenResults &&  hiddenResults.length" :source="'Hidden Results'" :dataArr="hiddenResults" :hiddenView="true" />
     <CollapseResults v-if="hiddenSales &&  hiddenSales.length" :source="'Hidden Sales'" :dataArr="hiddenSales" :hiddenView="true" />
   </section>
@@ -38,13 +9,15 @@
 <script>
 import Storage from '../../services/storage.service.js';
 import CollapseResults from '../CollapseResults';
+import HFToolbar from '../HFToolbar';
 // import HiddenFaves from '../../services/hiddenFaves.service.js';
 // import AppLogic from '../../services/appLogic.service.js';
 
 export default {
   name: 'HiddenView',
   components: {
-    CollapseResults
+    CollapseResults,
+    HFToolbar
   },
   data: function() {
     return {
@@ -123,29 +96,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../styles/theme.scss';
-@import '../../styles/shadows.scss';
 .hidden-section {
   width: 100%;
-  .hidden-extra-controls {
-    padding: 1em;
-    border-bottom: 2px solid $warning;
-    background-color: $light;
-    text-align: center;
-    .button {
-      margin: 0 0.5em;
-      @include box_shadow(2);
-      transition: box-shadow 0.2s ease-out;
-      &:hover {
-        @include box_shadow(3);
-      }
-      &:active {
-        @include box_shadow(1);
-      }
-      .icon {
-        margin-right: 0.5em;
-      }
-    }
-  }
 }
 </style>
