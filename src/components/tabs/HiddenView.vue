@@ -23,6 +23,9 @@ export default {
   computed: {
     hiddenCards() {
       return this.$store.getters.hiddenCards;
+    },
+    currentHidden() {
+      return this.$store.getters.currentHidden;
     }
   },
   methods: {
@@ -38,6 +41,8 @@ export default {
     }
   },
   created() {
+    console.log('currentHidden', this.currentHidden);
+    console.log('hiddenCards', this.hiddenCards);
     this.hiddenSales = [];
     Storage.getHiddenCards()
       .then(result => {

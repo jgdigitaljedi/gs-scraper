@@ -155,6 +155,7 @@ export default {
             }
           }
         });
+        this.$store.commit('allResults', this.results);
         this.combinedListings = this.results.combinedListings;
         this.combinedSales = this.results.combinedSales;
         this.isLoading = false;
