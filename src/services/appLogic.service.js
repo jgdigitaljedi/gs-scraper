@@ -1,12 +1,13 @@
 import Storage from './storage.service';
 
 export default {
-  clearAll: function (results, listings, sales, which) {
+  clearAll: function(results, listings, sales, which) {
     return new Promise((resolve, reject) => {
       const clearMethod = which === 'hide' ? Storage.clearHidden : Storage.deleteAllFaves;
       clearMethod()
         .then(() => {
           let newResults = {};
+          console.log('appLogic results', results);
           if (results) {
             const keys = Object.keys(results);
             keys.forEach(key => {
@@ -23,17 +24,18 @@ export default {
           const newListings =
             listings && Array.isArray(listings)
               ? [...listings].map(listing => {
-                listing[which] = false;
-                return listing;
-              })
+                  listing[which] = false;
+                  return listing;
+                })
               : [];
           const newSales =
             sales && Array.isArray(sales)
               ? [...sales].map(sale => {
-                sale[which] = false;
-                return sale;
-              })
+                  sale[which] = false;
+                  return sale;
+                })
               : [];
+          console.log('newResults', newResults);
           resolve({
             results: newResults,
             listings: newListings,

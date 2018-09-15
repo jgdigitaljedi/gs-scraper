@@ -1,5 +1,6 @@
 <template>
   <section class="faves-section">
+    <HFToolbar :showAll="showAll" :which="'favorite'" :buttonWhich="'Faves'" v-on:toggle="toggleFaves" v-on:merge="mergeFaves" v-on:trim="trimFaves" v-on:reset="resetFaves" />
     <div class="no-faves" v-if="(!favesResults || !favesResults.length) && (!favesSales || !favesSales.length)">
       <p>There are currently no favorited items to view!</p>
     </div>
@@ -11,16 +12,20 @@
 <script>
 import Storage from '../../services/storage.service.js';
 import CollapseResults from '../CollapseResults';
+import HFToolbar from '../HFToolbar';
+import HiddenFaves from '../../services/hiddenFaves.service.js';
 
 export default {
   name: 'FavesView',
   components: {
-    CollapseResults
+    CollapseResults,
+    HFToolbar
   },
   data: function() {
     return {
       favesResults: Array,
-      favesSales: []
+      favesSales: [],
+      showAll: false
     };
   },
   computed: {
@@ -29,6 +34,34 @@ export default {
     }
   },
   methods: {
+    toggleFaves: function() {
+      console.log('toggling faves');
+    },
+    trimFaves: function() {
+      console.log('trimming faves');
+    },
+    mergeFaves: function() {
+      console.log('merging faves');
+    },
+    resetFaves: function() {
+      HiddenFaves.reset('favorite')
+        .then(result => {
+          console.log('initial result', result);
+          this.$store.commit('allResults', result);
+          this.$store.commit('faveCards', []);
+          this.$toast.open({
+            type: 'is-success',
+            message: 'Faves were successfully reset!'
+          });
+        })
+        .catch(err => {
+          this.$toast.open({
+            type: 'is-danger',
+            message: err.message
+          });
+          console.warn(err.code);
+        });
+    },
     listingsAndSales: function(cards) {
       this.favesResults = cards.filter(item => {
         item.hide = false;

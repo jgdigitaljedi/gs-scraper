@@ -13,19 +13,19 @@
     <b-tooltip :label="mergeStr">
       <button class="button is-warning" v-on:click="merge">
         <b-icon icon="source-merge"></b-icon>
-        Merge Hidden
+        Merge {{buttonWhich}}
       </button>
     </b-tooltip>
     <b-tooltip :label="trimStr">
       <button class="button is-warning" v-on:click="trim">
         <b-icon icon="content-cut"></b-icon>
-        Trim Hidden
+        Trim {{buttonWhich}}
       </button>
     </b-tooltip>
     <b-tooltip :label="resetStr">
       <button class="button is-danger" v-on:click="reset">
         <b-icon icon="delete"></b-icon>
-        Reset Hidden
+        Reset {{buttonWhich}}
       </button>
     </b-tooltip>
   </div>
@@ -35,7 +35,8 @@
 export default {
   name: 'HFToolbar',
   props: {
-    which: String,
+    which: '',
+    buttonWhich: '',
     showAll: false
   },
   data: function() {

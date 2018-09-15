@@ -4,7 +4,7 @@
       <h2>Item Listings</h2>
       <div class="result-tab--grouped" v-if="view === 'grouped'">
         <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll" :hiddenView="false" />
-        <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl"/>
+        <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl" :hiddenView="false"/>
         <CollapseResults v-if="results && results.oul && results.oul.length" :source="'OfferUp'" :dataArr="results.oul" :hiddenView="false" />
         <CollapseResults v-if="results && results.ood && results.ood.length" :source="'Oodle'" :dataArr="results.ood" :hiddenView="false" />
         <CollapseResults v-if="results && results.vsl && results.vsl.length" :source="'VarageSale'" :dataArr="results.vsl" :hiddenView="false" />
@@ -59,6 +59,9 @@ export default {
     },
     cSort() {
       return this.$store.getters.currentSort;
+    },
+    allResults() {
+      return this.$store.getters.allResults;
     }
   },
   data: function() {
@@ -236,6 +239,16 @@ export default {
     },
     faveCards: function(val) {
       this.setFaves(val);
+    },
+    allResults: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        console.log('val', val);
+        this.results = val;
+        this.combinedListings = val.combinedListings;
+        this.combinedSales = val.combinedSales;
+      }
     },
     hiddenCards: {
       immediate: true,

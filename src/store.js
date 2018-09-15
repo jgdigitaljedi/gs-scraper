@@ -40,7 +40,8 @@ export default new Vuex.Store({
           });
         })
       );
-    }
+    },
+    allResults: state => state.allResults
   },
   mutations: {
     // Mutate the current state
