@@ -24,7 +24,7 @@ module.exports.trimHF = function(req, res) {
       } else if (result && result.length) {
         const cutoffDate = subDays(new Date(), req.body.days);
         const oldArr = result
-          .filer(item => {
+          .filter(item => {
             const iDate = parse(item.date);
             return isBefore(iDate, cutoffDate);
           })
