@@ -77,14 +77,18 @@ export default {
       }
     },
     listingsAndSales: function(cards) {
-      this.hiddenResults = cards.filter(item => {
-        item.hide = true;
-        if (item.type === 'garage sales') {
-          this.hiddenSales.push(item);
-        } else {
-          return item;
-        }
-      });
+      if (cards) {
+        this.hiddenResults = cards.filter(item => {
+          item.hide = true;
+          if (item.type === 'garage sales') {
+            this.hiddenSales.push(item);
+          } else {
+            return item;
+          }
+        });
+      } else {
+        this.hiddenResults = [];
+      }
     }
   },
   created() {
