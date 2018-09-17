@@ -208,6 +208,127 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "storageTrim",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"which\": \"hidden\",\n\t\"days\": 3\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/storage/trim",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"storage",
+						"trim"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getFromStorage",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"which\": \"hidden\",\n\t\"days\": 3\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/storage/hidden",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"storage",
+						"hidden"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteAllHF",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"which\": \"hidden\",\n\t\"days\": 3\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/storage/hidden",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"storage",
+						"hidden"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "storageSave",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"action\": \"hidden\",\n\t\"date\": \"09/17/2018 08:26 am\",\n\t\"image\": \"asdasd\",\n\t\"title\": \"test\",\n\t\"price\": 50,\n\t\"link\": \"sdfasdfsadf\",\n\t\"description\": \"test\",\n\t\"source\": \"test\",\n\t\"id\": \"65498432189\",\n\t\"key\": \"216546541321\",\n\t\"type\": \"listings\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/storage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"storage"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

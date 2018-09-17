@@ -19,4 +19,6 @@ router.use('/varage', require('./proxy/varageSale'));
 
 router.use('/pricecheck', require('./actions/ebayPrice'));
 
+router.use('/storage', require('./actions/hiddenFaves'));
+
 module.exports = router;
