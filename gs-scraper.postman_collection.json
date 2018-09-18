@@ -329,6 +329,36 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "deleteResult",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"action\": \"hidden\",\n\t\"_id\": \"5b9fac261dc43b2e115a1343\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/storage/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"storage",
+						"delete"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

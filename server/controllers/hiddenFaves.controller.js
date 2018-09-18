@@ -17,6 +17,18 @@ function badRequest(res) {
   });
 }
 
+function getReamaining(which) {
+  return new Promise((resolve, reject) => {
+    Result.find({ action: which }, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
 module.exports.trimHF = function (req, res) {
   if (req && req.body && req.body.hasOwnProperty('which') && req.body.hasOwnProperty('days')) {
     const which = req.body.which;
@@ -92,9 +104,9 @@ module.exports.deleteAll = function (req, res) {
 };
 
 module.exports.saveHF = function (req, res) {
-  if (req.body && req.body.hasOwnProperty('id') && req.body.hasOwnProperty('action')) {
-    const which = req.body.action;
-    const newResult = req.body;
+  if (req.body && req.body.hasOwnProperty('card') && req.body.hasOwnProperty('which')) {
+    const which = req.body.which;
+    const newResult = req.body.card;
     let r = new Result();
     r.timestamp();
     r.action = which;
@@ -114,21 +126,62 @@ module.exports.saveHF = function (req, res) {
         logger.logThis(err, req);
         res.status(500).json({ error: true, message: `ERROR: Problem saving new ${which}.`, code: err });
       } else {
-        Result.find({ action: which }, (error, result) => {
-          if (err) {
-            res.status(503).json({
-              error: false,
-              message: `Your ${which} was saved, but there was a problem fetching all.`,
-              code: error
-            });
-          } else {
-            res.status(200).json({
-              error: false,
-              message: `Your ${which} was successfully saved!`,
-              payload: result
-            });
-          }
-        });
+        getReamaining(which)
+          .then(result => {
+            res.status(200).json({ error: false, payload: result });
+          })
+          .catch(err => {
+            logger.logThis(err, req);
+            res.status(500).json({ error: true, message: `ERROR: Result saved but problem fetching remaining ${which}.` });
+          });
+      }
+    });
+  } else {
+    badRequest(res);
+  }
+};
+
+module.exports.deleteHF = (req, res) => {
+  if (req.body && req.body.hasOwnProperty('_id') && req.body.hasOwnProperty('action')) {
+    const which = req.body.action;
+    Result.findByIdAndRemove(req.body._id, (err) => {
+      if (err) {
+        res.status(500).send({ error: true, code: err, message: `ERROR: Problem removing result from ${req.body.action}.` });
+      } else {
+        getReamaining(which)
+          .then(result => {
+            res.status(200).json({ error: false, payload: result });
+          })
+          .catch(err => {
+            logger.logThis(err, req);
+            res.status(500).json({ error: true, message: `ERROR: Result removed but problem fetching remaining ${which}.` });
+          });
+      }
+    });
+  } else {
+    badRequest(res);
+  }
+};
+
+module.exports.mergeHF = function (req, res) {
+  if (req.body && req.body.hasOwnProperty('which') && req.body.hasOwnProperty('newSet')) {
+    const which = req.body.which;
+    Result.find({ action: which }, (err, result) => {
+      if (err) {
+        logger.logThis(err, req);
+        res.status(500).json({ error: true, message: `ERROR: Problem fetching all ${which} so couldn't complete merge.`, code: err });
+      } else {
+        const newIds = req.body.newSet.map(r => r._id);
+        const oldIds = result.map(r => r._id);
+        const deleteArr = oldIds.filter(r => newIds.indexOf(r) < 0);
+        removeArr(deleteArr)
+          .then(rslt => {
+            res.status(200).json({ error: false, payload: req.body.newSet });
+          })
+          .catch(error => {
+            logger.logThis(error, req);
+            res.status(500).json({ error: true, message: `ERROR: Problem removing old ${which} so merge not completed.`, code: error });
+          });
       }
     });
   } else {
