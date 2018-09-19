@@ -38,7 +38,7 @@ export default {
       console.log('toggling faves');
     },
     trimFaves: function() {
-      console.log('trimming faves');
+      this.$store.commit('faveCards', result);
     },
     mergeFaves: function() {
       console.log('merging faves');

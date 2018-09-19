@@ -57,12 +57,10 @@ export default {
   methods: {
     toggleFave: function(card) {
       const fave = !card.favorite;
-      console.log('card', card);
       if (fave) {
         // make call to save favorite to server
         Storage.saveFave(card)
           .then(result => {
-            console.log('faveFave results', result);
             if (!result.data.error) {
               this.$store.commit('faveCards', result.data.payload);
               this.$emit('faveCardAction', result.data.payload);
@@ -84,7 +82,6 @@ export default {
         // make call to remove fave from server
         Storage.removeFave(card)
           .then(result => {
-            console.log('fave remove result', result);
             if (result.data.error) {
               this.$toast.open({
                 type: 'is-danger',
@@ -131,7 +128,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log('show result err', err);
+          console.warn('show result err', err);
         });
       card.hide = false;
     }

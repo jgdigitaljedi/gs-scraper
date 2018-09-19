@@ -59,10 +59,11 @@ export default {
           console.warn(err.code);
         });
     },
-    trimHidden: function() {
+    trimHidden: function(result) {
       // meant to open a modal that asks for how many days to keep then makes server call to remove any hidden past a certain date
       // this will help prevent having tons of hidden server side that are too old to be useful anymore
       console.log('trimming hidden');
+      this.$store.commit('hiddenCards', result);
     },
     mergeHidden: function() {
       // meant to update all hidden locally ond on server to be equal to current hidden

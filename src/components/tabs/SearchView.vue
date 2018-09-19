@@ -244,7 +244,6 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
-        console.log('val', val);
         this.results = val;
         this.combinedListings = val.combinedListings;
         this.combinedSales = val.combinedSales;
