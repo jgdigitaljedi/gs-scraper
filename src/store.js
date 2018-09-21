@@ -41,6 +41,10 @@ export default new Vuex.Store({
         })
       );
     },
+    // currentFaves: state => {
+    //   const favesIds = this.faveIds;
+    //   const
+    // },
     allResults: state => state.allResults
   },
   mutations: {

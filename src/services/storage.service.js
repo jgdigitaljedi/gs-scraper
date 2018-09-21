@@ -2,14 +2,13 @@ const axios = require('axios');
 import Store from '../store';
 
 export default {
-  hideCard: function (card) {
+  hideCard: function(card) {
     return axios.post('http://localhost:3000/api/storage', { card, which: 'hidden' });
   },
-  getHiddenCards: function () {
+  getHiddenCards: function() {
     return axios.get('http://localhost:3000/api/storage/hidden');
   },
-  showCard: function (card) {
-    console.log('card', card);
+  showCard: function(card) {
     return new Promise((resolve, reject) => {
       const hidden = Store.getters.hiddenCards;
       if (hidden) {
@@ -28,7 +27,7 @@ export default {
       }
     });
   },
-  clearHidden: function () {
+  clearHidden: function() {
     // localStorage.removeItem('hiddenCards');
     return new Promise((resolve, reject) => {
       axios
@@ -42,13 +41,13 @@ export default {
         });
     });
   },
-  saveFave: function (card) {
+  saveFave: function(card) {
     return axios.post('http://localhost:3000/api/storage', { card, which: 'favorite' });
   },
-  getFaveCards: function () {
+  getFaveCards: function() {
     return axios.get('http://localhost:3000/api/storage/favorite');
   },
-  removeFave: function (card) {
+  removeFave: function(card) {
     return new Promise((resolve, reject) => {
       const hidden = Store.getters.hiddenCards;
       if (hidden) {

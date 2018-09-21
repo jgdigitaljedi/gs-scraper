@@ -83,7 +83,8 @@ export default {
       this.$emit('toggle');
     },
     merge: function() {
-      this.$emit('merge');
+      // this.$emit('merge');
+      HiddenFaves.merge(this.which);
     },
     trim: function() {
       HiddenFaves.trim(this.which, this.trimDays)

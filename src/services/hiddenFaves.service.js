@@ -1,4 +1,3 @@
-// import Storage from './storage.service';
 import store from '../store';
 import AppLogic from '../services/appLogic.service';
 const axios = require('axios');
@@ -18,7 +17,19 @@ export default {
         });
     });
   },
-  merge(which, all, current) {
+  merge(which, newSet) {
+    return new Promise((resolve, reject) => {
+      axios
+        .put('http://localhost:3000/api/storage/merge', { which, newSet })
+        .then(result => {
+          console.log('merge result', result);
+          resolve(result);
+        })
+        .catch(error => {
+          console.warn('merge error', error);
+          reject(error);
+        });
+    });
     // use this for merge logic for hidden and faves
   },
   reset(which) {
