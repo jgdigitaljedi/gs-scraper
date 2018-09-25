@@ -6,7 +6,7 @@ export default {
   trim(which, days) {
     return new Promise((resolve, reject) => {
       axios
-        .post('http://localhost:3000/api/storage/trim', { which, days })
+        .post(`${process.env.VUE_APP_ROOT_URL}api/storage/trim`, { which, days })
         .then(result => {
           console.log('trim result', result);
           resolve(result);
@@ -20,7 +20,7 @@ export default {
   merge(which, newSet) {
     return new Promise((resolve, reject) => {
       axios
-        .put('http://localhost:3000/api/storage/merge', { which, newSet })
+        .put(`${process.env.VUE_APP_ROOT_URL}api/storage/merge`, { which, newSet })
         .then(result => {
           console.log('merge result', result);
           resolve(result);

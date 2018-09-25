@@ -2,18 +2,18 @@ const axios = require('axios');
 import Store from '../store';
 
 export default {
-  hideCard: function(card) {
-    return axios.post('http://localhost:3000/api/storage', { card, which: 'hidden' });
+  hideCard: function (card) {
+    return axios.post(`${process.env.VUE_APP_ROOT_URL}api/storage`, { card, which: 'hidden' });
   },
-  getHiddenCards: function() {
-    return axios.get('http://localhost:3000/api/storage/hidden');
+  getHiddenCards: function () {
+    return axios.get(`${process.env.VUE_APP_ROOT_URL}api/storage/hidden`);
   },
-  showCard: function(card) {
+  showCard: function (card) {
     return new Promise((resolve, reject) => {
       const hidden = Store.getters.hiddenCards;
       if (hidden) {
         axios
-          .post('http://localhost:3000/api/storage/delete', card)
+          .post(`${process.env.VUE_APP_ROOT_URL}api/storage/delete`, card)
           .then(result => {
             if (result.data.error) {
               reject(result);
@@ -27,11 +27,11 @@ export default {
       }
     });
   },
-  clearHidden: function() {
+  clearHidden: function () {
     // localStorage.removeItem('hiddenCards');
     return new Promise((resolve, reject) => {
       axios
-        .delete('http://localhost:3000/api/storage/hidden', {})
+        .delete(`${process.env.VUE_APP_ROOT_URL}api/storage/hidden`, {})
         .then(result => {
           resolve(result);
         })
@@ -41,18 +41,18 @@ export default {
         });
     });
   },
-  saveFave: function(card) {
-    return axios.post('http://localhost:3000/api/storage', { card, which: 'favorite' });
+  saveFave: function (card) {
+    return axios.post(`${process.env.VUE_APP_ROOT_URL}api/storage`, { card, which: 'favorite' });
   },
-  getFaveCards: function() {
-    return axios.get('http://localhost:3000/api/storage/favorite');
+  getFaveCards: function () {
+    return axios.get(`${process.env.VUE_APP_ROOT_URL}api/storage/favorite`);
   },
-  removeFave: function(card) {
+  removeFave: function (card) {
     return new Promise((resolve, reject) => {
       const hidden = Store.getters.hiddenCards;
       if (hidden) {
         axios
-          .post('http://localhost:3000/api/storage/delete', card)
+          .post(`${process.env.VUE_APP_ROOT_URL}api/storage/delete`, card)
           .then(result => {
             if (result.data.error) {
               reject(result);
@@ -69,7 +69,7 @@ export default {
   deleteAllFaves() {
     return new Promise((resolve, reject) => {
       axios
-        .delete('http://localhost:3000/api/storage/favorite', {})
+        .delete(`${process.env.VUE_APP_ROOT_URL}api/storage/favorite`, {})
         .then(result => {
           resolve(result);
         })

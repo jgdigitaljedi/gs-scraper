@@ -4,7 +4,7 @@ export default {
   get(data) {
     if (data && data.hasOwnProperty('gs') && data.hasOwnProperty('area')) {
       return axios
-        .post('http://localhost:3000/api/varage', {
+        .post(`${process.env.VUE_APP_ROOT_URL}api/varage`, {
           area: data.area,
           tags: data.tags
         })

@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const chalk = require('chalk');
 const winston = require('./config/logger');
 require('./models/db.model');
+const port = process.env.NODE_ENV === 'production' ? 3000 : 4000;
 
 const routes = require('./routes/index');
 
@@ -25,4 +26,4 @@ app.use((req, res, next) => {
   next(err);
 });
 
-app.listen(3000, () => console.log(chalk.cyan('app listening on port 3000!')));
+app.listen(port, () => console.log(chalk.cyan(`app listening on port ${port}!`)));

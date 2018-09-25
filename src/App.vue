@@ -83,6 +83,7 @@ export default {
     }
   },
   created() {
+    console.log('env', process.env.VUE_APP_ROOT_URL);
     this.results = {
       cll: null,
       cls: null,

@@ -5,5 +5,6 @@ module.exports = {
   //     config.baseUrl = `${process.cwd()}/dist/`;
   //   }
   // }
-  baseUrl: process.env.NODE_ENV === 'production' ? `${process.cwd()}/dist/` : '/'
+  baseUrl: process.env.NODE_ENV === 'production' ? `/scraper` : '/'
 };
+

@@ -3,7 +3,7 @@ import axios from 'axios';
 export default {
   getOuData(search) {
     return axios
-      .post(`http://localhost:3000/api/offerup`, {
+      .post(`${process.env.VUE_APP_ROOT_URL}api/offerup`, {
         area: search.area.ouArea,
         tags: search.tags,
         widen: search.widen

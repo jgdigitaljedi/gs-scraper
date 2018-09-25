@@ -4,7 +4,7 @@ export default {
   get(data) {
     if (data && data.hasOwnProperty('gs') && data.hasOwnProperty('area')) {
       return axios
-        .post('http://localhost:3000/api/garagesales/estatesales', {
+        .post(`${process.env.VUE_APP_ROOT_URL}api/garagesales/estatesales`, {
           area: data.area,
           tags: data.gs,
           widen: data.widen

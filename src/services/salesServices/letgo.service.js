@@ -4,7 +4,7 @@ export default {
   getLG(data) {
     if (data && data.hasOwnProperty('tags') && data.hasOwnProperty('area')) {
       return axios
-        .post('http://localhost:3000/api/letgo', {
+        .post(`${process.env.VUE_APP_ROOT_URL}api/letgo`, {
           area: data.area,
           tags: data.tags,
           widen: data.widen

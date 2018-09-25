@@ -4,7 +4,7 @@ export default {
   check(query) {
     return new Promise((resolve, reject) => {
       axios
-        .post('http://localhost:3000/api/pricecheck', { query })
+        .post(`${process.env.VUE_APP_ROOT_URL}api/pricecheck`, { query })
         .then(result => {
           if (result && result.data && !result.data.error) {
             resolve(result.data.payload);
