@@ -6,14 +6,13 @@
     "serve": "vue-cli-service serve",
     "build": "NODE_ENV=production vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "NODE_ENV=development concurrently \"nodemon server/server.js\" \"npm run serve\""
+    "start": "NODE_ENV=development nodemon server/server.js | npm run serve"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "buefy": "^0.6.6",
     "cheerio": "^1.0.0-rc.2",
-    "concurrently": "^3.6.1",
     "cors": "^2.8.4",
     "date-fns": "^1.29.0",
     "helmet": "^3.13.0",

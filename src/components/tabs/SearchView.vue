@@ -2,6 +2,7 @@
   <section class="results-tab">
     <section class="result-tab--listings">
       <h2>Item Listings</h2>
+      <b-loading :active.sync="isLoading"></b-loading>
       <div class="result-tab--grouped" v-if="view === 'grouped'">
         <CollapseResults v-if="results && results.cll && results.cll.length" :source="'Craigslist'" :dataArr="results.cll" :hiddenView="false" />
         <CollapseResults v-if="results && results.lgl && results.lgl.length" :source="'LetGo'" :dataArr="results.lgl" :hiddenView="false"/>

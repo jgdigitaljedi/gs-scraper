@@ -1,15 +1,15 @@
 <template>
-  <div id="app">
+  <div id="app" class="columns is-desktop">
     <button class="button hide-icon is-info" v-on:click="hideSidebar = !hideSidebar">
       <b-icon v-if="!hideSidebar" icon="eye-off"></b-icon>
       <b-icon v-if="hideSidebar" icon="eye"></b-icon>
     </button>
-    <div class="sidebar" :class="{'hidden': hideSidebar}">
-      <SearchForm msg="test" v-on:runSearch="runSearch" class="sidebar"/>
+    <div class="sidebar" :class="{'hidden': hideSidebar, 'column': true, 'is-one-quarter-desktop': true}">
+      <SearchForm msg="test" v-on:runSearch="runSearch"/>
       <hr>
       <ViewOptions :tab="activeTab" v-on:viewChanged="viewChanged" v-on:sortSelected="sortResults" v-on:clearHidden="resetHidden" v-on:clearFaves="resetFaveResults"/>
     </div>
-    <b-tabs v-model="activeTab" class="app--tabs">
+    <b-tabs v-model="activeTab" class="app--tabs column">
       <b-tab-item label="Search" class="app--tabs--tab">
         <SearchView :params="searchParams" :reset="resetHides" :resetFaves="resetFaves" :view="viewSelected" :sortOption="sortOption" />
       </b-tab-item>
@@ -126,14 +126,14 @@ export default {
   color: #2c3e50;
   padding-top: 30px;
   background-color: #fafafa;
-  display: flex;
-  flex-direction: row;
+  // display: flex;
+  // flex-direction: row;
   min-height: 100vh;
-  width: 100%;
+  // width: 100%;
   .app--tabs {
-    width: 100%;
+    // width: 100%;
     .app--tabs--tab {
-      width: 100%;
+      // width: 100%;
     }
   }
   .hide-button {
@@ -143,7 +143,7 @@ export default {
     z-index: 10;
   }
   .sidebar {
-    min-width: 300px;
+    // min-width: 300px;
     border-right: 1px solid #ccc;
     transition: all 0.5s;
     &.hidden {
