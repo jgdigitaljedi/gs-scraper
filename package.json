@@ -16,7 +16,7 @@
     "cors": "^2.8.4",
     "date-fns": "^1.29.0",
     "helmet": "^3.13.0",
-    "mongoose": "^5.2.10",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.0",
     "offerup": "^1.1.2",
     "request": "^2.88.0",
