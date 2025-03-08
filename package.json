@@ -9,7 +9,7 @@
     "start": "NODE_ENV=development nodemon server/server.js | npm run serve"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^1.8.2",
     "body-parser": "^1.18.3",
     "buefy": "^0.6.6",
     "cheerio": "^1.0.0-rc.2",
